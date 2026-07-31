@@ -4,51 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>COD Mobile - Account Market</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0b0e14;
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0c10;
             color: #e0e0e0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
-        ::-webkit-scrollbar {
-            width: 6px;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 12, 16, 0.85);
+            z-index: 0;
+            backdrop-filter: blur(4px);
         }
-        ::-webkit-scrollbar-track {
-            background: #1a1f2a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f5a623;
-            border-radius: 8px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1f2a; }
+        ::-webkit-scrollbar-thumb { background: #f5a623; border-radius: 8px; }
+
         #app {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            max-width: 1200px;
-            background: #141a24;
+            max-width: 1280px;
+            background: rgba(20, 26, 36, 0.92);
             border-radius: 24px;
             padding: 30px 28px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid #2a3340;
-            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 1px 0 rgba(245,166,35,0.2);
+            border: 1px solid rgba(245,166,35,0.3);
             min-height: 600px;
-            transition: all 0.3s;
+            backdrop-filter: blur(8px);
         }
+
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -56,482 +59,567 @@
             flex-wrap: wrap;
             gap: 16px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #2a3340;
+            border-bottom: 2px solid rgba(245,166,35,0.2);
             margin-bottom: 28px;
         }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-area i {
-            font-size: 32px;
-            color: #f5a623;
-            filter: drop-shadow(0 0 8px rgba(245, 166, 35, 0.3));
-        }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { height: 44px; width: auto; filter: drop-shadow(0 0 12px rgba(245,166,35,0.3)); }
         .logo-area h1 {
+            font-family: 'Orbitron', sans-serif;
             font-size: 26px;
-            font-weight: 800;
+            font-weight: 900;
             background: linear-gradient(135deg, #f5a623, #f7c948);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(245,166,35,0.2);
         }
-        .logo-area span {
-            font-size: 13px;
+        .logo-area .version {
+            font-size: 12px;
             color: #8892a8;
-            background: #1f2836;
+            background: rgba(42,51,64,0.8);
             padding: 2px 12px;
             border-radius: 30px;
             font-weight: 600;
+            border: 1px solid rgba(245,166,35,0.2);
+            font-family: 'Rajdhani', sans-serif;
             -webkit-text-fill-color: #8892a8;
         }
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .user-badge {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #1f2836;
-            padding: 6px 16px 6px 12px;
+            background: rgba(26,31,42,0.9);
+            padding: 6px 16px 6px 10px;
             border-radius: 40px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(245,166,35,0.3);
+            backdrop-filter: blur(4px);
         }
         .user-badge .avatar {
-            width: 34px;
-            height: 34px;
+            width: 34px; height: 34px;
             border-radius: 50%;
-            background: #f5a623;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             color: #141a24;
-            font-size: 15px;
+            font-size: 16px;
+            font-family: 'Orbitron', sans-serif;
         }
-        .user-badge .uname {
-            font-weight: 600;
-            font-size: 14px;
-            color: #f0f0f0;
-        }
+        .user-badge .uname { font-weight: 600; font-size: 15px; color: #f0f0f0; font-family: 'Rajdhani', sans-serif; }
         .user-badge .urole {
-            font-size: 11px;
-            background: #2a3340;
+            font-size: 10px;
+            background: rgba(245,166,35,0.2);
             padding: 2px 10px;
             border-radius: 30px;
             color: #f5a623;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(245,166,35,0.2);
         }
+
         .btn {
-            padding: 8px 20px;
+            padding: 8px 22px;
             border: none;
             border-radius: 40px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         .btn-primary {
-            background: #f5a623;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
             color: #141a24;
+            box-shadow: 0 4px 15px rgba(245,166,35,0.3);
         }
-        .btn-primary:hover {
-            background: #f7c948;
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.3);
-        }
-        .btn-secondary {
-            background: #2a3340;
-            color: #e0e0e0;
-        }
-        .btn-secondary:hover {
-            background: #3a4556;
-        }
+        .btn-primary:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(245,166,35,0.5); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: scale(1); }
+        .btn-secondary { background: rgba(42,51,64,0.8); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: rgba(58,69,86,0.9); }
         .btn-danger {
-            background: #d43f3f;
+            background: linear-gradient(135deg, #d43f3f, #b53232);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(212,63,63,0.3);
         }
-        .btn-danger:hover {
-            background: #e55555;
-        }
+        .btn-danger:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(212,63,63,0.4); }
         .btn-success {
-            background: #2a9d8f;
+            background: linear-gradient(135deg, #2a9d8f, #1f7a6e);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(42,157,143,0.3);
         }
-        .btn-success:hover {
-            background: #3bb3a5;
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1.5px solid #f5a623;
-            color: #f5a623;
-        }
-        .btn-outline:hover {
-            background: #f5a623;
-            color: #141a24;
-        }
-        .btn-sm {
-            padding: 5px 14px;
-            font-size: 12px;
-        }
-        .btn-block {
-            width: 100%;
-            justify-content: center;
-        }
-        #authScreen {
-            max-width: 480px;
-            margin: 20px auto 0;
-            padding: 30px 0;
-        }
+        .btn-success:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(42,157,143,0.4); }
+        .btn-outline { background: transparent; border: 2px solid #f5a623; color: #f5a623; }
+        .btn-outline:hover { background: #f5a623; color: #141a24; }
+        .btn-sm { padding: 4px 14px; font-size: 11px; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn .spinner-border-sm { width: 16px; height: 16px; border-width: 2px; }
+
+        /* Auth */
+        #authScreen { max-width: 500px; margin: 20px auto 0; padding: 20px 0; }
         .auth-toggle {
             display: flex;
-            background: #1a1f2a;
+            background: rgba(26,31,42,0.8);
             border-radius: 50px;
             padding: 4px;
             margin-bottom: 32px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(245,166,35,0.2);
         }
         .auth-toggle button {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: none;
             background: transparent;
             color: #8892a8;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 16px;
             border-radius: 40px;
             cursor: pointer;
-            transition: 0.25s;
+            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
         .auth-toggle button.active {
-            background: #f5a623;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
             color: #141a24;
-            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.25);
+            box-shadow: 0 4px 20px rgba(245,166,35,0.3);
         }
-        .auth-form {
-            display: none;
-            flex-direction: column;
-            gap: 18px;
-        }
-        .auth-form.active {
-            display: flex;
-        }
-        .auth-form h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #f0f0f0;
-        }
-        .auth-form p {
-            color: #8892a8;
-            font-size: 14px;
-            margin-top: -8px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+        .auth-form { display: none; flex-direction: column; gap: 18px; }
+        .auth-form.active { display: flex; }
+        .auth-form h2 { font-size: 28px; font-weight: 700; color: #f0f0f0; font-family: 'Orbitron', sans-serif; }
+        .auth-form p { color: #8892a8; font-size: 15px; margin-top: -6px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group label {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: #b0b8c8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            background: #1a1f2a;
-            border: 1px solid #2a3340;
+        .form-group input, .form-group textarea, .form-group select {
+            background: rgba(26,31,42,0.9);
+            border: 1px solid rgba(42,51,64,0.8);
             border-radius: 12px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             color: #e0e0e0;
-            font-size: 14px;
+            font-size: 15px;
             transition: 0.2s;
             outline: none;
             width: 100%;
+            font-family: 'Rajdhani', sans-serif;
         }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
+        .form-group input:focus, .form-group textarea:focus {
             border-color: #f5a623;
-            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.15);
         }
-        .form-group textarea {
-            min-height: 70px;
-            resize: vertical;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .auth-error {
-            background: rgba(212, 63, 63, 0.15);
-            color: #e55555;
-            padding: 10px 14px;
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        .auth-message {
+            padding: 12px 16px;
             border-radius: 10px;
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 600;
             display: none;
-            border-left: 3px solid #d43f3f;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid transparent;
+            font-family: 'Rajdhani', sans-serif;
         }
-        .auth-error.show {
-            display: block;
-        }
-        .auth-success {
-            background: rgba(42, 157, 143, 0.15);
-            color: #2a9d8f;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            display: none;
-            border-left: 3px solid #2a9d8f;
-        }
-        .auth-success.show {
-            display: block;
-        }
-        .auth-info {
-            background: rgba(245, 166, 35, 0.12);
-            color: #f5a623;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            display: none;
-            border-left: 3px solid #f5a623;
-        }
-        .auth-info.show {
-            display: block;
-        }
-        #dashboard {
-            display: none;
-        }
-        #dashboard.active {
-            display: block;
-        }
+        .auth-message.show { display: flex; }
+        .auth-error { background: rgba(212,63,63,0.12); color: #ff6b6b; border-left-color: #d43f3f; }
+        .auth-success { background: rgba(42,157,143,0.12); color: #2a9d8f; border-left-color: #2a9d8f; }
+        .auth-info { background: rgba(245,166,35,0.10); color: #f5a623; border-left-color: #f5a623; }
+
+        /* Dashboard */
+        #dashboard { display: none; }
+        #dashboard.active { display: block; }
+
         .dash-tabs {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
             margin-bottom: 28px;
-            background: #1a1f2a;
+            background: rgba(26,31,42,0.8);
             padding: 4px;
             border-radius: 14px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(245,166,35,0.15);
         }
         .dash-tabs button {
             padding: 10px 22px;
             border: none;
             background: transparent;
             color: #8892a8;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             border-radius: 10px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.25s;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .dash-tabs button:hover {
-            color: #f0f0f0;
-            background: #2a3340;
-        }
+        .dash-tabs button:hover { color: #f0f0f0; background: rgba(42,51,64,0.6); }
         .dash-tabs button.active {
-            background: #f5a623;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
             color: #141a24;
-            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.2);
+            box-shadow: 0 4px 20px rgba(245,166,35,0.25);
         }
-        .tab-content {
-            display: none;
-            animation: fadeUp 0.3s ease;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .section-header {
+
+        .tab-content { display: none; animation: fadeUp 0.35s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Search */
+        .search-section {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            margin-bottom: 18px;
+            background: rgba(26,31,42,0.6);
+            padding: 16px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(245,166,35,0.15);
+            margin-bottom: 24px;
+            align-items: center;
         }
-        .section-header h3 {
-            font-size: 20px;
-            font-weight: 700;
+        .search-section .search-input {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            background: rgba(10,12,16,0.6);
+            border-radius: 10px;
+            padding: 0 16px;
+            border: 1px solid rgba(42,51,64,0.6);
+            transition: 0.2s;
         }
-        .section-header .sub {
-            color: #8892a8;
+        .search-section .search-input:focus-within {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
+        }
+        .search-section .search-input i { color: #8892a8; font-size: 16px; }
+        .search-section .search-input input {
+            background: transparent;
+            border: none;
+            padding: 12px 14px;
+            color: #e0e0e0;
+            font-size: 15px;
+            width: 100%;
+            outline: none;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .search-section .search-input input::placeholder { color: #5a6478; }
+        .search-section .price-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b0b8c8;
+            font-weight: 600;
             font-size: 14px;
-            font-weight: 400;
         }
+        .search-section .price-filter input[type="range"] {
+            width: 120px;
+            accent-color: #f5a623;
+            background: transparent;
+            cursor: pointer;
+        }
+        .search-section .price-filter .price-value {
+            background: rgba(245,166,35,0.15);
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: #f5a623;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* Listings Grid */
         .listings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 24px;
         }
+
         .listing-card {
-            background: #1a1f2a;
+            background: rgba(26,31,42,0.9);
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid #2a3340;
-            transition: 0.25s;
+            border: 1px solid rgba(42,51,64,0.8);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
             display: flex;
             flex-direction: column;
             gap: 12px;
             position: relative;
+            backdrop-filter: blur(4px);
         }
         .listing-card:hover {
             border-color: #f5a623;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        }
-        .listing-card .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .listing-card .top .price {
-            font-size: 22px;
-            font-weight: 800;
-            color: #f5a623;
-        }
-        .listing-card .top .status {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 30px;
-            text-transform: uppercase;
-        }
-        .status-available {
-            background: #2a9d8f20;
-            color: #2a9d8f;
-            border: 1px solid #2a9d8f40;
-        }
-        .status-pending {
-            background: #f5a62320;
-            color: #f5a623;
-            border: 1px solid #f5a62340;
-        }
-        .status-sold {
-            background: #d43f3f20;
-            color: #d43f3f;
-            border: 1px solid #d43f3f40;
-        }
-        .listing-card .details {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            font-size: 14px;
-            color: #b0b8c8;
-        }
-        .listing-card .details strong {
-            color: #e0e0e0;
-        }
-        .listing-card .seller {
-            font-size: 13px;
-            color: #8892a8;
-            border-top: 1px solid #2a3340;
-            padding-top: 12px;
-            margin-top: 4px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .listing-card .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-        .listing-card .account-img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 12px;
-            background: #0b0e14;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245,166,35,0.2);
         }
         .listing-card .badge-indicator {
             position: absolute;
             top: 12px;
             right: 12px;
             font-size: 10px;
-            font-weight: 700;
-            padding: 4px 12px;
+            font-weight: 800;
+            padding: 4px 14px;
             border-radius: 30px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Orbitron', sans-serif;
+            z-index: 2;
         }
         .badge-buy {
-            background: #2a9d8f;
+            background: linear-gradient(135deg, #2a9d8f, #1f7a6e);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(42,157,143,0.3);
         }
         .badge-sell {
-            background: #f5a623;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
             color: #141a24;
+            box-shadow: 0 4px 15px rgba(245,166,35,0.3);
         }
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
+
+        .listing-card .account-img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .listing-card .account-img-grid img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #0b0e14;
+            border: 1px solid rgba(42,51,64,0.6);
+            transition: 0.2s;
+        }
+        .listing-card .account-img-grid img:hover { transform: scale(1.05); border-color: #f5a623; }
+        .listing-card .top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .listing-card .top .price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f5a623;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 20px rgba(245,166,35,0.15);
+        }
+        .listing-card .top .status {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .status-available { background: rgba(42,157,143,0.2); color: #2a9d8f; border: 1px solid rgba(42,157,143,0.4); }
+        .status-pending { background: rgba(245,166,35,0.2); color: #f5a623; border: 1px solid rgba(245,166,35,0.4); }
+        .status-sold { background: rgba(212,63,63,0.2); color: #d43f3f; border: 1px solid rgba(212,63,63,0.4); }
+        .listing-card .details { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #b0b8c8; line-height: 1.5; }
+        .listing-card .details strong { color: #f0f0f0; font-weight: 700; }
+        .listing-card .seller {
+            font-size: 13px;
             color: #8892a8;
+            border-top: 1px solid rgba(42,51,64,0.6);
+            padding-top: 12px;
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
         }
-        .empty-state i {
-            font-size: 48px;
-            color: #2a3340;
-            margin-bottom: 16px;
+        .listing-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+        /* Skeleton */
+        .skeleton {
+            animation: pulse 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, rgba(42,51,64,0.4) 25%, rgba(58,69,86,0.6) 50%, rgba(42,51,64,0.4) 75%);
+            background-size: 200% 100%;
+            border-radius: 8px;
         }
-        .empty-state h4 {
-            font-size: 18px;
+        @keyframes pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-card {
+            background: rgba(26,31,42,0.6);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(42,51,64,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .skeleton-card .skeleton-img { width: 100%; aspect-ratio: 1; border-radius: 8px; }
+        .skeleton-card .skeleton-line { height: 16px; border-radius: 4px; width: 100%; }
+        .skeleton-card .skeleton-line.short { width: 60%; }
+        .skeleton-card .skeleton-line.price { width: 40%; height: 24px; }
+
+        /* Loading Overlay */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10,12,16,0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            backdrop-filter: blur(8px);
+        }
+        #loadingOverlay.show { display: flex; }
+        #loadingOverlay .spinner {
+            width: 60px; height: 60px;
+            border: 4px solid rgba(245,166,35,0.15);
+            border-top: 4px solid #f5a623;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        #loadingOverlay p {
+            color: #f5a623;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(245,166,35,0.2);
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Modal */
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9998;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        #modalOverlay.show { display: flex; }
+        #modalOverlay .modal-box {
+            background: rgba(20,26,36,0.98);
+            border-radius: 20px;
+            padding: 32px 36px;
+            max-width: 480px;
+            width: 100%;
+            border: 1px solid rgba(245,166,35,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #modalOverlay .modal-box .modal-icon { font-size: 48px; color: #f5a623; text-align: center; margin-bottom: 12px; }
+        #modalOverlay .modal-box h3 { font-family: 'Orbitron', sans-serif; font-size: 22px; text-align: center; color: #f0f0f0; margin-bottom: 8px; }
+        #modalOverlay .modal-box p { color: #b0b8c8; text-align: center; font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
+        #modalOverlay .modal-box .modal-actions { display: flex; gap: 12px; justify-content: center; }
+        #modalOverlay .modal-box .modal-actions .btn { min-width: 120px; justify-content: center; }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(20,26,36,0.95);
+            border: 1px solid rgba(245,166,35,0.3);
+            padding: 16px 24px;
+            border-radius: 14px;
             color: #e0e0e0;
-            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            gap: 14px;
+            z-index: 99999;
+            max-width: 420px;
+            border-left: 4px solid #f5a623;
+            animation: slideUp 0.35s ease;
+            backdrop-filter: blur(8px);
+            font-family: 'Rajdhani', sans-serif;
         }
+        #toast.show { display: flex; }
+        #toast.success { border-left-color: #2a9d8f; }
+        #toast.error { border-left-color: #d43f3f; }
+        #toast .toast-icon { font-size: 22px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Support Card */
+        .support-card {
+            background: rgba(26,31,42,0.8);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(245,166,35,0.2);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .support-card .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(42,51,64,0.4);
+        }
+        .support-card .contact-item:last-child { border-bottom: none; }
+        .support-card .contact-item i { width: 30px; color: #f5a623; font-size: 18px; text-align: center; }
+        .support-card .contact-item .label {
+            color: #8892a8;
+            font-weight: 600;
+            min-width: 80px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        .support-card .contact-item .value { color: #f0f0f0; font-weight: 600; word-break: break-all; }
+        .support-card .empty-contact { text-align: center; color: #8892a8; padding: 20px 0; }
+        .support-card .empty-contact i { font-size: 36px; color: rgba(42,51,64,0.6); margin-bottom: 12px; }
+
+        /* Admin */
         .admin-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 14px;
             margin-bottom: 24px;
         }
         .stat-card {
-            background: #1a1f2a;
+            background: rgba(26,31,42,0.8);
             border-radius: 14px;
             padding: 18px 16px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(42,51,64,0.6);
             text-align: center;
             transition: 0.2s;
         }
-        .stat-card:hover {
-            border-color: #f5a623;
-        }
+        .stat-card:hover { border-color: #f5a623; }
         .stat-card .num {
             font-size: 30px;
             font-weight: 800;
             color: #f5a623;
+            font-family: 'Orbitron', sans-serif;
         }
         .stat-card .label {
             font-size: 13px;
             color: #8892a8;
             margin-top: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+
         .table-wrap {
             overflow-x: auto;
             margin-top: 12px;
             border-radius: 12px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(42,51,64,0.6);
+            background: rgba(26,31,42,0.4);
         }
         table {
             width: 100%;
@@ -540,29 +628,28 @@
             min-width: 600px;
         }
         table th {
-            background: #1a1f2a;
-            padding: 12px 16px;
+            background: rgba(10,12,16,0.6);
+            padding: 14px 18px;
             text-align: left;
             font-weight: 700;
             color: #b0b8c8;
-            border-bottom: 2px solid #2a3340;
+            border-bottom: 2px solid rgba(42,51,64,0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 12px;
         }
         table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #1f2836;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(42,51,64,0.4);
             color: #e0e0e0;
         }
-        table tr:last-child td {
-            border-bottom: none;
-        }
-        table tr:hover td {
-            background: #1a1f2a;
-        }
-        .table-actions {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+        table tr:last-child td { border-bottom: none; }
+        table tr:hover td { background: rgba(245,166,35,0.05); }
+
+        .badge-buyer { background: rgba(42,157,143,0.2); color: #2a9d8f; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; }
+        .badge-seller { background: rgba(245,166,35,0.2); color: #f5a623; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; }
+        .badge-both { background: rgba(245,166,35,0.15); color: #f7c948; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; border: 1px solid rgba(245,166,35,0.2); }
+
         .perf-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -570,193 +657,181 @@
             margin: 16px 0 24px;
         }
         .perf-card {
-            background: #1a1f2a;
+            background: rgba(26,31,42,0.8);
             border-radius: 12px;
             padding: 16px 18px;
-            border: 1px solid #2a3340;
+            border: 1px solid rgba(42,51,64,0.6);
         }
         .perf-card .title {
-            font-size: 13px;
+            font-size: 12px;
             color: #8892a8;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .perf-card .value {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
             color: #f0f0f0;
             margin-top: 4px;
+            font-family: 'Orbitron', sans-serif;
         }
-        .perf-card .sub {
-            font-size: 12px;
-            color: #2a9d8f;
-            margin-top: 2px;
+        .perf-card .sub { font-size: 12px; color: #2a9d8f; margin-top: 2px; }
+
+        .tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 12px;
+            border-radius: 30px;
+            background: rgba(42,51,64,0.6);
+            color: #b0b8c8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        #toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #1a1f2a;
-            border: 1px solid #2a3340;
-            padding: 14px 24px;
+        .tag-admin { background: rgba(245,166,35,0.2); color: #f5a623; border: 1px solid rgba(245,166,35,0.2); }
+        .tag-user { background: rgba(42,157,143,0.2); color: #2a9d8f; border: 1px solid rgba(42,157,143,0.2); }
+
+        .admin-support-form {
+            background: rgba(26,31,42,0.6);
             border-radius: 14px;
-            color: #e0e0e0;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            display: none;
-            align-items: center;
-            gap: 12px;
-            z-index: 999;
-            max-width: 400px;
-            border-left: 4px solid #f5a623;
-            animation: slideUp 0.35s ease;
+            padding: 20px 24px;
+            border: 1px solid rgba(245,166,35,0.15);
+            margin: 20px 0;
+            max-width: 560px;
         }
-        #toast.show {
-            display: flex;
-        }
-        #toast.success {
-            border-left-color: #2a9d8f;
-        }
-        #toast.error {
-            border-left-color: #d43f3f;
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .file-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .admin-support-form .form-row-support { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* File Input */
+        .file-input-wrapper { display: flex; flex-direction: column; gap: 8px; }
         .file-input-wrapper input[type="file"] {
-            background: #1a1f2a;
-            border: 1px solid #2a3340;
+            background: rgba(26,31,42,0.8);
+            border: 1px solid rgba(42,51,64,0.6);
             border-radius: 12px;
-            padding: 10px;
+            padding: 12px;
             color: #e0e0e0;
             font-size: 13px;
             width: 100%;
+            font-family: 'Rajdhani', sans-serif;
         }
-        .file-input-wrapper .file-name {
-            color: #8892a8;
+        .file-input-wrapper .file-names { color: #8892a8; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .file-input-wrapper .file-names span { background: rgba(42,51,64,0.6); padding: 2px 12px; border-radius: 12px; font-size: 12px; }
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .image-preview-grid img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(42,51,64,0.6);
+        }
+
+        /* Upload Progress */
+        .upload-progress {
+            background: rgba(26,31,42,0.8);
+            border-radius: 8px;
+            padding: 8px 12px;
             font-size: 13px;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .text-muted {
-            color: #8892a8;
-        }
-        .tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 30px;
-            background: #2a3340;
-            color: #b0b8c8;
-        }
-        .tag-admin {
-            background: #f5a62330;
             color: #f5a623;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
         }
-        .tag-user {
-            background: #2a9d8f30;
-            color: #2a9d8f;
+        .upload-progress .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(42,51,64,0.6);
+            border-radius: 4px;
+            overflow: hidden;
         }
-        @media (max-width:768px) {
-            #app {
-                padding: 18px 14px;
-            }
-            .app-header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-            }
-            .header-actions {
-                justify-content: space-between;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            .dash-tabs button {
-                font-size: 12px;
-                padding: 8px 14px;
-            }
-            .listings-grid {
-                grid-template-columns: 1fr;
-            }
-            .admin-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-            .logo-area h1 {
-                font-size: 20px;
-            }
-            .perf-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        .upload-progress .progress-bar .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f5a623, #f7c948);
+            transition: width 0.3s ease;
+            width: 0%;
         }
-        @media (max-width:480px) {
-            .header-actions {
-                flex-wrap: wrap;
-            }
-            .user-badge {
-                width: 100%;
-                justify-content: center;
-            }
-            .admin-stats {
-                grid-template-columns: 1fr;
-            }
-            .perf-grid {
-                grid-template-columns: 1fr;
-            }
+        .upload-progress .progress-text { font-weight: 700; min-width: 40px; text-align: right; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            #app { padding: 18px 14px; }
+            .app-header { flex-direction: column; align-items: stretch; gap: 12px; }
+            .header-actions { justify-content: space-between; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-row-support { grid-template-columns: 1fr !important; }
+            .dash-tabs button { font-size: 12px; padding: 8px 14px; }
+            .listings-grid { grid-template-columns: 1fr; }
+            .admin-stats { grid-template-columns: 1fr 1fr; }
+            .logo-area h1 { font-size: 20px; }
+            .perf-grid { grid-template-columns: 1fr 1fr; }
+            .logo-area img { height: 32px; }
+            .search-section { flex-direction: column; align-items: stretch; }
+            .search-section .price-filter { justify-content: space-between; }
+            #modalOverlay .modal-box { padding: 24px 20px; }
+            #toast { left: 20px; right: 20px; bottom: 20px; max-width: 100%; }
         }
-        .auth-info {
-            background: rgba(245, 166, 35, 0.12);
-            color: #f5a623;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            display: none;
-            border-left: 3px solid #f5a623;
+        @media (max-width: 480px) {
+            .header-actions { flex-wrap: wrap; }
+            .user-badge { width: 100%; justify-content: center; }
+            .admin-stats { grid-template-columns: 1fr; }
+            .perf-grid { grid-template-columns: 1fr; }
+            .dash-tabs button { font-size: 11px; padding: 6px 12px; }
+            .dash-tabs button span { display: none; }
+            .support-card .contact-item { flex-wrap: wrap; gap: 4px; }
+            .support-card .contact-item .label { min-width: auto; }
         }
-        .auth-info.show {
-            display: block;
-        }
-        .highlight-link {
-            color: #f5a623;
-            cursor: pointer;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-        .highlight-link:hover {
-            color: #f7c948;
-        }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: #8892a8; }
+        .empty-state i { font-size: 48px; color: rgba(42,51,64,0.6); margin-bottom: 16px; }
+        .empty-state h4 { font-size: 18px; color: #e0e0e0; margin-bottom: 6px; font-family: 'Orbitron', sans-serif; }
+        .highlight-link { color: #f5a623; cursor: pointer; text-decoration: underline; font-weight: 700; }
+        .highlight-link:hover { color: #f7c948; }
+        .text-center { text-align: center; }
+        .text-muted { color: #8892a8; }
+        .hidden { display: none !important; }
+        .mt-8 { margin-top: 8px; }
+        .mb-8 { margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Loading Arsenal...</p>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalOverlay">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-skull-crossbones"></i></div>
+            <h3 id="modalTitle">Confirm Mission</h3>
+            <p id="modalMessage">Are you sure you want to proceed?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="modalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- App -->
     <div id="app">
+
         <header class="app-header">
             <div class="logo-area">
-                <i class="fas fa-crosshairs"></i>
-                <h1>COD<span>Market</span></h1>
-                <span>v2.0</span>
+                <img src="logo.png" alt="COD Market Logo" />
+                <h1>COD<span style="color:#f5a623; -webkit-text-fill-color:#f5a623;">Market</span></h1>
+                <span class="version">v2.0</span>
             </div>
             <div class="header-actions" id="headerActions"></div>
         </header>
 
+        <!-- Auth Screen -->
         <div id="authScreen">
             <div class="auth-toggle">
                 <button class="active" data-tab="login">Login</button>
@@ -765,33 +840,35 @@
 
             <div class="auth-form active" id="loginForm">
                 <h2>Welcome Back</h2>
-                <p>Login to your COD Market account</p>
-                <div class="auth-error" id="loginError"></div>
-                <div class="auth-success" id="loginSuccess"></div>
-                <div class="auth-info" id="loginInfo">
+                <p>Sign in to your COD Market account</p>
+                <div class="auth-message auth-error" id="loginError"></div>
+                <div class="auth-message auth-success" id="loginSuccess"></div>
+                <div class="auth-message auth-info" id="loginInfo">
                     <i class="fas fa-info-circle"></i>
                     <span id="loginInfoMsg"></span>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="loginEmail" placeholder="you@example.com" value="admin@guragurishacodm.com" />
+                    <input type="email" id="loginEmail" placeholder="soldier@cod.com" />
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" value="admin123" />
+                    <input type="password" id="loginPassword" placeholder="••••••••" />
                 </div>
-                <button class="btn btn-primary btn-block" id="loginBtn">Login</button>
-                <p class="text-center text-muted" style="font-size:13px;margin-top:6px;">
-                    Don't have an account? <strong class="highlight-link" id="switchToRegister">Register</strong>
+                <button class="btn btn-primary btn-block" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p class="text-center text-muted" style="font-size:14px;margin-top:6px;">
+                    New recruit? <strong class="highlight-link" id="switchToRegister">Register</strong>
                 </p>
             </div>
 
             <div class="auth-form" id="registerForm">
-                <h2>Create Account</h2>
-                <p>Join COD Market to buy or sell accounts</p>
-                <div class="auth-error" id="registerError"></div>
-                <div class="auth-success" id="registerSuccess"></div>
-                <div class="auth-info" id="registerInfo">
+                <h2>Join the Force</h2>
+                <p>Create your COD Market account</p>
+                <div class="auth-message auth-error" id="registerError"></div>
+                <div class="auth-message auth-success" id="registerSuccess"></div>
+                <div class="auth-message auth-info" id="registerInfo">
                     <i class="fas fa-info-circle"></i>
                     <span id="registerInfoMsg"></span>
                 </div>
@@ -802,7 +879,7 @@
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" id="regEmail" placeholder="you@example.com" />
+                        <input type="email" id="regEmail" placeholder="soldier@cod.com" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -813,34 +890,51 @@
                     <label>Password</label>
                     <input type="password" id="regPassword" placeholder="••••••••" />
                 </div>
-                <button class="btn btn-primary btn-block" id="registerBtn">Create Account</button>
-                <p class="text-center text-muted" style="font-size:13px;margin-top:6px;">
-                    Already have an account? <strong class="highlight-link" id="switchToLogin">Login</strong>
+                <button class="btn btn-primary btn-block" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <p class="text-center text-muted" style="font-size:14px;margin-top:6px;">
+                    Already enlisted? <strong class="highlight-link" id="switchToLogin">Login</strong>
                 </p>
             </div>
         </div>
 
+        <!-- Dashboard -->
         <div id="dashboard">
             <div class="dash-tabs" id="dashTabs">
-                <button class="active" data-tab="buy"><i class="fas fa-store"></i> Buy</button>
-                <button data-tab="sell"><i class="fas fa-tag"></i> Sell</button>
-                <button data-tab="myListings"><i class="fas fa-list"></i> My Listings</button>
-                <button data-tab="transactions"><i class="fas fa-exchange-alt"></i> Transactions</button>
-                <button data-tab="adminPanel" class="hidden" id="adminTabBtn"><i class="fas fa-crown"></i> Admin</button>
+                <button class="active" data-tab="buy"><i class="fas fa-store"></i> <span>Buy</span></button>
+                <button data-tab="sell"><i class="fas fa-tag"></i> <span>Sell</span></button>
+                <button data-tab="myListings"><i class="fas fa-list"></i> <span>My Listings</span></button>
+                <button data-tab="transactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></button>
+                <button data-tab="support"><i class="fas fa-headset"></i> <span>Support</span></button>
+                <button data-tab="adminPanel" class="hidden" id="adminTabBtn"><i class="fas fa-crown"></i> <span>Admin</span></button>
             </div>
 
+            <!-- Buy Tab -->
             <div class="tab-content active" id="tabBuy">
-                <div class="section-header">
-                    <h3>Available Accounts <span class="sub" id="buyCount"></span></h3>
-                    <span class="sub"><i class="fas fa-info-circle"></i> Green = Buy Now</span>
+                <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Available Accounts <span class="sub" id="buyCount" style="color:#8892a8; font-size:14px; font-weight:400;"></span></h3>
+                    <span class="sub" style="color:#8892a8; font-size:13px;"><i class="fas fa-shield-alt"></i> Verified Sellers</span>
+                </div>
+                <div class="search-section">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by rank, level, skins..." />
+                    </div>
+                    <div class="price-filter">
+                        <span>Max Price</span>
+                        <input type="range" id="priceRange" min="0" max="500" value="500" />
+                        <span class="price-value" id="priceDisplay">$500</span>
+                    </div>
                 </div>
                 <div id="buyListings" class="listings-grid"></div>
             </div>
 
+            <!-- Sell Tab -->
             <div class="tab-content" id="tabSell">
-                <div class="section-header">
-                    <h3>Sell Your Account</h3>
-                    <span class="sub">Fill in the details below</span>
+                <div class="section-header" style="margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Sell Your Account</h3>
+                    <span class="sub" style="color:#8892a8; font-size:14px;">Fill in the details below</span>
                 </div>
                 <div style="max-width:560px;">
                     <div class="form-group">
@@ -852,96 +946,127 @@
                         <input type="number" id="sellPrice" placeholder="50" min="1" />
                     </div>
                     <div class="form-group">
-                        <label>Upload Account Image</label>
+                        <label>Upload Images (5-10 photos)</label>
                         <div class="file-input-wrapper">
-                            <input type="file" id="sellImage" accept="image/*" />
-                            <span class="file-name" id="imageFileName">No file chosen</span>
+                            <input type="file" id="sellImages" accept="image/*" multiple />
+                            <div class="file-names" id="fileNames"></div>
+                            <div class="image-preview-grid" id="imagePreview"></div>
+                            <div id="uploadProgress" class="upload-progress" style="display:none;">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span id="uploadStatus">Uploading images...</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="uploadProgressFill" style="width:0%;"></div>
+                                </div>
+                                <span class="progress-text" id="uploadProgressText">0%</span>
+                            </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" id="sellBtn"><i class="fas fa-plus-circle"></i> List Account</button>
+                    <button class="btn btn-primary" id="sellBtn">
+                        <i class="fas fa-plus-circle"></i> List Account
+                    </button>
                 </div>
             </div>
 
+            <!-- My Listings -->
             <div class="tab-content" id="tabMyListings">
-                <div class="section-header">
-                    <h3>My Listings</h3>
-                    <span class="sub"><i class="fas fa-tag" style="color:#f5a623;"></i> Your sell offers</span>
+                <div class="section-header" style="margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">My Listings</h3>
+                    <span class="sub" style="color:#8892a8; font-size:14px;"><i class="fas fa-tag" style="color:#f5a623;"></i> Your sell offers</span>
                 </div>
                 <div id="myListingsContainer" class="listings-grid"></div>
             </div>
 
+            <!-- Transactions -->
             <div class="tab-content" id="tabTransactions">
-                <div class="section-header">
-                    <h3>My Transactions</h3>
+                <div class="section-header" style="margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">My Transactions</h3>
                 </div>
                 <div class="table-wrap">
                     <table>
-                        <thead>
-                            <tr><th>Account</th><th>Price</th><th>Buyer</th><th>Seller</th><th>Status</th></tr>
-                        </thead>
+                        <thead><tr><th>Account</th><th>Price</th><th>Buyer</th><th>Seller</th><th>Status</th></tr></thead>
                         <tbody id="transactionsTable"></tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Support -->
+            <div class="tab-content" id="tabSupport">
+                <div class="section-header" style="margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;"><i class="fas fa-headset" style="color:#f5a623;"></i> Support Center</h3>
+                    <span class="sub" style="color:#8892a8; font-size:14px;">Contact our support team</span>
+                </div>
+                <div id="supportContent" class="support-card">
+                    <div class="empty-contact">
+                        <i class="fas fa-info-circle"></i>
+                        <p>No support contacts available yet.</p>
+                        <p style="font-size:13px;color:#5a6478;">Please check back later.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Panel -->
             <div class="tab-content" id="tabAdmin">
-                <div class="section-header">
-                    <h3><i class="fas fa-crown" style="color:#f5a623;"></i> Admin Dashboard</h3>
-                    <span class="sub">Website performance &amp; user management</span>
+                <div class="section-header" style="margin-bottom:18px;">
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;"><i class="fas fa-crown" style="color:#f5a623;"></i> Admin Dashboard</h3>
+                    <span class="sub" style="color:#8892a8; font-size:14px;">Manage users, listings &amp; support</span>
                 </div>
                 <div class="perf-grid" id="perfMetrics">
-                    <div class="perf-card"><div class="title">👥 Total Users</div><div class="value" id="perfUsers">0</div>
-                        <div class="sub">Registered members</div>
-                    </div>
-                    <div class="perf-card"><div class="title">📦 Total Listings</div><div class="value" id="perfListings">0</div>
-                        <div class="sub">All time</div>
-                    </div>
-                    <div class="perf-card"><div class="title">🟡 Pending Sales</div><div class="value" id="perfPending">0</div>
-                        <div class="sub">Awaiting approval</div>
-                    </div>
-                    <div class="perf-card"><div class="title">✅ Completed Sales</div><div class="value" id="perfSold">0</div>
-                        <div class="sub">Successfully sold</div>
-                    </div>
-                    <div class="perf-card"><div class="title">💰 Total Volume</div><div class="value" id="perfVolume">$0</div>
-                        <div class="sub">Sum of completed sales</div>
-                    </div>
-                    <div class="perf-card"><div class="title">📈 Active Listings</div><div class="value" id="perfActive">0</div>
-                        <div class="sub">Currently for sale</div>
-                    </div>
+                    <div class="perf-card"><div class="title">👥 Total Users</div><div class="value" id="perfUsers">0</div><div class="sub">Registered members</div></div>
+                    <div class="perf-card"><div class="title">📦 Total Listings</div><div class="value" id="perfListings">0</div><div class="sub">All time</div></div>
+                    <div class="perf-card"><div class="title">🟡 Pending Sales</div><div class="value" id="perfPending">0</div><div class="sub">Awaiting approval</div></div>
+                    <div class="perf-card"><div class="title">✅ Completed Sales</div><div class="value" id="perfSold">0</div><div class="sub">Successfully sold</div></div>
+                    <div class="perf-card"><div class="title">💰 Total Volume</div><div class="value" id="perfVolume">$0</div><div class="sub">Sum of completed sales</div></div>
+                    <div class="perf-card"><div class="title">📈 Active Listings</div><div class="value" id="perfActive">0</div><div class="sub">Currently for sale</div></div>
                 </div>
 
-                <h4 style="margin:20px 0 10px;font-size:16px;">📋 All Users (with details)</h4>
+                <h4 style="margin:20px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📞 Support Contacts</h4>
+                <div class="admin-support-form">
+                    <div class="form-row-support">
+                        <div class="form-group">
+                            <label>Support Email</label>
+                            <input type="email" id="adminSupportEmail" placeholder="support@codmarket.com" />
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="text" id="adminSupportWhatsapp" placeholder="+1234567890" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="adminSupportInstagram" placeholder="@codmarket_official" />
+                    </div>
+                    <button class="btn btn-primary" id="saveSupportBtn"><i class="fas fa-save"></i> Save Support Contacts</button>
+                </div>
+
+                <h4 style="margin:24px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📋 All Users</h4>
                 <div class="table-wrap">
                     <table>
-                        <thead>
-                            <tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Role</th><th>Joined</th></tr>
-                        </thead>
+                        <thead><tr><th>Name</th><th>WhatsApp</th><th>Role</th><th>Activity</th><th>Joined</th></tr></thead>
                         <tbody id="adminUsersTable"></tbody>
                     </table>
                 </div>
 
-                <h4 style="margin:24px 0 10px;font-size:16px;">📋 All Listings</h4>
+                <h4 style="margin:24px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📋 All Listings</h4>
                 <div class="table-wrap">
                     <table>
-                        <thead>
-                            <tr><th>ID</th><th>Account</th><th>Price</th><th>Seller</th><th>Status</th><th>Action</th></tr>
-                        </thead>
+                        <thead><tr><th>ID</th><th>Account</th><th>Price</th><th>Seller</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody id="adminListingsTable"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Toast -->
         <div id="toast">
-            <i class="fas fa-check-circle" style="color:#f5a623;"></i>
+            <span class="toast-icon"><i class="fas fa-check-circle"></i></span>
             <span id="toastMsg">Success!</span>
         </div>
     </div>
 
     <script>
-        // =====================================================================
+        // ============================================================
         // FIREBASE INIT
-        // =====================================================================
+        // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyDDgxzTVGIWUI3BX1nVT1u65Ycl7DH5OXQ",
             authDomain: "gura-gurisha-codm-account.firebaseapp.com",
@@ -955,24 +1080,25 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         const IMGBB_KEY = '4fa8b99e2ba50cfe70cc9f69257055bb';
-        const ADMIN_EMAIL = 'admin@guragurishacodm.com';
-        const DEMO_PASSWORD = 'admin123';
 
-        // =====================================================================
+        // ============================================================
         // STATE
-        // =====================================================================
+        // ============================================================
         let currentUser = null;
         let currentAuthUser = null;
+        let allListings = [];
+        let modalResolve = null;
 
-        // =====================================================================
+        // ============================================================
         // DOM REFS
-        // =====================================================================
+        // ============================================================
         const $ = id => document.getElementById(id);
         const $$ = sel => document.querySelectorAll(sel);
 
         const authScreen = $('authScreen');
         const dashboard = $('dashboard');
         const headerActions = $('headerActions');
+        const loadingOverlay = $('loadingOverlay');
 
         const loginForm = $('loginForm');
         const registerForm = $('registerForm');
@@ -1006,6 +1132,7 @@
         const adminListingsTable = $('adminListingsTable');
         const adminUsersTable = $('adminUsersTable');
         const adminTabBtn = $('adminTabBtn');
+        const supportContent = $('supportContent');
 
         const perfUsers = $('perfUsers');
         const perfListings = $('perfListings');
@@ -1014,96 +1141,98 @@
         const perfVolume = $('perfVolume');
         const perfActive = $('perfActive');
 
+        const adminSupportEmail = $('adminSupportEmail');
+        const adminSupportWhatsapp = $('adminSupportWhatsapp');
+        const adminSupportInstagram = $('adminSupportInstagram');
+        const saveSupportBtn = $('saveSupportBtn');
+
         const sellDetails = $('sellDetails');
         const sellPrice = $('sellPrice');
-        const sellImage = $('sellImage');
-        const imageFileName = $('imageFileName');
+        const sellImages = $('sellImages');
+        const fileNames = $('fileNames');
+        const imagePreview = $('imagePreview');
         const sellBtn = $('sellBtn');
+        const uploadProgress = $('uploadProgress');
+        const uploadStatus = $('uploadStatus');
+        const uploadProgressFill = $('uploadProgressFill');
+        const uploadProgressText = $('uploadProgressText');
+
+        const searchInput = $('searchInput');
+        const priceRange = $('priceRange');
+        const priceDisplay = $('priceDisplay');
 
         const toast = $('toast');
         const toastMsg = $('toastMsg');
 
-        // =====================================================================
-        // TOAST
-        // =====================================================================
-        let toastTimer = null;
+        const modalOverlay = $('modalOverlay');
+        const modalTitle = $('modalTitle');
+        const modalMessage = $('modalMessage');
+        const modalCancelBtn = $('modalCancelBtn');
+        const modalConfirmBtn = $('modalConfirmBtn');
 
-        function showToast(msg, type = 'info') {
-            toast.className = 'show ' + type;
-            toastMsg.textContent = msg;
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
+        // ============================================================
+        // LOADING / TOAST / MODAL
+        // ============================================================
+        function showLoading(msg = 'Loading Arsenal...') {
+            loadingOverlay.querySelector('p').textContent = msg;
+            loadingOverlay.classList.add('show');
         }
 
-        // =====================================================================
-        // FILE INPUT
-        // =====================================================================
-        sellImage.addEventListener('change', function() {
-            const file = this.files[0];
-            imageFileName.textContent = file ? file.name : 'No file chosen';
-        });
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
 
-        // =====================================================================
+        function showToast(msg, type = 'info') {
+            const iconMap = { success: 'fa-check-circle', error: 'fa-skull-crossbones', info: 'fa-info-circle' };
+            toast.className = 'show ' + type;
+            toast.querySelector('.toast-icon i').className = 'fas ' + (iconMap[type] || 'fa-info-circle');
+            toastMsg.textContent = msg;
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+        }
+
+        function showModal(title, message, confirmText = 'Confirm', cancelText = 'Cancel') {
+            return new Promise((resolve) => {
+                modalTitle.textContent = title;
+                modalMessage.innerHTML = message;
+                modalConfirmBtn.textContent = confirmText;
+                modalCancelBtn.textContent = cancelText;
+                modalOverlay.classList.add('show');
+                modalResolve = resolve;
+            });
+        }
+
+        modalCancelBtn.addEventListener('click', () => { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(false); });
+        modalConfirmBtn.addEventListener('click', () => { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(true); });
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(false); } });
+
+        // ============================================================
         // AUTH UI HELPERS
-        // =====================================================================
+        // ============================================================
         function switchAuthTab(tab) {
             $$('.auth-toggle button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
             loginForm.classList.toggle('active', tab === 'login');
             registerForm.classList.toggle('active', tab === 'register');
-            // Clear all messages
-            [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
-            .forEach(el => el.classList.remove('show'));
+            [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo].forEach(el => el.classList.remove('show'));
         }
 
-        function clearAllAuthMessages() {
-            [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
-            .forEach(el => el.classList.remove('show'));
-        }
+        function showLoginError(msg) { loginError.textContent = msg; loginError.classList.add('show'); }
+        function showLoginSuccess(msg) { loginSuccess.textContent = msg; loginSuccess.classList.add('show'); }
+        function showLoginInfo(msg) { loginInfoMsg.innerHTML = msg; loginInfo.classList.add('show'); }
+        function showRegisterError(msg) { registerError.textContent = msg; registerError.classList.add('show'); }
+        function showRegisterSuccess(msg) { registerSuccess.textContent = msg; registerSuccess.classList.add('show'); }
+        function showRegisterInfo(msg) { registerInfoMsg.innerHTML = msg; registerInfo.classList.add('show'); }
 
-        function showLoginInfo(msg) {
-            loginInfoMsg.textContent = msg;
-            loginInfo.classList.add('show');
-        }
-
-        function showLoginError(msg) {
-            loginError.textContent = msg;
-            loginError.classList.add('show');
-        }
-
-        function showLoginSuccess(msg) {
-            loginSuccess.textContent = msg;
-            loginSuccess.classList.add('show');
-        }
-
-        function showRegisterInfo(msg) {
-            registerInfoMsg.textContent = msg;
-            registerInfo.classList.add('show');
-        }
-
-        function showRegisterError(msg) {
-            registerError.textContent = msg;
-            registerError.classList.add('show');
-        }
-
-        function showRegisterSuccess(msg) {
-            registerSuccess.textContent = msg;
-            registerSuccess.classList.add('show');
-        }
-
-        // =====================================================================
-        // LOGIN
-        // =====================================================================
+        // ============================================================
+        // AUTH HANDLERS
+        // ============================================================
         async function handleLogin() {
             const email = loginEmail.value.trim();
             const password = loginPassword.value.trim();
-            if (!email || !password) {
-                showToast('Please fill in all fields', 'error');
-                return;
-            }
-            clearAllAuthMessages();
-
+            if (!email || !password) { showToast('Please fill in all fields', 'error'); return; }
+            [loginError, loginSuccess, loginInfo].forEach(el => el.classList.remove('show'));
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...';
             try {
                 const cred = await auth.signInWithEmailAndPassword(email, password);
                 currentAuthUser = cred.user;
@@ -1113,188 +1242,166 @@
                         fullName: email.split('@')[0] || 'User',
                         email: email,
                         whatsapp: '',
-                        isAdmin: email === ADMIN_EMAIL,
+                        isAdmin: false,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     };
                     await db.collection('users').doc(cred.user.uid).set(userData);
                     currentUser = { id: cred.user.uid, ...userData };
                 } else {
                     currentUser = { id: doc.id, ...doc.data() };
-                    if (email === ADMIN_EMAIL && !currentUser.isAdmin) {
-                        await db.collection('users').doc(cred.user.uid).update({ isAdmin: true });
-                        currentUser.isAdmin = true;
-                    }
                 }
                 renderApp();
-                showToast('Welcome back, ' + currentUser.fullName + '!', 'success');
-                showLoginSuccess('Login successful! Redirecting...');
-                setTimeout(() => showLoginSuccess(''), 2000);
+                showToast(`Welcome back, ${currentUser.fullName}!`, 'success');
+                showLoginSuccess('Login successful!');
             } catch (err) {
-                let msg = err.message;
                 let friendlyMsg = '';
-                if (err.code === 'auth/user-not-found') {
-                    friendlyMsg =
-                        'No account found with this email. Please <strong class="highlight-link" id="autoSwitchToRegister">register</strong> first.';
-                    showLoginInfo(friendlyMsg);
-                    // Attach click handler to switch to register
+                if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-login-credentials') {
+                    friendlyMsg = 'Invalid credentials. Please try again.';
+                    showLoginInfo('No account found? <strong class="highlight-link" id="autoSwitchToRegister">Register</strong>');
                     setTimeout(() => {
                         const link = document.getElementById('autoSwitchToRegister');
-                        if (link) {
-                            link.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                // Pre-fill registration with this email
-                                regEmail.value = email;
-                                switchAuthTab('register');
-                                showRegisterInfo('We pre-filled your email. Just complete the form to create your account.');
-                            });
-                        }
+                        if (link) link.addEventListener('click', () => { regEmail.value = email; switchAuthTab('register'); showRegisterInfo('Pre-filled your email.'); });
                     }, 100);
-                    msg = 'Account not found. Please register.';
-                } else if (err.code === 'auth/wrong-password') {
-                    friendlyMsg = 'Incorrect password. Please try again.';
-                    showLoginError(friendlyMsg);
-                    msg = 'Wrong password.';
-                } else if (err.code === 'auth/invalid-email') {
-                    friendlyMsg = 'Invalid email format. Please check and try again.';
-                    showLoginError(friendlyMsg);
-                    msg = 'Invalid email.';
-                } else if (err.code === 'auth/too-many-requests') {
-                    friendlyMsg = 'Too many failed attempts. Please wait a moment and try again.';
-                    showLoginError(friendlyMsg);
-                    msg = 'Too many requests.';
-                } else if (err.code === 'auth/network-request-failed') {
-                    friendlyMsg = 'Network error. Please check your internet connection.';
-                    showLoginError(friendlyMsg);
-                    msg = 'Network error.';
-                } else if (err.code === 'auth/operation-not-allowed') {
-                    friendlyMsg =
-                        'Email/Password sign-in is not enabled. Please enable it in the Firebase Console.';
-                    showLoginError(friendlyMsg);
-                    msg = 'Sign-in method disabled.';
-                } else {
-                    friendlyMsg = err.message;
-                    showLoginError(friendlyMsg);
-                }
-                showToast(msg, 'error');
-                console.error('Login error:', err.code, err.message);
+                } else if (err.code === 'auth/wrong-password') { friendlyMsg = 'Incorrect password. Please try again.'; }
+                else if (err.code === 'auth/invalid-email') { friendlyMsg = 'Invalid email format.'; }
+                else if (err.code === 'auth/too-many-requests') { friendlyMsg = 'Too many attempts. Please wait.'; }
+                else if (err.code === 'auth/network-request-failed') { friendlyMsg = 'Network error. Reload or contact support.'; }
+                else { friendlyMsg = 'Something went wrong. Reload or contact support.'; }
+                showLoginError(friendlyMsg);
+                showToast(friendlyMsg, 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             }
         }
 
-        // =====================================================================
-        // REGISTER
-        // =====================================================================
         async function handleRegister() {
             const name = regName.value.trim();
             const email = regEmail.value.trim();
             const whatsapp = regWhatsapp.value.trim();
             const password = regPassword.value.trim();
-            if (!name || !email || !whatsapp || !password) {
-                showToast('Please fill in all fields', 'error');
-                return;
-            }
-            clearAllAuthMessages();
-
-            const isAdmin = (email === ADMIN_EMAIL);
-
+            if (!name || !email || !whatsapp || !password) { showToast('Please fill in all fields', 'error'); return; }
+            [registerError, registerSuccess, registerInfo].forEach(el => el.classList.remove('show'));
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating account...';
             try {
-                // Check if user already exists in Auth
-                try {
-                    const methods = await auth.fetchSignInMethodsForEmail(email);
-                    if (methods.length > 0) {
-                        showRegisterError('This email is already registered. Please <strong class="highlight-link" id="autoSwitchToLogin">login</strong>.');
-                        setTimeout(() => {
-                            const link = document.getElementById('autoSwitchToLogin');
-                            if (link) {
-                                link.addEventListener('click', function(e) {
-                                    e.preventDefault();
-                                    loginEmail.value = email;
-                                    switchAuthTab('login');
-                                    showLoginInfo('We pre-filled your email. Just enter your password to login.');
-                                });
-                            }
-                        }, 100);
-                        return;
-                    }
-                } catch (e) { /* ignore */ }
-
+                const methods = await auth.fetchSignInMethodsForEmail(email);
+                if (methods.length > 0) {
+                    showRegisterError('Email already registered. <strong class="highlight-link" id="autoSwitchToLogin">Login</strong>.');
+                    setTimeout(() => {
+                        const link = document.getElementById('autoSwitchToLogin');
+                        if (link) link.addEventListener('click', () => { loginEmail.value = email; switchAuthTab('login'); showLoginInfo('Pre-filled your email.'); });
+                    }, 100);
+                    return;
+                }
                 const cred = await auth.createUserWithEmailAndPassword(email, password);
                 const newUser = {
                     fullName: name,
                     email: email,
                     whatsapp: whatsapp,
-                    isAdmin: isAdmin,
+                    isAdmin: false,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 await db.collection('users').doc(cred.user.uid).set(newUser);
-
                 currentAuthUser = cred.user;
                 currentUser = { id: cred.user.uid, ...newUser };
                 renderApp();
-                const msg = isAdmin ?
-                    '✅ Admin account created! You have full access.' :
-                    'Account created! Welcome to COD Market.';
-                showToast(msg, 'success');
-                showRegisterSuccess(msg);
-                setTimeout(() => showRegisterSuccess(''), 3000);
+                showToast('Account created! Welcome to COD Market.', 'success');
+                showRegisterSuccess('Account created!');
             } catch (err) {
-                let msg = err.message;
                 let friendlyMsg = '';
                 if (err.code === 'auth/email-already-in-use') {
-                    friendlyMsg = 'This email is already registered. Please <strong class="highlight-link" id="autoSwitchToLogin2">login</strong>.';
+                    friendlyMsg = 'Email already in use. <strong class="highlight-link" id="autoSwitchToLogin2">Login</strong>.';
                     showRegisterError(friendlyMsg);
                     setTimeout(() => {
                         const link = document.getElementById('autoSwitchToLogin2');
-                        if (link) {
-                            link.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                loginEmail.value = email;
-                                switchAuthTab('login');
-                                showLoginInfo('We pre-filled your email. Just enter your password to login.');
-                            });
-                        }
+                        if (link) link.addEventListener('click', () => { loginEmail.value = email; switchAuthTab('login'); showLoginInfo('Pre-filled your email.'); });
                     }, 100);
-                    msg = 'Email already in use.';
-                } else if (err.code === 'auth/weak-password') {
-                    friendlyMsg = 'Password should be at least 6 characters.';
-                    showRegisterError(friendlyMsg);
-                    msg = 'Weak password.';
-                } else if (err.code === 'auth/invalid-email') {
-                    friendlyMsg = 'Invalid email format.';
-                    showRegisterError(friendlyMsg);
-                    msg = 'Invalid email.';
-                } else if (err.code === 'auth/network-request-failed') {
-                    friendlyMsg = 'Network error. Please check your internet connection.';
-                    showRegisterError(friendlyMsg);
-                    msg = 'Network error.';
-                } else {
-                    friendlyMsg = err.message;
-                    showRegisterError(friendlyMsg);
-                }
-                showToast(msg, 'error');
-                console.error('Register error:', err.code, err.message);
+                } else if (err.code === 'auth/weak-password') { friendlyMsg = 'Password must be at least 6 characters.'; showRegisterError(friendlyMsg); }
+                else if (err.code === 'auth/invalid-email') { friendlyMsg = 'Invalid email format.'; showRegisterError(friendlyMsg); }
+                else if (err.code === 'auth/network-request-failed') { friendlyMsg = 'Network error. Reload or contact support.'; showRegisterError(friendlyMsg); }
+                else { friendlyMsg = 'Something went wrong. Reload or contact support.'; showRegisterError(friendlyMsg); }
+                showToast(friendlyMsg, 'error');
+            } finally {
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
             }
         }
 
-        // =====================================================================
-        // LOGOUT
-        // =====================================================================
         function handleLogout() {
             auth.signOut();
             currentUser = null;
             currentAuthUser = null;
             renderApp();
-            showToast('Logged out', 'info');
+            showToast('Logged out successfully', 'info');
         }
 
-        // =====================================================================
+        // ============================================================
+        // SUPPORT (Load & Save)
+        // ============================================================
+        async function loadSupportContacts() {
+            try {
+                const doc = await db.collection('settings').doc('support').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (adminSupportEmail) adminSupportEmail.value = data.email || '';
+                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = data.whatsapp || '';
+                    if (adminSupportInstagram) adminSupportInstagram.value = data.instagram || '';
+                    renderSupport(data);
+                    return data;
+                } else { renderSupport(null); }
+            } catch (err) { console.error('Error loading support:', err); renderSupport(null); }
+            return null;
+        }
+
+        function renderSupport(data) {
+            if (!supportContent) return;
+            if (data && (data.email || data.whatsapp || data.instagram)) {
+                supportContent.innerHTML = `
+                    <div class="contact-item"><i class="fas fa-envelope"></i><span class="label">Email</span><span class="value">${data.email || '—'}</span></div>
+                    <div class="contact-item"><i class="fab fa-whatsapp"></i><span class="label">WhatsApp</span><span class="value">${data.whatsapp || '—'}</span></div>
+                    <div class="contact-item"><i class="fab fa-instagram"></i><span class="label">Instagram</span><span class="value">${data.instagram || '—'}</span></div>
+                `;
+            } else {
+                supportContent.innerHTML = `
+                    <div class="empty-contact">
+                        <i class="fas fa-info-circle"></i>
+                        <p>No support contacts available yet.</p>
+                        <p style="font-size:13px;color:#5a6478;">Please check back later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveSupportContacts() {
+            const email = adminSupportEmail.value.trim();
+            const whatsapp = adminSupportWhatsapp.value.trim();
+            const instagram = adminSupportInstagram.value.trim();
+            if (!email && !whatsapp && !instagram) {
+                showToast('Please fill in at least one contact field.', 'error');
+                return;
+            }
+            try {
+                await db.collection('settings').doc('support').set({
+                    email: email,
+                    whatsapp: whatsapp,
+                    instagram: instagram,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                showToast('Support contacts saved!', 'success');
+                loadSupportContacts();
+            } catch (err) {
+                showToast('Error saving: ' + err.message, 'error');
+            }
+        }
+
+        // ============================================================
         // RENDER
-        // =====================================================================
+        // ============================================================
         function renderApp() {
             if (currentUser) {
                 const initial = currentUser.fullName.charAt(0).toUpperCase();
-                const roleTag = currentUser.isAdmin ?
-                    '<span class="tag tag-admin">Admin</span>' :
-                    '<span class="tag tag-user">User</span>';
+                const roleTag = currentUser.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>';
                 headerActions.innerHTML = `
                     <div class="user-badge">
                         <div class="avatar">${initial}</div>
@@ -1303,113 +1410,141 @@
                     </div>
                     <button class="btn btn-secondary btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 `;
-                $('logoutBtn').addEventListener('click', handleLogout);
+                document.getElementById('logoutBtn').addEventListener('click', handleLogout);
                 authScreen.style.display = 'none';
                 dashboard.classList.add('active');
-                if (currentUser.isAdmin) {
-                    adminTabBtn.classList.remove('hidden');
-                } else {
-                    adminTabBtn.classList.add('hidden');
-                }
+                if (currentUser.isAdmin) adminTabBtn.classList.remove('hidden');
+                else adminTabBtn.classList.add('hidden');
                 loadBuyTab();
                 loadMyListings();
                 loadTransactions();
+                loadSupportContacts();
                 if (currentUser.isAdmin) loadAdminPanel();
                 const activeTab = document.querySelector('.dash-tabs .active');
                 if (activeTab) switchTab(activeTab.dataset.tab);
             } else {
-                headerActions.innerHTML = `
-                    <span style="color:#8892a8;font-size:14px;">Not logged in</span>
-                `;
+                headerActions.innerHTML = `<span style="color:#8892a8;font-size:14px;">Not logged in</span>`;
                 authScreen.style.display = 'block';
                 dashboard.classList.remove('active');
                 switchAuthTab('login');
-                [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
-                .forEach(el => el.classList.remove('show'));
+                [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo].forEach(el => el.classList.remove('show'));
             }
         }
 
-        // =====================================================================
+        // ============================================================
         // TAB SWITCHING
-        // =====================================================================
+        // ============================================================
         function switchTab(tabId) {
-            $$('.dash-tabs button').forEach(b => {
-                b.classList.toggle('active', b.dataset.tab === tabId);
-            });
+            $$('.dash-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
             $$('.tab-content').forEach(el => el.classList.remove('active'));
             const target = document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
             if (target) target.classList.add('active');
             if (tabId === 'buy') loadBuyTab();
             if (tabId === 'myListings') loadMyListings();
             if (tabId === 'transactions') loadTransactions();
+            if (tabId === 'support') loadSupportContacts();
             if (tabId === 'adminPanel' && currentUser?.isAdmin) loadAdminPanel();
         }
 
-        // =====================================================================
-        // BUY TAB
-        // =====================================================================
+        // ============================================================
+        // BUY TAB (removed orderBy to avoid index)
+        // ============================================================
         async function loadBuyTab() {
             if (!currentUser) return;
+            buyListings.innerHTML = Array(6).fill(0).map(() => `
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-img"></div>
+                    <div class="skeleton skeleton-line price"></div>
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line short"></div>
+                </div>
+            `).join('');
             try {
-                const snapshot = await db.collection('listings')
-                    .where('status', '==', 'available')
-                    .orderBy('createdAt', 'desc')
-                    .get();
-                const listings = [];
-                snapshot.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
-                buyCount.textContent = `(${listings.length} available)`;
-                if (listings.length === 0) {
-                    buyListings.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-box-open"></i>
-                            <h4>No accounts for sale</h4>
-                            <p>Check back later or list your own account!</p>
-                        </div>
-                    `;
-                    return;
-                }
-                buyListings.innerHTML = listings.map(l => {
-                    const isOwn = l.sellerId === currentUser.id;
-                    const sellerName = l.sellerName || 'Unknown';
-                    const sellerWhatsapp = l.sellerWhatsapp || '—';
-                    return `
-                        <div class="listing-card">
-                            <span class="badge-indicator badge-buy">BUY</span>
-                            ${l.imageUrl ? `<img src="${l.imageUrl}" alt="Account" class="account-img" />` : ''}
-                            <div class="top">
-                                <span class="price">$${l.price}</span>
-                                <span class="status status-available">Available</span>
-                            </div>
-                            <div class="details">
-                                <strong>Account:</strong> ${l.details}
-                            </div>
-                            <div class="seller">
-                                <span><i class="fas fa-user"></i> ${sellerName}</span>
-                                <span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>
-                            </div>
-                            <div class="actions">
-                                ${isOwn ? 
-                                    `<span style="color:#8892a8;font-size:13px;"><i class="fas fa-lock"></i> Your listing</span>` :
-                                    `<button class="btn btn-success btn-sm buy-btn" data-id="${l.id}">
-                                        <i class="fas fa-shopping-cart"></i> Buy Now
-                                    </button>`
-                                }
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                document.querySelectorAll('.buy-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const listingId = this.dataset.id;
-                        handleBuy(listingId);
-                    });
+                // No orderBy to avoid composite index requirement
+                const snapshot = await db.collection('listings').where('status', '==', 'available').get();
+                allListings = [];
+                snapshot.forEach(doc => allListings.push({ id: doc.id, ...doc.data() }));
+                // Sort client-side by createdAt descending
+                allListings.sort((a, b) => {
+                    const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                    const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                    return tb - ta;
                 });
+                applyFilters();
             } catch (err) {
-                showToast('Error loading listings: ' + err.message, 'error');
+                showToast('Error loading listings. Reload or contact support.', 'error');
+                buyListings.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h4>Failed to load</h4><p>Reload or contact support.</p></div>`;
             }
         }
 
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const maxPrice = parseInt(priceRange.value);
+            const filtered = allListings.filter(l => {
+                const matchSearch = l.details.toLowerCase().includes(searchTerm);
+                const matchPrice = l.price <= maxPrice;
+                return matchSearch && matchPrice;
+            });
+            renderBuyListings(filtered);
+            buyCount.textContent = `(${filtered.length} available)`;
+        }
+
+        function renderBuyListings(listings) {
+            if (listings.length === 0) {
+                buyListings.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h4>No accounts found</h4>
+                        <p>Try adjusting your search or price range.</p>
+                    </div>
+                `;
+                return;
+            }
+            buyListings.innerHTML = listings.map(l => {
+                const isOwn = l.sellerId === currentUser.id;
+                const sellerName = l.sellerName || 'Unknown';
+                const sellerWhatsapp = l.sellerWhatsapp || '—';
+                const images = l.imageUrls || [];
+                return `
+                    <div class="listing-card">
+                        <span class="badge-indicator badge-buy">BUY</span>
+                        ${images.length > 0 ? `
+                            <div class="account-img-grid">
+                                ${images.slice(0, 4).map(img => `<img src="${img}" alt="account" />`).join('')}
+                                ${images.length > 4 ? `<div style="background:rgba(42,51,64,0.8);display:flex;align-items:center;justify-content:center;border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:#f5a623;">+${images.length-4}</div>` : ''}
+                            </div>
+                        ` : ''}
+                        <div class="top">
+                            <span class="price">$${l.price}</span>
+                            <span class="status status-available">Available</span>
+                        </div>
+                        <div class="details">
+                            <strong>Account:</strong> ${l.details}
+                        </div>
+                        <div class="seller">
+                            <span><i class="fas fa-user"></i> ${sellerName}</span>
+                            <span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>
+                        </div>
+                        <div class="actions">
+                            ${isOwn ? 
+                                `<span style="color:#8892a8;font-size:13px;"><i class="fas fa-lock"></i> Your listing</span>` :
+                                `<button class="btn btn-success btn-sm buy-btn" data-id="${l.id}">
+                                    <i class="fas fa-shopping-cart"></i> Buy Now
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', () => handleBuy(btn.dataset.id));
+            });
+        }
+
+        // ============================================================
+        // BUY HANDLER
+        // ============================================================
         async function handleBuy(listingId) {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
             try {
@@ -1418,6 +1553,15 @@
                 const listing = { id: listingDoc.id, ...listingDoc.data() };
                 if (listing.status !== 'available') { showToast('This account is no longer available', 'error'); return; }
                 if (listing.sellerId === currentUser.id) { showToast('You cannot buy your own account', 'error'); return; }
+
+                const confirmed = await showModal(
+                    'Confirm Purchase',
+                    `Are you sure you want to buy this account for <strong>$${listing.price}</strong>?<br><br>
+                     <span style="color:#b0b8c8;font-size:14px;">${listing.details}</span>`,
+                    'Confirm Purchase',
+                    'Cancel'
+                );
+                if (!confirmed) return;
 
                 const txData = {
                     listingId: listing.id,
@@ -1432,7 +1576,6 @@
                 };
                 await db.collection('transactions').add(txData);
                 await db.collection('listings').doc(listingId).update({ status: 'pending' });
-
                 showToast('Purchase request sent! Admin will review it.', 'success');
                 loadBuyTab();
                 loadMyListings();
@@ -1443,38 +1586,79 @@
             }
         }
 
-        // =====================================================================
-        // SELL
-        // =====================================================================
+        // ============================================================
+        // SELL HANDLER - FIXED UPLOAD
+        // ============================================================
         async function handleSell() {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
             const details = sellDetails.value.trim();
             const price = parseFloat(sellPrice.value);
-            const file = sellImage.files[0];
+            const files = sellImages.files;
             if (!details) { showToast('Please describe the account', 'error'); return; }
             if (!price || price < 1) { showToast('Please enter a valid price (min $1)', 'error'); return; }
+            if (files.length < 5 || files.length > 10) {
+                showToast('Please select between 5 and 10 images.', 'error');
+                return;
+            }
 
-            let imageUrl = null;
-            if (file) {
+            // Disable button and show progress
+            sellBtn.disabled = true;
+            sellBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...';
+            uploadProgress.style.display = 'flex';
+            uploadProgressFill.style.width = '0%';
+            uploadProgressText.textContent = '0%';
+            uploadStatus.textContent = 'Uploading images...';
+
+            const imageUrls = [];
+            const total = files.length;
+            let uploaded = 0;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 try {
                     const formData = new FormData();
                     formData.append('image', file);
                     formData.append('key', IMGBB_KEY);
+                    
                     const res = await fetch('https://api.imgbb.com/1/upload', {
                         method: 'POST',
                         body: formData
                     });
                     const data = await res.json();
+                    
                     if (data.success) {
-                        imageUrl = data.data.url;
+                        imageUrls.push(data.data.url);
+                        uploaded++;
+                        const percent = Math.round((uploaded / total) * 100);
+                        uploadProgressFill.style.width = percent + '%';
+                        uploadProgressText.textContent = percent + '%';
+                        uploadStatus.textContent = `Uploaded ${uploaded}/${total} images`;
                     } else {
-                        showToast('Image upload failed: ' + (data.error?.message || 'Unknown error'), 'error');
-                        return;
+                        showToast(`Image ${i+1} upload failed: ${data.error?.message || 'Unknown error'}`, 'error');
+                        // Continue with other images instead of aborting
                     }
                 } catch (err) {
-                    showToast('Image upload error: ' + err.message, 'error');
-                    return;
+                    showToast(`Image ${i+1} upload error: ${err.message}`, 'error');
+                    // Continue with other images
                 }
+            }
+
+            // Check if we got any images
+            if (imageUrls.length === 0) {
+                showToast('All images failed to upload. Please try again.', 'error');
+                uploadProgress.style.display = 'none';
+                sellBtn.disabled = false;
+                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
+                return;
+            }
+
+            // If we got fewer than 5 images but at least 1, we can proceed but warn
+            if (imageUrls.length < 5) {
+                showToast(`Only ${imageUrls.length} images uploaded. Minimum 5 required.`, 'error');
+                uploadProgress.style.display = 'none';
+                sellBtn.disabled = false;
+                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
+                return;
             }
 
             try {
@@ -1485,53 +1669,69 @@
                     details: details,
                     price: price,
                     status: 'available',
-                    imageUrl: imageUrl,
+                    imageUrls: imageUrls,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 await db.collection('listings').add(listingData);
                 sellDetails.value = '';
                 sellPrice.value = '';
-                sellImage.value = '';
-                imageFileName.textContent = 'No file chosen';
-                showToast('Account listed for sale!', 'success');
+                sellImages.value = '';
+                fileNames.innerHTML = '';
+                imagePreview.innerHTML = '';
+                uploadProgress.style.display = 'none';
+                showToast('Account listed with ' + imageUrls.length + ' images!', 'success');
                 loadBuyTab();
                 loadMyListings();
                 if (currentUser?.isAdmin) loadAdminPanel();
                 switchTab('buy');
             } catch (err) {
                 showToast('Error listing account: ' + err.message, 'error');
+                uploadProgress.style.display = 'none';
+            } finally {
+                sellBtn.disabled = false;
+                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
             }
         }
 
-        // =====================================================================
+        // ============================================================
         // MY LISTINGS
-        // =====================================================================
+        // ============================================================
         async function loadMyListings() {
             if (!currentUser) return;
+            myListingsContainer.innerHTML = Array(3).fill(0).map(() => `
+                <div class="skeleton-card">
+                    <div class="skeleton skeleton-img"></div>
+                    <div class="skeleton skeleton-line price"></div>
+                    <div class="skeleton skeleton-line"></div>
+                </div>
+            `).join('');
             try {
-                const snapshot = await db.collection('listings')
-                    .where('sellerId', '==', currentUser.id)
-                    .orderBy('createdAt', 'desc')
-                    .get();
+                const snapshot = await db.collection('listings').where('sellerId', '==', currentUser.id).get();
                 const listings = [];
                 snapshot.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
+                // Sort client-side
+                listings.sort((a, b) => {
+                    const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                    const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                    return tb - ta;
+                });
                 if (listings.length === 0) {
-                    myListingsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-tag"></i>
-                            <h4>No listings yet</h4>
-                            <p>Go to the Sell tab to list your account.</p>
-                        </div>
-                    `;
+                    myListingsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-tag"></i><h4>No listings yet</h4><p>Go to the Sell tab to list your account.</p></div>`;
                     return;
                 }
                 myListingsContainer.innerHTML = listings.map(l => {
                     const statusClass = l.status === 'available' ? 'status-available' :
                         l.status === 'pending' ? 'status-pending' : 'status-sold';
+                    const images = l.imageUrls || [];
                     return `
                         <div class="listing-card">
                             <span class="badge-indicator badge-sell">SELL</span>
-                            ${l.imageUrl ? `<img src="${l.imageUrl}" alt="Account" class="account-img" />` : ''}
+                            ${images.length > 0 ? `
+                                <div class="account-img-grid">
+                                    ${images.slice(0, 4).map(img => `<img src="${img}" alt="account" />`).join('')}
+                                    ${images.length > 4 ? `<div style="background:rgba(42,51,64,0.8);display:flex;align-items:center;justify-content:center;border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:#f5a623;">+${images.length-4}</div>` : ''}
+                                </div>
+                            ` : ''}
                             <div class="top">
                                 <span class="price">$${l.price}</span>
                                 <span class="status ${statusClass}">${l.status}</span>
@@ -1556,56 +1756,45 @@
                 document.querySelectorAll('.remove-listing-btn').forEach(btn => {
                     btn.addEventListener('click', async function() {
                         const id = this.dataset.id;
-                        if (confirm('Remove this listing?')) {
-                            try {
-                                await db.collection('listings').doc(id).delete();
-                                showToast('Listing removed', 'info');
-                                loadMyListings();
-                                loadBuyTab();
-                                if (currentUser?.isAdmin) loadAdminPanel();
-                            } catch (err) {
-                                showToast('Error: ' + err.message, 'error');
-                            }
+                        const confirmed = await showModal('Remove Listing', 'Are you sure you want to remove this listing?', 'Remove', 'Cancel');
+                        if (!confirmed) return;
+                        try {
+                            await db.collection('listings').doc(id).delete();
+                            showToast('Listing removed', 'info');
+                            loadMyListings();
+                            loadBuyTab();
+                            if (currentUser?.isAdmin) loadAdminPanel();
+                        } catch (err) {
+                            showToast('Error: ' + err.message, 'error');
                         }
                     });
                 });
             } catch (err) {
-                showToast('Error loading my listings: ' + err.message, 'error');
+                showToast('Error loading my listings. Reload or contact support.', 'error');
             }
         }
 
-        // =====================================================================
+        // ============================================================
         // TRANSACTIONS
-        // =====================================================================
+        // ============================================================
         async function loadTransactions() {
             if (!currentUser) return;
             try {
-                const buyerSnap = await db.collection('transactions')
-                    .where('buyerId', '==', currentUser.id)
-                    .orderBy('createdAt', 'desc')
-                    .get();
+                const buyerSnap = await db.collection('transactions').where('buyerId', '==', currentUser.id).get();
+                const sellerSnap = await db.collection('transactions').where('sellerId', '==', currentUser.id).get();
                 const txs = [];
                 buyerSnap.forEach(doc => txs.push({ id: doc.id, ...doc.data() }));
-
-                const sellerSnap = await db.collection('transactions')
-                    .where('sellerId', '==', currentUser.id)
-                    .orderBy('createdAt', 'desc')
-                    .get();
                 sellerSnap.forEach(doc => {
                     const data = doc.data();
-                    if (!txs.find(t => t.id === doc.id)) {
-                        txs.push({ id: doc.id, ...data });
-                    }
+                    if (!txs.find(t => t.id === doc.id)) txs.push({ id: doc.id, ...data });
                 });
                 txs.sort((a, b) => {
                     const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
                     const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
                     return tb - ta;
                 });
-
                 if (txs.length === 0) {
-                    transactionsTable.innerHTML =
-                        `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No transactions yet</td></tr>`;
+                    transactionsTable.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No transactions yet</td></tr>`;
                     return;
                 }
                 transactionsTable.innerHTML = txs.map(t => {
@@ -1622,13 +1811,13 @@
                     `;
                 }).join('');
             } catch (err) {
-                showToast('Error loading transactions: ' + err.message, 'error');
+                showToast('Error loading transactions. Reload or contact support.', 'error');
             }
         }
 
-        // =====================================================================
+        // ============================================================
         // ADMIN PANEL
-        // =====================================================================
+        // ============================================================
         async function loadAdminPanel() {
             if (!currentUser || !currentUser.isAdmin) return;
             try {
@@ -1651,19 +1840,46 @@
                 const completed = txs.filter(t => t.status === 'completed').length;
                 perfPending.textContent = pending;
                 perfSold.textContent = completed;
-                const totalVolume = txs.filter(t => t.status === 'completed')
-                    .reduce((sum, t) => sum + (t.price || 0), 0);
+                const totalVolume = txs.filter(t => t.status === 'completed').reduce((sum, t) => sum + (t.price || 0), 0);
                 perfVolume.textContent = '$' + totalVolume;
 
-                adminUsersTable.innerHTML = users.map(u => `
-                    <tr>
-                        <td><strong>${u.fullName}</strong></td>
-                        <td>${u.email}</td>
-                        <td>${u.whatsapp || '—'}</td>
-                        <td>${u.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>'}</td>
-                        <td>${u.createdAt ? new Date(u.createdAt.toDate()).toLocaleDateString() : '—'}</td>
-                    </tr>
-                `).join('');
+                // User activity
+                const userActivity = {};
+                txs.forEach(t => {
+                    if (t.buyerId) { if (!userActivity[t.buyerId]) userActivity[t.buyerId] = { buys: 0, sells: 0 }; userActivity[t.buyerId].buys++; }
+                    if (t.sellerId) { if (!userActivity[t.sellerId]) userActivity[t.sellerId] = { buys: 0, sells: 0 }; userActivity[t.sellerId].sells++; }
+                });
+                listings.forEach(l => {
+                    if (l.sellerId) {
+                        if (!userActivity[l.sellerId]) userActivity[l.sellerId] = { buys: 0, sells: 0 };
+                        if (l.status === 'available' || l.status === 'pending') {
+                            userActivity[l.sellerId].sells = Math.max(userActivity[l.sellerId].sells, 1);
+                        }
+                    }
+                });
+
+                adminUsersTable.innerHTML = users.map(u => {
+                    const activity = userActivity[u.id] || { buys: 0, sells: 0 };
+                    let activityBadge = '';
+                    if (activity.buys > 0 && activity.sells > 0) {
+                        activityBadge = '<span class="badge-both"><i class="fas fa-exchange-alt"></i> Buyer &amp; Seller</span>';
+                    } else if (activity.buys > 0) {
+                        activityBadge = '<span class="badge-buyer"><i class="fas fa-shopping-cart"></i> Buyer</span>';
+                    } else if (activity.sells > 0) {
+                        activityBadge = '<span class="badge-seller"><i class="fas fa-tag"></i> Seller</span>';
+                    } else {
+                        activityBadge = '<span style="color:#5a6478;font-size:12px;">No activity</span>';
+                    }
+                    return `
+                        <tr>
+                            <td><strong>${u.fullName}</strong></td>
+                            <td>${u.whatsapp || '—'}</td>
+                            <td>${u.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>'}</td>
+                            <td>${activityBadge}</td>
+                            <td>${u.createdAt ? new Date(u.createdAt.toDate()).toLocaleDateString() : '—'}</td>
+                        </tr>
+                    `;
+                }).join('');
 
                 adminListingsTable.innerHTML = listings.map(l => {
                     const statusClass = l.status === 'available' ? 'status-available' :
@@ -1692,17 +1908,15 @@
                 document.querySelectorAll('.admin-remove-listing').forEach(btn => {
                     btn.addEventListener('click', async function() {
                         const id = this.dataset.id;
-                        if (confirm('Remove this listing?')) {
-                            try {
-                                await db.collection('listings').doc(id).delete();
-                                showToast('Listing removed', 'info');
-                                loadAdminPanel();
-                                loadBuyTab();
-                                loadMyListings();
-                            } catch (err) {
-                                showToast('Error: ' + err.message, 'error');
-                            }
-                        }
+                        const confirmed = await showModal('Remove Listing', 'Permanently remove this listing?', 'Remove', 'Cancel');
+                        if (!confirmed) return;
+                        try {
+                            await db.collection('listings').doc(id).delete();
+                            showToast('Listing removed', 'info');
+                            loadAdminPanel();
+                            loadBuyTab();
+                            loadMyListings();
+                        } catch (err) { showToast('Error: ' + err.message, 'error'); }
                     });
                 });
 
@@ -1714,86 +1928,97 @@
                                 .where('listingId', '==', listingId)
                                 .where('status', '==', 'pending')
                                 .get();
-                            if (txsSnap.empty) {
-                                showToast('No pending transaction found', 'error');
-                                return;
-                            }
+                            if (txsSnap.empty) { showToast('No pending transaction found', 'error'); return; }
                             const txDoc = txsSnap.docs[0];
                             const txData = txDoc.data();
-                            if (confirm(`Complete transaction for $${txData.price}?`)) {
-                                await db.collection('transactions').doc(txDoc.id).update({ status: 'completed' });
-                                await db.collection('listings').doc(listingId).update({ status: 'sold' });
-                                showToast('Transaction completed!', 'success');
-                                loadAdminPanel();
-                                loadBuyTab();
-                                loadMyListings();
-                                loadTransactions();
-                            }
-                        } catch (err) {
-                            showToast('Error: ' + err.message, 'error');
-                        }
+                            const confirmed = await showModal('Complete Transaction',
+                                `Complete purchase for <strong>$${txData.price}</strong>?`, 'Complete', 'Cancel');
+                            if (!confirmed) return;
+                            await db.collection('transactions').doc(txDoc.id).update({ status: 'completed' });
+                            await db.collection('listings').doc(listingId).update({ status: 'sold' });
+                            showToast('Transaction completed!', 'success');
+                            loadAdminPanel();
+                            loadBuyTab();
+                            loadMyListings();
+                            loadTransactions();
+                        } catch (err) { showToast('Error: ' + err.message, 'error'); }
                     });
                 });
             } catch (err) {
-                showToast('Error loading admin panel: ' + err.message, 'error');
+                showToast('Error loading admin panel. Reload or contact support.', 'error');
             }
         }
 
-        // =====================================================================
+        // ============================================================
         // EVENT BINDING
-        // =====================================================================
+        // ============================================================
 
-        // Auth tab switching
         document.querySelectorAll('.auth-toggle button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                switchAuthTab(this.dataset.tab);
-            });
+            btn.addEventListener('click', function() { switchAuthTab(this.dataset.tab); });
         });
-
-        // Switch to register from login
         switchToRegister.addEventListener('click', function(e) {
             e.preventDefault();
             const email = loginEmail.value.trim();
             regEmail.value = email || '';
             switchAuthTab('register');
-            if (email) {
-                showRegisterInfo('We pre-filled your email. Complete the form to create your account.');
-            }
+            if (email) showRegisterInfo('Pre-filled your email.');
         });
-
-        // Switch to login from register
         switchToLogin.addEventListener('click', function(e) {
             e.preventDefault();
             const email = regEmail.value.trim();
             loginEmail.value = email || '';
             switchAuthTab('login');
-            if (email) {
-                showLoginInfo('We pre-filled your email. Enter your password to login.');
-            }
+            if (email) showLoginInfo('Pre-filled your email.');
         });
 
-        // Login
         loginBtn.addEventListener('click', handleLogin);
         loginPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-        loginEmail.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-
-        // Register
         registerBtn.addEventListener('click', handleRegister);
         regPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleRegister(); });
 
-        // Dashboard tabs
         dashTabs.addEventListener('click', function(e) {
             const btn = e.target.closest('button');
             if (!btn || !btn.dataset.tab) return;
             switchTab(btn.dataset.tab);
         });
 
-        // Sell
         sellBtn.addEventListener('click', handleSell);
+        saveSupportBtn.addEventListener('click', saveSupportContacts);
 
-        // =====================================================================
+        sellImages.addEventListener('change', function() {
+            const files = this.files;
+            const names = [];
+            const previews = [];
+            for (let i = 0; i < files.length; i++) {
+                names.push(files[i].name);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previews.push(e.target.result);
+                    if (previews.length === files.length) {
+                        imagePreview.innerHTML = previews.map(src => `<img src="${src}" alt="preview" />`).join('');
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
+            if (files.length === 0) { fileNames.innerHTML = ''; imagePreview.innerHTML = ''; return; }
+            fileNames.innerHTML = names.map(n => `<span>${n}</span>`).join('');
+            if (files.length < 5 || files.length > 10) {
+                showToast('Please select between 5 and 10 images.', 'error');
+                this.value = '';
+                fileNames.innerHTML = '';
+                imagePreview.innerHTML = '';
+            }
+        });
+
+        searchInput.addEventListener('input', applyFilters);
+        priceRange.addEventListener('input', function() {
+            priceDisplay.textContent = '$' + this.value;
+            applyFilters();
+        });
+
+        // ============================================================
         // AUTH STATE LISTENER
-        // =====================================================================
+        // ============================================================
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 currentAuthUser = user;
@@ -1801,23 +2026,19 @@
                     const doc = await db.collection('users').doc(user.uid).get();
                     if (doc.exists) {
                         currentUser = { id: doc.id, ...doc.data() };
-                        if (user.email === ADMIN_EMAIL && !currentUser.isAdmin) {
-                            await db.collection('users').doc(user.uid).update({ isAdmin: true });
-                            currentUser.isAdmin = true;
-                        }
                     } else {
                         const userData = {
                             fullName: user.email.split('@')[0] || 'User',
                             email: user.email,
                             whatsapp: '',
-                            isAdmin: user.email === ADMIN_EMAIL,
+                            isAdmin: false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         };
                         await db.collection('users').doc(user.uid).set(userData);
                         currentUser = { id: user.uid, ...userData };
                     }
                 } catch (err) {
-                    showToast('Error loading user data: ' + err.message, 'error');
+                    showToast('Error loading user data. Reload or contact support.', 'error');
                 }
                 renderApp();
             } else {
@@ -1827,14 +2048,11 @@
             }
         });
 
-        // =====================================================================
+        // ============================================================
         // BOOT
-        // =====================================================================
+        // ============================================================
         renderApp();
-        console.log('🚀 COD Market with Firebase ready!');
-        console.log('🔑 Admin email:', ADMIN_EMAIL);
-        console.log('ℹ️  If login fails, click "Register" and create the admin account first.');
-        console.log('ℹ️  The registration form will auto-detect the admin email.');
+        console.log('%c COD Market %c v2.0 ', 'background:#f5a623;color:#141a24;font-weight:bold;padding:4px 8px;border-radius:4px 0 0 4px;', 'background:#141a24;color:#f5a623;padding:4px 8px;border-radius:0 4px 4px 0;');
     </script>
 </body>
 </html>
