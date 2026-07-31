@@ -12,7 +12,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <style>
-        /* ... same styles as before ... */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -334,29 +333,6 @@
             font-family: 'Rajdhani', sans-serif;
         }
         .search-section .search-input input::placeholder { color: #5a6478; }
-        .search-section .price-filter {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #b0b8c8;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .search-section .price-filter input[type="range"] {
-            width: 120px;
-            accent-color: #f5a623;
-            background: transparent;
-            cursor: pointer;
-        }
-        .search-section .price-filter .price-value {
-            background: rgba(245,166,35,0.15);
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: #f5a623;
-            font-weight: 700;
-            min-width: 50px;
-            text-align: center;
-        }
 
         /* Listings Grid */
         .listings-grid {
@@ -473,6 +449,17 @@
             margin-top: 4px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+        .listing-card .seller .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .listing-card .seller .whatsapp-link:hover {
+            color: #128C7E;
+            text-decoration: underline;
         }
         .listing-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
         .listing-card .click-hint {
@@ -614,7 +601,12 @@
             font-family: 'Orbitron', sans-serif;
         }
         #productDetail .detail-container .detail-seller .seller-info .name { font-weight: 700; color: #f0f0f0; font-size: 16px; }
-        #productDetail .detail-container .detail-seller .seller-info .whatsapp { color: #8892a8; font-size: 14px; }
+        #productDetail .detail-container .detail-seller .seller-info .whatsapp-link {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        #productDetail .detail-container .detail-seller .seller-info .whatsapp-link:hover { text-decoration: underline; }
         #productDetail .detail-container .detail-actions {
             display: flex;
             gap: 12px;
@@ -1275,11 +1267,6 @@
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Search by category, gamertag..." />
                     </div>
-                    <div class="price-filter">
-                        <span>Max Price</span>
-                        <input type="range" id="priceRange" min="0" max="500" value="500" />
-                        <span class="price-value" id="priceDisplay">$500</span>
-                    </div>
                 </div>
                 <div id="buyListings" class="listings-grid"></div>
             </div>
@@ -1461,13 +1448,7 @@
                     <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;"><i class="fas fa-headset" style="color:#f5a623;"></i> Support Center</h3>
                     <span class="sub" style="color:#8892a8; font-size:14px;">Contact our support team</span>
                 </div>
-                <div id="supportContent" class="support-card">
-                    <div class="empty-contact">
-                        <i class="fas fa-info-circle"></i>
-                        <p>No support contacts available yet.</p>
-                        <p style="font-size:13px;color:#5a6478;">Please check back later.</p>
-                    </div>
-                </div>
+                <div id="supportContent" class="support-card"></div>
             </div>
 
             <!-- Help -->
@@ -1505,16 +1486,16 @@
                     <div class="form-row-support">
                         <div class="form-group">
                             <label>Support Email</label>
-                            <input type="email" id="adminSupportEmail" placeholder="support@codmarket.com" />
+                            <input type="email" id="adminSupportEmail" value="ruzagirizakadochristiano@gmail.com" />
                         </div>
                         <div class="form-group">
                             <label>WhatsApp</label>
-                            <input type="text" id="adminSupportWhatsapp" placeholder="+1234567890" />
+                            <input type="text" id="adminSupportWhatsapp" value="+250794715548" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Instagram</label>
-                        <input type="text" id="adminSupportInstagram" placeholder="@codmarket_official" />
+                        <input type="text" id="adminSupportInstagram" value="https://www.instagram.com/ruzagiriza_/" />
                     </div>
                     <button class="btn btn-primary" id="saveSupportBtn"><i class="fas fa-save"></i> Save Support Contacts</button>
                 </div>
@@ -1591,6 +1572,13 @@
         let selectedCategory = 'all';
         let pendingBuyListingId = null;
 
+        // Default support contacts
+        const DEFAULT_SUPPORT = {
+            email: 'ruzagirizakadochristiano@gmail.com',
+            whatsapp: '+250794715548',
+            instagram: 'https://www.instagram.com/ruzagiriza_/'
+        };
+
         // ============================================================
         // DOM REFS
         // ============================================================
@@ -1663,8 +1651,6 @@
         const sellProgressText = $('sellProgressText');
 
         const searchInput = $('searchInput');
-        const priceRange = $('priceRange');
-        const priceDisplay = $('priceDisplay');
 
         const toast = $('toast');
         const toastMsg = $('toastMsg');
@@ -1806,6 +1792,10 @@
                 `;
             }
 
+            // Build WhatsApp link for seller
+            const sellerWhatsapp = listing.sellerWhatsapp || '';
+            const whatsappLink = sellerWhatsapp ? `https://wa.me/${sellerWhatsapp.replace(/[^0-9]/g, '')}` : '#';
+
             detailContent.innerHTML = `
                 <div>
                     <span class="detail-category"><i class="fas ${categoryIcon}"></i> ${category}</span>
@@ -1832,7 +1822,7 @@
                         <div class="avatar">${(listing.sellerName || 'U').charAt(0).toUpperCase()}</div>
                         <div>
                             <div class="name">${listing.sellerName || 'Unknown Seller'}</div>
-                            <div class="whatsapp"><i class="fab fa-whatsapp"></i> ${listing.sellerWhatsapp || '—'}</div>
+                            ${sellerWhatsapp ? `<a href="${whatsappLink}" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</a>` : '<span class="whatsapp-link">—</span>'}
                         </div>
                     </div>
                     <span class="status ${listing.status === 'available' ? 'status-available' : listing.status === 'pending' ? 'status-pending' : 'status-sold'}">${listing.status || 'available'}</span>
@@ -2007,14 +1997,27 @@
                 const doc = await db.collection('settings').doc('support').get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (adminSupportEmail) adminSupportEmail.value = data.email || '';
-                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = data.whatsapp || '';
-                    if (adminSupportInstagram) adminSupportInstagram.value = data.instagram || '';
-                    renderSupport(data);
-                    return data;
-                } else { renderSupport(null); }
-            } catch (err) { console.error('Error loading support:', err); renderSupport(null); }
-            return null;
+                    const email = data.email || DEFAULT_SUPPORT.email;
+                    const whatsapp = data.whatsapp || DEFAULT_SUPPORT.whatsapp;
+                    const instagram = data.instagram || DEFAULT_SUPPORT.instagram;
+                    if (adminSupportEmail) adminSupportEmail.value = email;
+                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = whatsapp;
+                    if (adminSupportInstagram) adminSupportInstagram.value = instagram;
+                    renderSupport({ email, whatsapp, instagram });
+                    return { email, whatsapp, instagram };
+                } else {
+                    await db.collection('settings').doc('support').set(DEFAULT_SUPPORT);
+                    if (adminSupportEmail) adminSupportEmail.value = DEFAULT_SUPPORT.email;
+                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = DEFAULT_SUPPORT.whatsapp;
+                    if (adminSupportInstagram) adminSupportInstagram.value = DEFAULT_SUPPORT.instagram;
+                    renderSupport(DEFAULT_SUPPORT);
+                    return DEFAULT_SUPPORT;
+                }
+            } catch (err) {
+                console.error('Error loading support:', err);
+                renderSupport(DEFAULT_SUPPORT);
+                return DEFAULT_SUPPORT;
+            }
         }
 
         function renderSupport(data) {
@@ -2127,14 +2130,12 @@
                 document.getElementById('logoutBtn').addEventListener('click', handleLogout);
                 authScreen.style.display = 'none';
                 dashboard.classList.add('active');
-                // Always show admin tab
                 adminTabBtn.classList.remove('hidden');
                 loadBuyTab();
                 loadMyListings();
                 loadTransactions();
                 loadSupportContacts();
                 loadHelpContent();
-                // Load admin panel if admin, else show access denied
                 loadAdminPanel();
                 const activeTab = document.querySelector('.dash-tabs .active');
                 if (activeTab) switchTab(activeTab.dataset.tab);
@@ -2224,14 +2225,12 @@
 
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase().trim();
-            const maxPrice = parseInt(priceRange.value);
 
             let filtered = allListings.filter(l => {
                 const matchSearch = (l.details || '').toLowerCase().includes(searchTerm) ||
                     (l.category || '').toLowerCase().includes(searchTerm) ||
                     (l.codAccountName || '').toLowerCase().includes(searchTerm);
-                const matchPrice = l.price <= maxPrice;
-                return matchSearch && matchPrice;
+                return matchSearch;
             });
 
             if (selectedCategory !== 'all') {
@@ -2249,7 +2248,7 @@
                     <div class="empty-state">
                         <i class="fas fa-search"></i>
                         <h4>No items found</h4>
-                        <p>Try adjusting your search or price range.</p>
+                        <p>Try adjusting your search or category filter.</p>
                     </div>
                 `;
                 return;
@@ -2257,7 +2256,7 @@
             buyListings.innerHTML = listings.map(l => {
                 const isOwn = l.sellerId === currentUser.id;
                 const sellerName = l.sellerName || 'Unknown';
-                const sellerWhatsapp = l.sellerWhatsapp || '—';
+                const sellerWhatsapp = l.sellerWhatsapp || '';
                 const images = l.imageUrls || [];
                 const category = l.category || 'Other';
                 const codName = l.codAccountName || '';
@@ -2267,6 +2266,10 @@
                 const statusText = l.status || 'available';
                 const badgeClass = statusText === 'available' ? 'badge-buy' : 'badge-pending';
                 const badgeText = statusText === 'available' ? 'BUY' : statusText.toUpperCase();
+
+                // WhatsApp link
+                const whatsappLink = sellerWhatsapp ? `https://wa.me/${sellerWhatsapp.replace(/[^0-9]/g, '')}` : '#';
+                const whatsappDisplay = sellerWhatsapp ? `<a href="${whatsappLink}" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</a>` : '<span>—</span>';
 
                 return `
                     <div class="listing-card" data-id="${l.id}">
@@ -2289,7 +2292,7 @@
                         </div>
                         <div class="seller">
                             <span><i class="fas fa-user"></i> ${sellerName}</span>
-                            ${currentUser.isAdmin ? `<span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>` : ''}
+                            ${currentUser.isAdmin ? `<span>${whatsappDisplay}</span>` : ''}
                         </div>
                         <div class="click-hint"><i class="fas fa-eye"></i> Click to view details</div>
                     </div>
@@ -2674,10 +2677,9 @@
         }
 
         // ============================================================
-        // ADMIN PANEL - FIXED
+        // ADMIN PANEL
         // ============================================================
         async function loadAdminPanel() {
-            // Always load the admin panel - if not admin, show access denied
             if (!currentUser) {
                 adminUsersTable.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Please log in.</td></tr>`;
                 adminListingsTable.innerHTML = `<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">Please log in.</td></tr>`;
@@ -2687,7 +2689,6 @@
             if (!currentUser.isAdmin) {
                 adminUsersTable.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">🔒 Admin access required. Contact administrator.</td></tr>`;
                 adminListingsTable.innerHTML = `<tr><td colspan="7" class="text-center text-muted" style="padding:30px;">🔒 Admin access required. Contact administrator.</td></tr>`;
-                // Reset stats to dashes
                 perfUsers.textContent = '—';
                 perfListings.textContent = '—';
                 perfPending.textContent = '—';
@@ -2697,7 +2698,6 @@
                 return;
             }
 
-            // If we get here, user is admin - load data
             adminUsersTable.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Loading users...</td></tr>`;
             adminListingsTable.innerHTML = `<tr><td colspan="7" class="text-center text-muted" style="padding:20px;">Loading listings...</td></tr>`;
 
@@ -2717,7 +2717,6 @@
                 const txs = [];
                 txsSnap.forEach(doc => txs.push({ id: doc.id, ...doc.data() }));
 
-                // Update performance metrics
                 perfUsers.textContent = users.length;
                 perfListings.textContent = listings.length;
                 const activeListings = listings.filter(l => l.status === 'available').length;
@@ -2729,7 +2728,6 @@
                 const totalVolume = txs.filter(t => t.status === 'completed').reduce((sum, t) => sum + (t.price || 0), 0);
                 perfVolume.textContent = '$' + totalVolume;
 
-                // User activity
                 const userActivity = {};
                 txs.forEach(t => {
                     if (t.buyerId) { if (!userActivity[t.buyerId]) userActivity[t.buyerId] = { buys: 0, sells: 0 }; userActivity[t.buyerId].buys++; }
@@ -2744,7 +2742,6 @@
                     }
                 });
 
-                // Render users table
                 if (users.length === 0) {
                     adminUsersTable.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No users registered yet.</td></tr>`;
                 } else {
@@ -2772,7 +2769,6 @@
                     }).join('');
                 }
 
-                // Render listings table
                 if (listings.length === 0) {
                     adminListingsTable.innerHTML = `<tr><td colspan="7" class="text-center text-muted" style="padding:30px;">No listings found.</td></tr>`;
                 } else {
@@ -2802,7 +2798,6 @@
                     }).join('');
                 }
 
-                // Admin action listeners
                 document.querySelectorAll('.admin-remove-listing').forEach(btn => {
                     btn.addEventListener('click', async function() {
                         const id = this.dataset.id;
@@ -2889,10 +2884,6 @@
         saveHelpBtn.addEventListener('click', saveHelpContent);
 
         searchInput.addEventListener('input', applyFilters);
-        priceRange.addEventListener('input', function() {
-            priceDisplay.textContent = '$' + this.value;
-            applyFilters();
-        });
 
         setupCategoryFilters();
 
