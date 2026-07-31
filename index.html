@@ -4,12 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>COD Mobile - Account Market</title>
+    
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="2jL8GdxU9t9f92S00Ab5OuVwpAfjBo6VLhbGbkZpJNE" />
+    
+    <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -1447,7 +1459,7 @@
         }
 
         // ============================================================
-        // BUY TAB (removed orderBy to avoid index)
+        // BUY TAB
         // ============================================================
         async function loadBuyTab() {
             if (!currentUser) return;
@@ -1460,11 +1472,9 @@
                 </div>
             `).join('');
             try {
-                // No orderBy to avoid composite index requirement
                 const snapshot = await db.collection('listings').where('status', '==', 'available').get();
                 allListings = [];
                 snapshot.forEach(doc => allListings.push({ id: doc.id, ...doc.data() }));
-                // Sort client-side by createdAt descending
                 allListings.sort((a, b) => {
                     const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
                     const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
@@ -1587,7 +1597,7 @@
         }
 
         // ============================================================
-        // SELL HANDLER - FIXED UPLOAD
+        // SELL HANDLER
         // ============================================================
         async function handleSell() {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
@@ -1601,7 +1611,6 @@
                 return;
             }
 
-            // Disable button and show progress
             sellBtn.disabled = true;
             sellBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...';
             uploadProgress.style.display = 'flex';
@@ -1635,15 +1644,12 @@
                         uploadStatus.textContent = `Uploaded ${uploaded}/${total} images`;
                     } else {
                         showToast(`Image ${i+1} upload failed: ${data.error?.message || 'Unknown error'}`, 'error');
-                        // Continue with other images instead of aborting
                     }
                 } catch (err) {
                     showToast(`Image ${i+1} upload error: ${err.message}`, 'error');
-                    // Continue with other images
                 }
             }
 
-            // Check if we got any images
             if (imageUrls.length === 0) {
                 showToast('All images failed to upload. Please try again.', 'error');
                 uploadProgress.style.display = 'none';
@@ -1652,7 +1658,6 @@
                 return;
             }
 
-            // If we got fewer than 5 images but at least 1, we can proceed but warn
             if (imageUrls.length < 5) {
                 showToast(`Only ${imageUrls.length} images uploaded. Minimum 5 required.`, 'error');
                 uploadProgress.style.display = 'none';
@@ -1709,7 +1714,6 @@
                 const snapshot = await db.collection('listings').where('sellerId', '==', currentUser.id).get();
                 const listings = [];
                 snapshot.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
-                // Sort client-side
                 listings.sort((a, b) => {
                     const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
                     const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
@@ -1843,7 +1847,6 @@
                 const totalVolume = txs.filter(t => t.status === 'completed').reduce((sum, t) => sum + (t.price || 0), 0);
                 perfVolume.textContent = '$' + totalVolume;
 
-                // User activity
                 const userActivity = {};
                 txs.forEach(t => {
                     if (t.buyerId) { if (!userActivity[t.buyerId]) userActivity[t.buyerId] = { buys: 0, sells: 0 }; userActivity[t.buyerId].buys++; }
