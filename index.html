@@ -4,24 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>COD Mobile - Account Market</title>
-    
-    <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="2jL8GdxU9t9f92S00Ab5OuVwpAfjBo6VLhbGbkZpJNE" />
-    
-    <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -38,14 +27,7 @@
             background-position: center;
             background-attachment: fixed;
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10, 12, 16, 0.85);
-            z-index: 0;
-            backdrop-filter: blur(4px);
-        }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,12,16,0.85); z-index: 0; backdrop-filter: blur(4px); }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #1a1f2a; }
         ::-webkit-scrollbar-thumb { background: #f5a623; border-radius: 8px; }
@@ -55,7 +37,7 @@
             z-index: 1;
             width: 100%;
             max-width: 1280px;
-            background: rgba(20, 26, 36, 0.92);
+            background: rgba(20,26,36,0.92);
             border-radius: 24px;
             padding: 30px 28px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 1px 0 rgba(245,166,35,0.2);
@@ -63,7 +45,6 @@
             min-height: 600px;
             backdrop-filter: blur(8px);
         }
-
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -84,7 +65,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
-            text-shadow: 0 0 20px rgba(245,166,35,0.2);
         }
         .logo-area .version {
             font-size: 12px;
@@ -149,26 +129,14 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #f5a623, #d4891b);
-            color: #141a24;
-            box-shadow: 0 4px 15px rgba(245,166,35,0.3);
-        }
+        .btn-primary { background: linear-gradient(135deg, #f5a623, #d4891b); color: #141a24; box-shadow: 0 4px 15px rgba(245,166,35,0.3); }
         .btn-primary:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(245,166,35,0.5); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: scale(1); }
         .btn-secondary { background: rgba(42,51,64,0.8); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.1); }
         .btn-secondary:hover { background: rgba(58,69,86,0.9); }
-        .btn-danger {
-            background: linear-gradient(135deg, #d43f3f, #b53232);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(212,63,63,0.3);
-        }
+        .btn-danger { background: linear-gradient(135deg, #d43f3f, #b53232); color: #fff; box-shadow: 0 4px 15px rgba(212,63,63,0.3); }
         .btn-danger:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(212,63,63,0.4); }
-        .btn-success {
-            background: linear-gradient(135deg, #2a9d8f, #1f7a6e);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(42,157,143,0.3);
-        }
+        .btn-success { background: linear-gradient(135deg, #2a9d8f, #1f7a6e); color: #fff; box-shadow: 0 4px 15px rgba(42,157,143,0.3); }
         .btn-success:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(42,157,143,0.4); }
         .btn-outline { background: transparent; border: 2px solid #f5a623; color: #f5a623; }
         .btn-outline:hover { background: #f5a623; color: #141a24; }
@@ -294,6 +262,40 @@
         .tab-content.active { display: block; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 8px 4px;
+        }
+        .category-filters .filter-btn {
+            padding: 6px 18px;
+            border: 1px solid rgba(42,51,64,0.6);
+            border-radius: 30px;
+            background: transparent;
+            color: #8892a8;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .category-filters .filter-btn:hover { border-color: #f5a623; color: #f0f0f0; background: rgba(245,166,35,0.05); }
+        .category-filters .filter-btn.active { background: rgba(245,166,35,0.15); border-color: #f5a623; color: #f5a623; }
+        .category-filters .filter-btn .count {
+            background: rgba(42,51,64,0.6);
+            padding: 0 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #8892a8;
+            margin-left: 4px;
+        }
+        .category-filters .filter-btn.active .count { background: rgba(245,166,35,0.2); color: #f5a623; }
+
         /* Search */
         .search-section {
             display: flex;
@@ -317,10 +319,7 @@
             border: 1px solid rgba(42,51,64,0.6);
             transition: 0.2s;
         }
-        .search-section .search-input:focus-within {
-            border-color: #f5a623;
-            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
-        }
+        .search-section .search-input:focus-within { border-color: #f5a623; box-shadow: 0 0 0 3px rgba(245,166,35,0.1); }
         .search-section .search-input i { color: #8892a8; font-size: 16px; }
         .search-section .search-input input {
             background: transparent;
@@ -375,12 +374,9 @@
             gap: 12px;
             position: relative;
             backdrop-filter: blur(4px);
+            cursor: pointer;
         }
-        .listing-card:hover {
-            border-color: #f5a623;
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245,166,35,0.2);
-        }
+        .listing-card:hover { border-color: #f5a623; transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245,166,35,0.2); }
         .listing-card .badge-indicator {
             position: absolute;
             top: 12px;
@@ -394,15 +390,32 @@
             font-family: 'Orbitron', sans-serif;
             z-index: 2;
         }
-        .badge-buy {
-            background: linear-gradient(135deg, #2a9d8f, #1f7a6e);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(42,157,143,0.3);
+        .badge-buy { background: linear-gradient(135deg, #2a9d8f, #1f7a6e); color: #fff; box-shadow: 0 4px 15px rgba(42,157,143,0.3); }
+        .badge-sell { background: linear-gradient(135deg, #f5a623, #d4891b); color: #141a24; box-shadow: 0 4px 15px rgba(245,166,35,0.3); }
+
+        .listing-card .category-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: #f5a623;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(245,166,35,0.1);
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(245,166,35,0.2);
+            display: inline-block;
+            align-self: flex-start;
         }
-        .badge-sell {
-            background: linear-gradient(135deg, #f5a623, #d4891b);
-            color: #141a24;
-            box-shadow: 0 4px 15px rgba(245,166,35,0.3);
+        .listing-card .cod-name {
+            font-size: 13px;
+            color: #2a9d8f;
+            font-weight: 600;
+            background: rgba(42,157,143,0.1);
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(42,157,143,0.2);
+            display: inline-block;
+            align-self: flex-start;
         }
 
         .listing-card .account-img-grid {
@@ -440,7 +453,14 @@
         .status-available { background: rgba(42,157,143,0.2); color: #2a9d8f; border: 1px solid rgba(42,157,143,0.4); }
         .status-pending { background: rgba(245,166,35,0.2); color: #f5a623; border: 1px solid rgba(245,166,35,0.4); }
         .status-sold { background: rgba(212,63,63,0.2); color: #d43f3f; border: 1px solid rgba(212,63,63,0.4); }
-        .listing-card .details { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #b0b8c8; line-height: 1.5; }
+        .listing-card .details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 14px;
+            color: #b0b8c8;
+            line-height: 1.5;
+        }
         .listing-card .details strong { color: #f0f0f0; font-weight: 700; }
         .listing-card .seller {
             font-size: 13px;
@@ -452,6 +472,216 @@
             justify-content: space-between;
         }
         .listing-card .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+        .listing-card .click-hint {
+            font-size: 12px;
+            color: #5a6478;
+            text-align: center;
+            margin-top: 4px;
+            border-top: 1px solid rgba(42,51,64,0.3);
+            padding-top: 8px;
+        }
+
+        /* Product Detail Modal */
+        #productDetail {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            padding: 30px;
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+        }
+        #productDetail.show { display: flex; align-items: center; justify-content: center; }
+        #productDetail .detail-container {
+            background: rgba(20,26,36,0.98);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            padding: 36px 40px;
+            border: 1px solid rgba(245,166,35,0.3);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+            animation: modalPop 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        #productDetail .detail-container .back-btn {
+            background: none;
+            border: none;
+            color: #8892a8;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        #productDetail .detail-container .back-btn:hover { color: #f5a623; }
+        #productDetail .detail-container .detail-category {
+            font-size: 12px;
+            color: #f5a623;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            background: rgba(245,166,35,0.1);
+            padding: 4px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(245,166,35,0.2);
+            display: inline-block;
+        }
+        #productDetail .detail-container .detail-cod-name {
+            font-size: 14px;
+            color: #2a9d8f;
+            font-weight: 700;
+            background: rgba(42,157,143,0.1);
+            padding: 4px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(42,157,143,0.2);
+            display: inline-block;
+            margin-left: 8px;
+        }
+        #productDetail .detail-container h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: #f0f0f0;
+            margin: 12px 0 8px;
+        }
+        #productDetail .detail-container .detail-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: #f5a623;
+            margin: 8px 0 16px;
+        }
+        #productDetail .detail-container .detail-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 16px 0;
+        }
+        #productDetail .detail-container .detail-images img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(42,51,64,0.6);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        #productDetail .detail-container .detail-images img:hover { transform: scale(1.05); border-color: #f5a623; }
+        #productDetail .detail-container .detail-description {
+            color: #b0b8c8;
+            font-size: 16px;
+            line-height: 1.8;
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(10,12,16,0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(42,51,64,0.4);
+        }
+        #productDetail .detail-container .detail-seller {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-top: 1px solid rgba(42,51,64,0.4);
+            border-bottom: 1px solid rgba(42,51,64,0.4);
+            margin: 12px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        #productDetail .detail-container .detail-seller .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        #productDetail .detail-container .detail-seller .seller-info .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5a623, #d4891b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #141a24;
+            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        #productDetail .detail-container .detail-seller .seller-info .name { font-weight: 700; color: #f0f0f0; font-size: 16px; }
+        #productDetail .detail-container .detail-seller .seller-info .whatsapp { color: #8892a8; font-size: 14px; }
+        #productDetail .detail-container .detail-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        #productDetail .detail-container .detail-actions .btn { flex: 1; min-width: 140px; justify-content: center; }
+
+        /* Buyer Details Modal */
+        #buyerModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 10001;
+            padding: 30px;
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+        }
+        #buyerModal.show { display: flex; align-items: center; justify-content: center; }
+        #buyerModal .modal-box {
+            background: rgba(20,26,36,0.98);
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            padding: 36px 40px;
+            border: 1px solid rgba(245,166,35,0.3);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+            animation: modalPop 0.3s ease;
+        }
+        #buyerModal .modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            color: #f0f0f0;
+            margin-bottom: 8px;
+        }
+        #buyerModal .modal-box p {
+            color: #8892a8;
+            margin-bottom: 20px;
+        }
+        #buyerModal .modal-box .form-group { margin-bottom: 16px; }
+        #buyerModal .modal-box .form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #b0b8c8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        #buyerModal .modal-box .form-group input {
+            background: rgba(10,12,16,0.6);
+            border: 1px solid rgba(42,51,64,0.6);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #e0e0e0;
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
+        }
+        #buyerModal .modal-box .form-group input:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
+        }
+        #buyerModal .modal-box .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        #buyerModal .modal-box .modal-actions .btn { flex: 1; justify-content: center; }
 
         /* Skeleton */
         .skeleton {
@@ -611,20 +841,8 @@
             transition: 0.2s;
         }
         .stat-card:hover { border-color: #f5a623; }
-        .stat-card .num {
-            font-size: 30px;
-            font-weight: 800;
-            color: #f5a623;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .stat-card .label {
-            font-size: 13px;
-            color: #8892a8;
-            margin-top: 2px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .stat-card .num { font-size: 30px; font-weight: 800; color: #f5a623; font-family: 'Orbitron', sans-serif; }
+        .stat-card .label { font-size: 13px; color: #8892a8; margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .table-wrap {
             overflow-x: auto;
@@ -657,6 +875,7 @@
         }
         table tr:last-child td { border-bottom: none; }
         table tr:hover td { background: rgba(245,166,35,0.05); }
+        .whatsapp-hidden { color: #5a6478; font-style: italic; font-size: 13px; }
 
         .badge-buyer { background: rgba(42,157,143,0.2); color: #2a9d8f; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; }
         .badge-seller { background: rgba(245,166,35,0.2); color: #f5a623; padding: 2px 10px; border-radius: 30px; font-size: 11px; font-weight: 700; }
@@ -674,20 +893,8 @@
             padding: 16px 18px;
             border: 1px solid rgba(42,51,64,0.6);
         }
-        .perf-card .title {
-            font-size: 12px;
-            color: #8892a8;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .perf-card .value {
-            font-size: 24px;
-            font-weight: 800;
-            color: #f0f0f0;
-            margin-top: 4px;
-            font-family: 'Orbitron', sans-serif;
-        }
+        .perf-card .title { font-size: 12px; color: #8892a8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .perf-card .value { font-size: 24px; font-weight: 800; color: #f0f0f0; margin-top: 4px; font-family: 'Orbitron', sans-serif; }
         .perf-card .sub { font-size: 12px; color: #2a9d8f; margin-top: 2px; }
 
         .tag {
@@ -714,88 +921,153 @@
         }
         .admin-support-form .form-row-support { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-        /* File Input */
-        .file-input-wrapper { display: flex; flex-direction: column; gap: 8px; }
-        .file-input-wrapper input[type="file"] {
-            background: rgba(26,31,42,0.8);
+        /* Category Sell Form */
+        .category-sell-section {
+            background: rgba(26,31,42,0.4);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(42,51,64,0.4);
+            transition: 0.2s;
+        }
+        .category-sell-section:hover { border-color: rgba(245,166,35,0.2); }
+        .category-sell-section .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .category-sell-section .category-header .cat-icon { font-size: 28px; color: #f5a623; }
+        .category-sell-section .category-header h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: #f0f0f0;
+            letter-spacing: 0.5px;
+        }
+        .category-sell-section .category-header .cat-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(245,166,35,0.15);
+            color: #f5a623;
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(245,166,35,0.2);
+        }
+        .category-sell-section .category-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .category-sell-section .category-items .item-input {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .category-sell-section .category-items .item-input label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8892a8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .category-sell-section .category-items .item-input input[type="number"] {
+            background: rgba(10,12,16,0.6);
             border: 1px solid rgba(42,51,64,0.6);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 10px 14px;
             color: #e0e0e0;
-            font-size: 13px;
+            font-size: 14px;
+            outline: none;
             width: 100%;
             font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
         }
-        .file-input-wrapper .file-names { color: #8892a8; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px; }
-        .file-input-wrapper .file-names span { background: rgba(42,51,64,0.6); padding: 2px 12px; border-radius: 12px; font-size: 12px; }
-        .image-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 6px;
-            margin-top: 6px;
+        .category-sell-section .category-items .item-input input[type="number"]:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
         }
-        .image-preview-grid img {
-            width: 100%;
-            aspect-ratio: 1;
+        .category-sell-section .category-items .item-input input[type="file"] {
+            padding: 8px;
+            background: rgba(10,12,16,0.6);
+            border: 1px solid rgba(42,51,64,0.6);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 13px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .category-sell-section .category-items .item-input .preview-thumb {
+            width: 60px;
+            height: 60px;
             object-fit: cover;
             border-radius: 8px;
             border: 1px solid rgba(42,51,64,0.6);
+            margin-top: 4px;
         }
 
-        /* Upload Progress */
-        .upload-progress {
-            background: rgba(26,31,42,0.8);
-            border-radius: 8px;
+        .cod-name-field {
+            background: rgba(26,31,42,0.3);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(42,51,64,0.4);
+        }
+        .cod-name-field label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #b0b8c8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .cod-name-field input {
+            background: rgba(10,12,16,0.6);
+            border: 1px solid rgba(42,51,64,0.6);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #e0e0e0;
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            transition: 0.2s;
+        }
+        .cod-name-field input:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
+        }
+        .cod-name-field .cod-hint { font-size: 12px; color: #5a6478; margin-top: 4px; }
+
+        .category-sell-section .cat-upload-progress {
+            margin-top: 12px;
             padding: 8px 12px;
+            background: rgba(10,12,16,0.6);
+            border-radius: 8px;
             font-size: 13px;
             color: #f5a623;
-            display: flex;
+            display: none;
             align-items: center;
             gap: 10px;
-            margin-top: 6px;
         }
-        .upload-progress .progress-bar {
+        .category-sell-section .cat-upload-progress .cat-progress-bar {
             flex: 1;
             height: 4px;
             background: rgba(42,51,64,0.6);
             border-radius: 4px;
             overflow: hidden;
         }
-        .upload-progress .progress-bar .progress-fill {
+        .category-sell-section .cat-upload-progress .cat-progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #f5a623, #f7c948);
             transition: width 0.3s ease;
             width: 0%;
         }
-        .upload-progress .progress-text { font-weight: 700; min-width: 40px; text-align: right; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            #app { padding: 18px 14px; }
-            .app-header { flex-direction: column; align-items: stretch; gap: 12px; }
-            .header-actions { justify-content: space-between; }
-            .form-row { grid-template-columns: 1fr; }
-            .form-row-support { grid-template-columns: 1fr !important; }
-            .dash-tabs button { font-size: 12px; padding: 8px 14px; }
-            .listings-grid { grid-template-columns: 1fr; }
-            .admin-stats { grid-template-columns: 1fr 1fr; }
-            .logo-area h1 { font-size: 20px; }
-            .perf-grid { grid-template-columns: 1fr 1fr; }
-            .logo-area img { height: 32px; }
-            .search-section { flex-direction: column; align-items: stretch; }
-            .search-section .price-filter { justify-content: space-between; }
-            #modalOverlay .modal-box { padding: 24px 20px; }
-            #toast { left: 20px; right: 20px; bottom: 20px; max-width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .header-actions { flex-wrap: wrap; }
-            .user-badge { width: 100%; justify-content: center; }
-            .admin-stats { grid-template-columns: 1fr; }
-            .perf-grid { grid-template-columns: 1fr; }
-            .dash-tabs button { font-size: 11px; padding: 6px 12px; }
-            .dash-tabs button span { display: none; }
-            .support-card .contact-item { flex-wrap: wrap; gap: 4px; }
-            .support-card .contact-item .label { min-width: auto; }
+            .category-sell-section .category-items { grid-template-columns: 1fr; }
+            #productDetail .detail-container { padding: 24px 18px; }
+            #productDetail .detail-container .detail-images { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+            .category-filters .filter-btn { font-size: 11px; padding: 4px 12px; }
         }
 
         .empty-state { text-align: center; padding: 50px 20px; color: #8892a8; }
@@ -808,6 +1080,10 @@
         .hidden { display: none !important; }
         .mt-8 { margin-top: 8px; }
         .mb-8 { margin-bottom: 8px; }
+
+        .detail-container::-webkit-scrollbar { width: 4px; }
+        .detail-container::-webkit-scrollbar-track { background: transparent; }
+        .detail-container::-webkit-scrollbar-thumb { background: #f5a623; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -828,6 +1104,38 @@
                 <button class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
                 <button class="btn btn-primary" id="modalConfirmBtn">Confirm</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Buyer Details Modal -->
+    <div id="buyerModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-user-plus"></i> Provide Your Details</h3>
+            <p>Please enter your contact information so the seller can reach you.</p>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="buyerName" placeholder="Your full name" />
+            </div>
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="text" id="buyerWhatsapp" placeholder="+1234567890" />
+            </div>
+            <div class="form-group">
+                <label>Additional Info (optional)</label>
+                <input type="text" id="buyerNote" placeholder="Any extra details for the seller" />
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="buyerModalCancel">Cancel</button>
+                <button class="btn btn-primary" id="buyerModalConfirm">Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail View -->
+    <div id="productDetail">
+        <div class="detail-container">
+            <button class="back-btn" id="detailBackBtn"><i class="fas fa-arrow-left"></i> Back to Market</button>
+            <div id="detailContent"></div>
         </div>
     </div>
 
@@ -925,13 +1233,25 @@
             <!-- Buy Tab -->
             <div class="tab-content active" id="tabBuy">
                 <div class="section-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Available Accounts <span class="sub" id="buyCount" style="color:#8892a8; font-size:14px; font-weight:400;"></span></h3>
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Available Items <span class="sub" id="buyCount" style="color:#8892a8; font-size:14px; font-weight:400;"></span></h3>
                     <span class="sub" style="color:#8892a8; font-size:13px;"><i class="fas fa-shield-alt"></i> Verified Sellers</span>
                 </div>
+
+                <div class="category-filters" id="categoryFilters">
+                    <button class="filter-btn active" data-category="all">All <span class="count" id="countAll">0</span></button>
+                    <button class="filter-btn" data-category="Mythic Character">Mythic Character <span class="count" id="countMythicCharacter">0</span></button>
+                    <button class="filter-btn" data-category="Legendary Character">Legendary Character <span class="count" id="countLegendaryCharacter">0</span></button>
+                    <button class="filter-btn" data-category="Mythic Gun">Mythic Gun <span class="count" id="countMythicGun">0</span></button>
+                    <button class="filter-btn" data-category="Legendary Gun">Legendary Gun <span class="count" id="countLegendaryGun">0</span></button>
+                    <button class="filter-btn" data-category="Vehicles">Vehicles <span class="count" id="countVehicles">0</span></button>
+                    <button class="filter-btn" data-category="Other">Other <span class="count" id="countOther">0</span></button>
+                    <button class="filter-btn" data-category="Bundle">Bundle <span class="count" id="countBundle">0</span></button>
+                </div>
+
                 <div class="search-section">
                     <div class="search-input">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search by rank, level, skins..." />
+                        <input type="text" id="searchInput" placeholder="Search by category, gamertag..." />
                     </div>
                     <div class="price-filter">
                         <span>Max Price</span>
@@ -945,37 +1265,149 @@
             <!-- Sell Tab -->
             <div class="tab-content" id="tabSell">
                 <div class="section-header" style="margin-bottom:18px;">
-                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Sell Your Account</h3>
-                    <span class="sub" style="color:#8892a8; font-size:14px;">Fill in the details below</span>
+                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;">Sell Your Items</h3>
+                    <span class="sub" style="color:#8892a8; font-size:14px;">Upload image and quantity for each category</span>
                 </div>
-                <div style="max-width:560px;">
-                    <div class="form-group">
-                        <label>Account Details (Rank, Level, Skins, etc.)</label>
-                        <textarea id="sellDetails" placeholder="e.g. Legendary rank, 100+ skins, max level…" rows="4"></textarea>
+
+                <div class="cod-name-field">
+                    <label><i class="fas fa-user-cog"></i> Your COD Mobile Account Name (Gamertag)</label>
+                    <input type="text" id="codAccountName" placeholder="Enter your COD Mobile in-game name" />
+                    <div class="cod-hint"><i class="fas fa-info-circle"></i> This will be shown to buyers</div>
+                </div>
+
+                <div style="max-width:560px; margin-bottom:24px; background:rgba(26,31,42,0.4); border-radius:14px; padding:20px 24px; border:1px solid rgba(42,51,64,0.4);">
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label>Total Price (USD) - for all items combined</label>
+                        <input type="number" id="sellTotalPrice" placeholder="Enter total price" min="1" style="font-size:18px; font-weight:700; color:#f5a623;" />
                     </div>
-                    <div class="form-group">
-                        <label>Price (USD)</label>
-                        <input type="number" id="sellPrice" placeholder="50" min="1" />
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Images (5-10 photos)</label>
-                        <div class="file-input-wrapper">
-                            <input type="file" id="sellImages" accept="image/*" multiple />
-                            <div class="file-names" id="fileNames"></div>
-                            <div class="image-preview-grid" id="imagePreview"></div>
-                            <div id="uploadProgress" class="upload-progress" style="display:none;">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span id="uploadStatus">Uploading images...</span>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="uploadProgressFill" style="width:0%;"></div>
-                                </div>
-                                <span class="progress-text" id="uploadProgressText">0%</span>
+                    <button class="btn btn-primary btn-block" id="sellBtn">
+                        <i class="fas fa-plus-circle"></i> List All Items
+                    </button>
+                    <div id="sellProgress" style="display:none; margin-top:12px;">
+                        <div style="background:rgba(26,31,42,0.8); border-radius:8px; padding:10px 14px; font-size:13px; color:#f5a623; display:flex; align-items:center; gap:10px;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="sellStatus">Uploading items...</span>
+                            <div style="flex:1; height:4px; background:rgba(42,51,64,0.6); border-radius:4px; overflow:hidden;">
+                                <div id="sellProgressFill" style="height:100%; background:linear-gradient(90deg,#f5a623,#f7c948); transition:width 0.3s ease; width:0%;"></div>
                             </div>
+                            <span id="sellProgressText" style="font-weight:700; min-width:40px; text-align:right;">0%</span>
                         </div>
                     </div>
-                    <button class="btn btn-primary" id="sellBtn">
-                        <i class="fas fa-plus-circle"></i> List Account
-                    </button>
+                </div>
+
+                <!-- Categories with image + quantity -->
+                <div class="category-sell-section" data-category="Mythic Character">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-user-astronaut"></i></span>
+                        <h4>Mythic Character</h4>
+                        <span class="cat-badge">Premium</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-sell-section" data-category="Legendary Character">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-user-ninja"></i></span>
+                        <h4>Legendary Character</h4>
+                        <span class="cat-badge">Rare</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-sell-section" data-category="Mythic Gun">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-crosshairs"></i></span>
+                        <h4>Mythic Gun</h4>
+                        <span class="cat-badge">Premium</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-sell-section" data-category="Legendary Gun">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-gun"></i></span>
+                        <h4>Legendary Gun</h4>
+                        <span class="cat-badge">Rare</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-sell-section" data-category="Vehicles">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-car"></i></span>
+                        <h4>Vehicles</h4>
+                        <span class="cat-badge">Special</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-sell-section" data-category="Other">
+                    <div class="category-header">
+                        <span class="cat-icon"><i class="fas fa-box-open"></i></span>
+                        <h4>Other Items</h4>
+                        <span class="cat-badge">Misc</span>
+                    </div>
+                    <div class="category-items">
+                        <div class="item-input">
+                            <label>Image</label>
+                            <input type="file" class="cat-image" accept="image/*" />
+                            <img class="preview-thumb" style="display:none;" />
+                        </div>
+                        <div class="item-input">
+                            <label>Quantity</label>
+                            <input type="number" class="cat-quantity" placeholder="Number of items" min="0" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -995,7 +1427,7 @@
                 </div>
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>Account</th><th>Price</th><th>Buyer</th><th>Seller</th><th>Status</th></tr></thead>
+                        <thead><tr><th>Item</th><th>Price</th><th>Buyer</th><th>Seller</th><th>Status</th></tr></thead>
                         <tbody id="transactionsTable"></tbody>
                     </table>
                 </div>
@@ -1061,7 +1493,7 @@
                 <h4 style="margin:24px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📋 All Listings</h4>
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>ID</th><th>Account</th><th>Price</th><th>Seller</th><th>Status</th><th>Action</th></tr></thead>
+                        <thead><tr><th>ID</th><th>Item</th><th>Price</th><th>Category</th><th>Seller</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody id="adminListingsTable"></tbody>
                     </table>
                 </div>
@@ -1100,6 +1532,9 @@
         let currentAuthUser = null;
         let allListings = [];
         let modalResolve = null;
+        let viewingProductId = null;
+        let selectedCategory = 'all';
+        let pendingBuyListingId = null;
 
         // ============================================================
         // DOM REFS
@@ -1111,6 +1546,9 @@
         const dashboard = $('dashboard');
         const headerActions = $('headerActions');
         const loadingOverlay = $('loadingOverlay');
+        const productDetail = $('productDetail');
+        const detailContent = $('detailContent');
+        const buyerModal = $('buyerModal');
 
         const loginForm = $('loginForm');
         const registerForm = $('registerForm');
@@ -1158,16 +1596,13 @@
         const adminSupportInstagram = $('adminSupportInstagram');
         const saveSupportBtn = $('saveSupportBtn');
 
-        const sellDetails = $('sellDetails');
-        const sellPrice = $('sellPrice');
-        const sellImages = $('sellImages');
-        const fileNames = $('fileNames');
-        const imagePreview = $('imagePreview');
+        const codAccountName = $('codAccountName');
+        const sellTotalPrice = $('sellTotalPrice');
         const sellBtn = $('sellBtn');
-        const uploadProgress = $('uploadProgress');
-        const uploadStatus = $('uploadStatus');
-        const uploadProgressFill = $('uploadProgressFill');
-        const uploadProgressText = $('uploadProgressText');
+        const sellProgress = $('sellProgress');
+        const sellStatus = $('sellStatus');
+        const sellProgressFill = $('sellProgressFill');
+        const sellProgressText = $('sellProgressText');
 
         const searchInput = $('searchInput');
         const priceRange = $('priceRange');
@@ -1181,6 +1616,13 @@
         const modalMessage = $('modalMessage');
         const modalCancelBtn = $('modalCancelBtn');
         const modalConfirmBtn = $('modalConfirmBtn');
+
+        const detailBackBtn = $('detailBackBtn');
+        const buyerName = $('buyerName');
+        const buyerWhatsapp = $('buyerWhatsapp');
+        const buyerNote = $('buyerNote');
+        const buyerModalCancel = $('buyerModalCancel');
+        const buyerModalConfirm = $('buyerModalConfirm');
 
         // ============================================================
         // LOADING / TOAST / MODAL
@@ -1217,6 +1659,134 @@
         modalCancelBtn.addEventListener('click', () => { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(false); });
         modalConfirmBtn.addEventListener('click', () => { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(true); });
         modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) { modalOverlay.classList.remove('show'); if (modalResolve) modalResolve(false); } });
+
+        // ============================================================
+        // BUYER MODAL
+        // ============================================================
+        function showBuyerModal(listingId) {
+            pendingBuyListingId = listingId;
+            buyerName.value = '';
+            buyerWhatsapp.value = '';
+            buyerNote.value = '';
+            buyerModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBuyerModal() {
+            buyerModal.classList.remove('show');
+            document.body.style.overflow = '';
+            pendingBuyListingId = null;
+        }
+
+        buyerModalCancel.addEventListener('click', closeBuyerModal);
+        buyerModal.addEventListener('click', (e) => { if (e.target === buyerModal) closeBuyerModal(); });
+
+        buyerModalConfirm.addEventListener('click', async function() {
+            const name = buyerName.value.trim();
+            const whatsapp = buyerWhatsapp.value.trim();
+            if (!name || !whatsapp) {
+                showToast('Please fill in your name and WhatsApp number.', 'error');
+                return;
+            }
+            if (!pendingBuyListingId) { showToast('Error: No listing selected.', 'error'); return; }
+            await completeBuy(pendingBuyListingId, name, whatsapp, buyerNote.value.trim());
+            closeBuyerModal();
+        });
+
+        // ============================================================
+        // PRODUCT DETAIL
+        // ============================================================
+        function showProductDetail(listingId) {
+            const listing = allListings.find(l => l.id === listingId);
+            if (!listing) { showToast('Product not found', 'error'); return; }
+            viewingProductId = listingId;
+            const isOwn = listing.sellerId === currentUser.id;
+            const images = listing.imageUrls || [];
+            const category = listing.category || 'Other';
+            const codName = listing.codAccountName || 'Not provided';
+            const quantity = listing.totalQuantity || 0;
+
+            const categoryIcon = {
+                'Mythic Character': 'fa-user-astronaut',
+                'Legendary Character': 'fa-user-ninja',
+                'Mythic Gun': 'fa-crosshairs',
+                'Legendary Gun': 'fa-gun',
+                'Vehicles': 'fa-car',
+                'Other': 'fa-box-open',
+                'Bundle': 'fa-boxes'
+            } [category] || 'fa-box';
+
+            // Build sub-items list
+            let subItemsHtml = '';
+            if (listing.subItems && listing.subItems.length > 0) {
+                subItemsHtml = listing.subItems.map(item =>
+                    `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(42,51,64,0.2);">
+                        <span><i class="fas fa-tag"></i> ${item.category}</span>
+                        <span style="color:#f5a623; font-weight:700;">×${item.quantity}</span>
+                    </div>`
+                ).join('');
+            }
+
+            detailContent.innerHTML = `
+                <div>
+                    <span class="detail-category"><i class="fas ${categoryIcon}"></i> ${category}</span>
+                    <span class="detail-cod-name"><i class="fas fa-user-cog"></i> ${codName}</span>
+                </div>
+                <h2>${category} Bundle</h2>
+                <div class="detail-price">$${listing.price}</div>
+                <div style="background:rgba(42,157,143,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(42,157,143,0.2); margin:8px 0;">
+                    <strong style="color:#2a9d8f;">Total Items: ${quantity}</strong>
+                </div>
+                ${images.length > 0 ? `
+                    <div class="detail-images">
+                        ${images.map(img => `<img src="${img}" alt="item image" onclick="window.open('${img}','_blank')" />`).join('')}
+                    </div>
+                ` : ''}
+                ${subItemsHtml ? `
+                    <div class="detail-description" style="margin-top:12px;">
+                        <strong>Items Included:</strong>
+                        <div style="margin-top:8px;">${subItemsHtml}</div>
+                    </div>
+                ` : ''}
+                <div class="detail-seller">
+                    <div class="seller-info">
+                        <div class="avatar">${(listing.sellerName || 'U').charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div class="name">${listing.sellerName || 'Unknown Seller'}</div>
+                            <div class="whatsapp"><i class="fab fa-whatsapp"></i> ${listing.sellerWhatsapp || '—'}</div>
+                        </div>
+                    </div>
+                    <span class="status ${listing.status === 'available' ? 'status-available' : listing.status === 'pending' ? 'status-pending' : 'status-sold'}">${listing.status || 'available'}</span>
+                </div>
+                <div class="detail-actions">
+                    ${!isOwn && listing.status === 'available' ? `
+                        <button class="btn btn-success" id="detailBuyBtn"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    ` : isOwn ? `
+                        <span style="color:#8892a8;font-size:14px;"><i class="fas fa-lock"></i> This is your listing</span>
+                    ` : listing.status !== 'available' ? `
+                        <span style="color:#8892a8;font-size:14px;">This item is ${listing.status}</span>
+                    ` : ''}
+                    <button class="btn btn-secondary" id="detailBackBtn2"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+            `;
+
+            productDetail.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            const buyBtn = document.getElementById('detailBuyBtn');
+            if (buyBtn) buyBtn.addEventListener('click', () => { showBuyerModal(listingId); });
+
+            const backBtn2 = document.getElementById('detailBackBtn2');
+            if (backBtn2) backBtn2.addEventListener('click', closeProductDetail);
+        }
+
+        function closeProductDetail() {
+            productDetail.classList.remove('show');
+            document.body.style.overflow = '';
+            viewingProductId = null;
+        }
+
+        detailBackBtn.addEventListener('click', closeProductDetail);
 
         // ============================================================
         // AUTH UI HELPERS
@@ -1349,7 +1919,7 @@
         }
 
         // ============================================================
-        // SUPPORT (Load & Save)
+        // SUPPORT
         // ============================================================
         async function loadSupportContacts() {
             try {
@@ -1459,6 +2029,35 @@
         }
 
         // ============================================================
+        // CATEGORY FILTERS
+        // ============================================================
+        function setupCategoryFilters() {
+            const buttons = categoryFilters.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedCategory = this.dataset.category;
+                    applyFilters();
+                });
+            });
+        }
+
+        function updateCategoryCounts(listings) {
+            const categories = ['Mythic Character', 'Legendary Character', 'Mythic Gun', 'Legendary Gun', 'Vehicles', 'Other', 'Bundle'];
+            const counts = { all: listings.length };
+            categories.forEach(cat => { counts[cat] = listings.filter(l => l.category === cat).length; });
+            document.getElementById('countAll').textContent = counts.all;
+            document.getElementById('countMythicCharacter').textContent = counts['Mythic Character'] || 0;
+            document.getElementById('countLegendaryCharacter').textContent = counts['Legendary Character'] || 0;
+            document.getElementById('countMythicGun').textContent = counts['Mythic Gun'] || 0;
+            document.getElementById('countLegendaryGun').textContent = counts['Legendary Gun'] || 0;
+            document.getElementById('countVehicles').textContent = counts['Vehicles'] || 0;
+            document.getElementById('countOther').textContent = counts['Other'] || 0;
+            document.getElementById('countBundle').textContent = counts['Bundle'] || 0;
+        }
+
+        // ============================================================
         // BUY TAB
         // ============================================================
         async function loadBuyTab() {
@@ -1480,6 +2079,7 @@
                     const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
                     return tb - ta;
                 });
+                updateCategoryCounts(allListings);
                 applyFilters();
             } catch (err) {
                 showToast('Error loading listings. Reload or contact support.', 'error');
@@ -1490,11 +2090,20 @@
         function applyFilters() {
             const searchTerm = searchInput.value.toLowerCase().trim();
             const maxPrice = parseInt(priceRange.value);
-            const filtered = allListings.filter(l => {
-                const matchSearch = l.details.toLowerCase().includes(searchTerm);
+
+            let filtered = allListings.filter(l => {
+                const matchSearch = (l.details || '').toLowerCase().includes(searchTerm) ||
+                    (l.category || '').toLowerCase().includes(searchTerm) ||
+                    (l.codAccountName || '').toLowerCase().includes(searchTerm);
                 const matchPrice = l.price <= maxPrice;
                 return matchSearch && matchPrice;
             });
+
+            if (selectedCategory !== 'all') {
+                filtered = filtered.filter(l => l.category === selectedCategory);
+            }
+
+            updateCategoryCounts(allListings);
             renderBuyListings(filtered);
             buyCount.textContent = `(${filtered.length} available)`;
         }
@@ -1504,7 +2113,7 @@
                 buyListings.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-search"></i>
-                        <h4>No accounts found</h4>
+                        <h4>No items found</h4>
                         <p>Try adjusting your search or price range.</p>
                     </div>
                 `;
@@ -1515,12 +2124,17 @@
                 const sellerName = l.sellerName || 'Unknown';
                 const sellerWhatsapp = l.sellerWhatsapp || '—';
                 const images = l.imageUrls || [];
+                const category = l.category || 'Other';
+                const codName = l.codAccountName || '';
+                const quantity = l.totalQuantity || 0;
                 return `
-                    <div class="listing-card">
+                    <div class="listing-card" data-id="${l.id}">
                         <span class="badge-indicator badge-buy">BUY</span>
+                        <span class="category-tag"><i class="fas fa-tag"></i> ${category}</span>
+                        ${codName ? `<span class="cod-name"><i class="fas fa-user-cog"></i> ${codName}</span>` : ''}
                         ${images.length > 0 ? `
                             <div class="account-img-grid">
-                                ${images.slice(0, 4).map(img => `<img src="${img}" alt="account" />`).join('')}
+                                ${images.slice(0, 4).map(img => `<img src="${img}" alt="item" />`).join('')}
                                 ${images.length > 4 ? `<div style="background:rgba(42,51,64,0.8);display:flex;align-items:center;justify-content:center;border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:#f5a623;">+${images.length-4}</div>` : ''}
                             </div>
                         ` : ''}
@@ -1529,64 +2143,57 @@
                             <span class="status status-available">Available</span>
                         </div>
                         <div class="details">
-                            <strong>Account:</strong> ${l.details}
+                            <strong>${category}</strong>
+                            <span style="color:#2a9d8f; font-weight:600;">${quantity} items</span>
                         </div>
                         <div class="seller">
                             <span><i class="fas fa-user"></i> ${sellerName}</span>
-                            <span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>
+                            ${currentUser.isAdmin ? `<span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>` : ''}
                         </div>
-                        <div class="actions">
-                            ${isOwn ? 
-                                `<span style="color:#8892a8;font-size:13px;"><i class="fas fa-lock"></i> Your listing</span>` :
-                                `<button class="btn btn-success btn-sm buy-btn" data-id="${l.id}">
-                                    <i class="fas fa-shopping-cart"></i> Buy Now
-                                </button>`
-                            }
-                        </div>
+                        <div class="click-hint"><i class="fas fa-eye"></i> Click to view details</div>
                     </div>
                 `;
             }).join('');
 
-            document.querySelectorAll('.buy-btn').forEach(btn => {
-                btn.addEventListener('click', () => handleBuy(btn.dataset.id));
+            document.querySelectorAll('.listing-card[data-id]').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.buy-btn')) return;
+                    const id = this.dataset.id;
+                    showProductDetail(id);
+                });
             });
         }
 
         // ============================================================
-        // BUY HANDLER
+        // BUY COMPLETE
         // ============================================================
-        async function handleBuy(listingId) {
+        async function completeBuy(listingId, buyerNameVal, buyerWhatsappVal, buyerNoteVal) {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
             try {
                 const listingDoc = await db.collection('listings').doc(listingId).get();
                 if (!listingDoc.exists) { showToast('Listing not found', 'error'); return; }
                 const listing = { id: listingDoc.id, ...listingDoc.data() };
-                if (listing.status !== 'available') { showToast('This account is no longer available', 'error'); return; }
-                if (listing.sellerId === currentUser.id) { showToast('You cannot buy your own account', 'error'); return; }
-
-                const confirmed = await showModal(
-                    'Confirm Purchase',
-                    `Are you sure you want to buy this account for <strong>$${listing.price}</strong>?<br><br>
-                     <span style="color:#b0b8c8;font-size:14px;">${listing.details}</span>`,
-                    'Confirm Purchase',
-                    'Cancel'
-                );
-                if (!confirmed) return;
+                if (listing.status !== 'available') { showToast('This item is no longer available', 'error'); return; }
+                if (listing.sellerId === currentUser.id) { showToast('You cannot buy your own item', 'error'); return; }
 
                 const txData = {
                     listingId: listing.id,
                     buyerId: currentUser.id,
                     buyerName: currentUser.fullName,
+                    buyerContact: buyerWhatsappVal,
+                    buyerNote: buyerNoteVal || '',
                     sellerId: listing.sellerId,
                     sellerName: listing.sellerName || 'Unknown',
                     price: listing.price,
-                    details: listing.details,
+                    details: listing.details || listing.category,
+                    category: listing.category || 'Other',
                     status: 'pending',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 await db.collection('transactions').add(txData);
                 await db.collection('listings').doc(listingId).update({ status: 'pending' });
                 showToast('Purchase request sent! Admin will review it.', 'success');
+                closeProductDetail();
                 loadBuyTab();
                 loadMyListings();
                 loadTransactions();
@@ -1597,106 +2204,166 @@
         }
 
         // ============================================================
-        // SELL HANDLER
+        // SELL HANDLER - Image + Quantity
         // ============================================================
         async function handleSell() {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
-            const details = sellDetails.value.trim();
-            const price = parseFloat(sellPrice.value);
-            const files = sellImages.files;
-            if (!details) { showToast('Please describe the account', 'error'); return; }
-            if (!price || price < 1) { showToast('Please enter a valid price (min $1)', 'error'); return; }
-            if (files.length < 5 || files.length > 10) {
-                showToast('Please select between 5 and 10 images.', 'error');
+
+            const totalPrice = parseFloat(sellTotalPrice.value);
+            if (!totalPrice || totalPrice < 1) {
+                showToast('Please enter a valid total price (min $1)', 'error');
+                return;
+            }
+
+            const codName = codAccountName.value.trim();
+            if (!codName) {
+                showToast('Please enter your COD Mobile account name.', 'error');
+                return;
+            }
+
+            // Collect categories with image and quantity
+            const sections = document.querySelectorAll('.category-sell-section');
+            const items = [];
+            let hasItems = false;
+
+            sections.forEach(section => {
+                const category = section.dataset.category;
+                const imageInput = section.querySelector('.cat-image');
+                const quantityInput = section.querySelector('.cat-quantity');
+                const hasImage = imageInput && imageInput.files && imageInput.files.length > 0;
+                const quantity = parseInt(quantityInput.value) || 0;
+
+                if (hasImage && quantity > 0) {
+                    hasItems = true;
+                    items.push({
+                        category: category,
+                        imageFile: imageInput.files[0],
+                        quantity: quantity
+                    });
+                }
+            });
+
+            if (!hasItems) {
+                showToast('Please add at least one image with quantity > 0.', 'error');
                 return;
             }
 
             sellBtn.disabled = true;
             sellBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...';
-            uploadProgress.style.display = 'flex';
-            uploadProgressFill.style.width = '0%';
-            uploadProgressText.textContent = '0%';
-            uploadStatus.textContent = 'Uploading images...';
+            sellProgress.style.display = 'block';
+            sellProgressFill.style.width = '0%';
+            sellProgressText.textContent = '0%';
+            sellStatus.textContent = 'Uploading images...';
 
-            const imageUrls = [];
-            const total = files.length;
+            const uploadedItems = [];
             let uploaded = 0;
+            const total = items.length;
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                try {
-                    const formData = new FormData();
-                    formData.append('image', file);
-                    formData.append('key', IMGBB_KEY);
-                    
-                    const res = await fetch('https://api.imgbb.com/1/upload', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await res.json();
-                    
-                    if (data.success) {
-                        imageUrls.push(data.data.url);
-                        uploaded++;
-                        const percent = Math.round((uploaded / total) * 100);
-                        uploadProgressFill.style.width = percent + '%';
-                        uploadProgressText.textContent = percent + '%';
-                        uploadStatus.textContent = `Uploaded ${uploaded}/${total} images`;
-                    } else {
-                        showToast(`Image ${i+1} upload failed: ${data.error?.message || 'Unknown error'}`, 'error');
-                    }
-                } catch (err) {
-                    showToast(`Image ${i+1} upload error: ${err.message}`, 'error');
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                let imageUrl = null;
+                if (item.imageFile) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('image', item.imageFile);
+                        formData.append('key', IMGBB_KEY);
+                        const res = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
+                        const data = await res.json();
+                        if (data.success) { imageUrl = data.data.url; }
+                        else { showToast(`Image for ${item.category} upload failed.`, 'error'); }
+                    } catch (err) { showToast(`Image for ${item.category} upload error.`, 'error'); }
                 }
+                uploadedItems.push({
+                    category: item.category,
+                    imageUrl: imageUrl,
+                    quantity: item.quantity
+                });
+                uploaded++;
+                const percent = Math.round((uploaded / total) * 100);
+                sellProgressFill.style.width = percent + '%';
+                sellProgressText.textContent = percent + '%';
+                sellStatus.textContent = `Uploaded ${uploaded}/${total} items`;
             }
 
-            if (imageUrls.length === 0) {
-                showToast('All images failed to upload. Please try again.', 'error');
-                uploadProgress.style.display = 'none';
+            // Check if we have any valid items (with image or quantity >0)
+            const validItems = uploadedItems.filter(item => item.imageUrl || item.quantity > 0);
+            if (validItems.length === 0) {
+                showToast('No valid items to list. Please upload images and quantity.', 'error');
+                sellProgress.style.display = 'none';
                 sellBtn.disabled = false;
-                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
-                return;
-            }
-
-            if (imageUrls.length < 5) {
-                showToast(`Only ${imageUrls.length} images uploaded. Minimum 5 required.`, 'error');
-                uploadProgress.style.display = 'none';
-                sellBtn.disabled = false;
-                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
+                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List All Items';
                 return;
             }
 
             try {
+                const allImages = validItems.map(item => item.imageUrl).filter(url => url);
+                const totalQuantity = validItems.reduce((sum, item) => sum + item.quantity, 0);
+                const combinedDetails = validItems.map(item =>
+                    `[${item.category}] ×${item.quantity}`
+                ).join(' | ');
+
                 const listingData = {
                     sellerId: currentUser.id,
                     sellerName: currentUser.fullName,
                     sellerWhatsapp: currentUser.whatsapp,
-                    details: details,
-                    price: price,
+                    codAccountName: codName,
+                    details: combinedDetails,
+                    fullDescription: validItems.map(item =>
+                        `📌 ${item.category}: ${item.quantity} item(s)\n`
+                    ).join(''),
+                    price: totalPrice,
                     status: 'available',
-                    imageUrls: imageUrls,
+                    imageUrls: allImages,
+                    category: validItems.length === 1 ? validItems[0].category : 'Bundle',
+                    subItems: validItems,
+                    totalQuantity: totalQuantity,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
+
                 await db.collection('listings').add(listingData);
-                sellDetails.value = '';
-                sellPrice.value = '';
-                sellImages.value = '';
-                fileNames.innerHTML = '';
-                imagePreview.innerHTML = '';
-                uploadProgress.style.display = 'none';
-                showToast('Account listed with ' + imageUrls.length + ' images!', 'success');
+
+                // Clear form
+                sellTotalPrice.value = '';
+                codAccountName.value = '';
+                document.querySelectorAll('.cat-image').forEach(el => el.value = '');
+                document.querySelectorAll('.cat-quantity').forEach(el => el.value = '');
+                document.querySelectorAll('.preview-thumb').forEach(el => { el.style.display = 'none'; el.src = ''; });
+
+                sellProgress.style.display = 'none';
+                showToast('Items listed successfully!', 'success');
                 loadBuyTab();
                 loadMyListings();
                 if (currentUser?.isAdmin) loadAdminPanel();
                 switchTab('buy');
             } catch (err) {
-                showToast('Error listing account: ' + err.message, 'error');
-                uploadProgress.style.display = 'none';
+                showToast('Error listing items: ' + err.message, 'error');
+                sellProgress.style.display = 'none';
             } finally {
                 sellBtn.disabled = false;
-                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List Account';
+                sellBtn.innerHTML = '<i class="fas fa-plus-circle"></i> List All Items';
             }
         }
+
+        // ============================================================
+        // IMAGE PREVIEW
+        // ============================================================
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('cat-image')) {
+                const file = e.target.files[0];
+                const preview = e.target.closest('.item-input').querySelector('.preview-thumb');
+                if (file && preview) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        preview.src = ev.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else if (preview) {
+                    preview.style.display = 'none';
+                    preview.src = '';
+                }
+            }
+        });
 
         // ============================================================
         // MY LISTINGS
@@ -1720,19 +2387,24 @@
                     return tb - ta;
                 });
                 if (listings.length === 0) {
-                    myListingsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-tag"></i><h4>No listings yet</h4><p>Go to the Sell tab to list your account.</p></div>`;
+                    myListingsContainer.innerHTML = `<div class="empty-state"><i class="fas fa-tag"></i><h4>No listings yet</h4><p>Go to the Sell tab to list your items.</p></div>`;
                     return;
                 }
                 myListingsContainer.innerHTML = listings.map(l => {
                     const statusClass = l.status === 'available' ? 'status-available' :
                         l.status === 'pending' ? 'status-pending' : 'status-sold';
                     const images = l.imageUrls || [];
+                    const category = l.category || 'Other';
+                    const codName = l.codAccountName || '';
+                    const quantity = l.totalQuantity || 0;
                     return `
-                        <div class="listing-card">
+                        <div class="listing-card" data-id="${l.id}">
                             <span class="badge-indicator badge-sell">SELL</span>
+                            <span class="category-tag"><i class="fas fa-tag"></i> ${category}</span>
+                            ${codName ? `<span class="cod-name"><i class="fas fa-user-cog"></i> ${codName}</span>` : ''}
                             ${images.length > 0 ? `
                                 <div class="account-img-grid">
-                                    ${images.slice(0, 4).map(img => `<img src="${img}" alt="account" />`).join('')}
+                                    ${images.slice(0, 4).map(img => `<img src="${img}" alt="item" />`).join('')}
                                     ${images.length > 4 ? `<div style="background:rgba(42,51,64,0.8);display:flex;align-items:center;justify-content:center;border-radius:8px;aspect-ratio:1;font-size:12px;font-weight:700;color:#f5a623;">+${images.length-4}</div>` : ''}
                                 </div>
                             ` : ''}
@@ -1741,7 +2413,8 @@
                                 <span class="status ${statusClass}">${l.status}</span>
                             </div>
                             <div class="details">
-                                <strong>Account:</strong> ${l.details}
+                                <strong>${category}</strong>
+                                <span style="color:#2a9d8f; font-weight:600;">${quantity} items</span>
                             </div>
                             <div class="seller">
                                 <span><i class="fas fa-calendar"></i> ${l.createdAt ? new Date(l.createdAt.toDate()).toLocaleDateString() : 'Just now'}</span>
@@ -1753,12 +2426,22 @@
                                     </button>
                                 </div>
                             ` : ''}
+                            <div class="click-hint"><i class="fas fa-eye"></i> Click to view details</div>
                         </div>
                     `;
                 }).join('');
 
+                document.querySelectorAll('#myListingsContainer .listing-card[data-id]').forEach(card => {
+                    card.addEventListener('click', function(e) {
+                        if (e.target.closest('.remove-listing-btn')) return;
+                        const id = this.dataset.id;
+                        showProductDetail(id);
+                    });
+                });
+
                 document.querySelectorAll('.remove-listing-btn').forEach(btn => {
-                    btn.addEventListener('click', async function() {
+                    btn.addEventListener('click', async function(e) {
+                        e.stopPropagation();
                         const id = this.dataset.id;
                         const confirmed = await showModal('Remove Listing', 'Are you sure you want to remove this listing?', 'Remove', 'Cancel');
                         if (!confirmed) return;
@@ -1847,6 +2530,7 @@
                 const totalVolume = txs.filter(t => t.status === 'completed').reduce((sum, t) => sum + (t.price || 0), 0);
                 perfVolume.textContent = '$' + totalVolume;
 
+                // User activity
                 const userActivity = {};
                 txs.forEach(t => {
                     if (t.buyerId) { if (!userActivity[t.buyerId]) userActivity[t.buyerId] = { buys: 0, sells: 0 }; userActivity[t.buyerId].buys++; }
@@ -1876,7 +2560,7 @@
                     return `
                         <tr>
                             <td><strong>${u.fullName}</strong></td>
-                            <td>${u.whatsapp || '—'}</td>
+                            <td><i class="fab fa-whatsapp"></i> ${u.whatsapp || '—'}</td>
                             <td>${u.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>'}</td>
                             <td>${activityBadge}</td>
                             <td>${u.createdAt ? new Date(u.createdAt.toDate()).toLocaleDateString() : '—'}</td>
@@ -1890,8 +2574,9 @@
                     return `
                         <tr>
                             <td><code style="font-size:11px;color:#8892a8;">${l.id.slice(0,8)}</code></td>
-                            <td>${l.details ? l.details.substring(0, 40) + (l.details.length > 40 ? '…' : '') : 'N/A'}</td>
+                            <td>${l.details ? l.details.substring(0, 30) + (l.details.length > 30 ? '…' : '') : 'N/A'}</td>
                             <td><strong>$${l.price}</strong></td>
+                            <td>${l.category || 'Other'}</td>
                             <td>${l.sellerName || 'Unknown'}</td>
                             <td><span class="status ${statusClass}">${l.status}</span></td>
                             <td>
@@ -1988,35 +2673,19 @@
         sellBtn.addEventListener('click', handleSell);
         saveSupportBtn.addEventListener('click', saveSupportContacts);
 
-        sellImages.addEventListener('change', function() {
-            const files = this.files;
-            const names = [];
-            const previews = [];
-            for (let i = 0; i < files.length; i++) {
-                names.push(files[i].name);
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previews.push(e.target.result);
-                    if (previews.length === files.length) {
-                        imagePreview.innerHTML = previews.map(src => `<img src="${src}" alt="preview" />`).join('');
-                    }
-                };
-                reader.readAsDataURL(files[i]);
-            }
-            if (files.length === 0) { fileNames.innerHTML = ''; imagePreview.innerHTML = ''; return; }
-            fileNames.innerHTML = names.map(n => `<span>${n}</span>`).join('');
-            if (files.length < 5 || files.length > 10) {
-                showToast('Please select between 5 and 10 images.', 'error');
-                this.value = '';
-                fileNames.innerHTML = '';
-                imagePreview.innerHTML = '';
-            }
-        });
-
         searchInput.addEventListener('input', applyFilters);
         priceRange.addEventListener('input', function() {
             priceDisplay.textContent = '$' + this.value;
             applyFilters();
+        });
+
+        setupCategoryFilters();
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProductDetail();
+                if (buyerModal.classList.contains('show')) closeBuyerModal();
+            }
         });
 
         // ============================================================
