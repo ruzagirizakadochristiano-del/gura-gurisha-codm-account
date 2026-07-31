@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COD Mobile - Account Market</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #0b0e14;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1f2a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f5a623;
+            border-radius: 8px;
+        }
+        #app {
+            width: 100%;
+            max-width: 1200px;
+            background: #141a24;
+            border-radius: 24px;
+            padding: 30px 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border: 1px solid #2a3340;
+            position: relative;
+            min-height: 600px;
+            transition: all 0.3s;
+        }
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2a3340;
+            margin-bottom: 28px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-area i {
+            font-size: 32px;
+            color: #f5a623;
+            filter: drop-shadow(0 0 8px rgba(245, 166, 35, 0.3));
+        }
+        .logo-area h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo-area span {
+            font-size: 13px;
+            color: #8892a8;
+            background: #1f2836;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            -webkit-text-fill-color: #8892a8;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1f2836;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            border: 1px solid #2a3340;
+        }
+        .user-badge .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f5a623;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #141a24;
+            font-size: 15px;
+        }
+        .user-badge .uname {
+            font-weight: 600;
+            font-size: 14px;
+            color: #f0f0f0;
+        }
+        .user-badge .urole {
+            font-size: 11px;
+            background: #2a3340;
+            padding: 2px 10px;
+            border-radius: 30px;
+            color: #f5a623;
+            font-weight: 600;
+        }
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #f5a623;
+            color: #141a24;
+        }
+        .btn-primary:hover {
+            background: #f7c948;
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.3);
+        }
+        .btn-secondary {
+            background: #2a3340;
+            color: #e0e0e0;
+        }
+        .btn-secondary:hover {
+            background: #3a4556;
+        }
+        .btn-danger {
+            background: #d43f3f;
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background: #e55555;
+        }
+        .btn-success {
+            background: #2a9d8f;
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #3bb3a5;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #f5a623;
+            color: #f5a623;
+        }
+        .btn-outline:hover {
+            background: #f5a623;
+            color: #141a24;
+        }
+        .btn-sm {
+            padding: 5px 14px;
+            font-size: 12px;
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        #authScreen {
+            max-width: 480px;
+            margin: 20px auto 0;
+            padding: 30px 0;
+        }
+        .auth-toggle {
+            display: flex;
+            background: #1a1f2a;
+            border-radius: 50px;
+            padding: 4px;
+            margin-bottom: 32px;
+            border: 1px solid #2a3340;
+        }
+        .auth-toggle button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #8892a8;
+            font-weight: 700;
+            font-size: 15px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .auth-toggle button.active {
+            background: #f5a623;
+            color: #141a24;
+            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.25);
+        }
+        .auth-form {
+            display: none;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .auth-form.active {
+            display: flex;
+        }
+        .auth-form h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f0f0f0;
+        }
+        .auth-form p {
+            color: #8892a8;
+            font-size: 14px;
+            margin-top: -8px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #b0b8c8;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: #1a1f2a;
+            border: 1px solid #2a3340;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #e0e0e0;
+            font-size: 14px;
+            transition: 0.2s;
+            outline: none;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+        }
+        .form-group textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .auth-error {
+            background: rgba(212, 63, 63, 0.15);
+            color: #e55555;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+            border-left: 3px solid #d43f3f;
+        }
+        .auth-error.show {
+            display: block;
+        }
+        .auth-success {
+            background: rgba(42, 157, 143, 0.15);
+            color: #2a9d8f;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+            border-left: 3px solid #2a9d8f;
+        }
+        .auth-success.show {
+            display: block;
+        }
+        .auth-info {
+            background: rgba(245, 166, 35, 0.12);
+            color: #f5a623;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+            border-left: 3px solid #f5a623;
+        }
+        .auth-info.show {
+            display: block;
+        }
+        #dashboard {
+            display: none;
+        }
+        #dashboard.active {
+            display: block;
+        }
+        .dash-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+            background: #1a1f2a;
+            padding: 4px;
+            border-radius: 14px;
+            border: 1px solid #2a3340;
+        }
+        .dash-tabs button {
+            padding: 10px 22px;
+            border: none;
+            background: transparent;
+            color: #8892a8;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dash-tabs button:hover {
+            color: #f0f0f0;
+            background: #2a3340;
+        }
+        .dash-tabs button.active {
+            background: #f5a623;
+            color: #141a24;
+            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.2);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .section-header .sub {
+            color: #8892a8;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .listing-card {
+            background: #1a1f2a;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #2a3340;
+            transition: 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+        .listing-card:hover {
+            border-color: #f5a623;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+        .listing-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .listing-card .top .price {
+            font-size: 22px;
+            font-weight: 800;
+            color: #f5a623;
+        }
+        .listing-card .top .status {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+        }
+        .status-available {
+            background: #2a9d8f20;
+            color: #2a9d8f;
+            border: 1px solid #2a9d8f40;
+        }
+        .status-pending {
+            background: #f5a62320;
+            color: #f5a623;
+            border: 1px solid #f5a62340;
+        }
+        .status-sold {
+            background: #d43f3f20;
+            color: #d43f3f;
+            border: 1px solid #d43f3f40;
+        }
+        .listing-card .details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 14px;
+            color: #b0b8c8;
+        }
+        .listing-card .details strong {
+            color: #e0e0e0;
+        }
+        .listing-card .seller {
+            font-size: 13px;
+            color: #8892a8;
+            border-top: 1px solid #2a3340;
+            padding-top: 12px;
+            margin-top: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .listing-card .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .listing-card .account-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #0b0e14;
+        }
+        .listing-card .badge-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-buy {
+            background: #2a9d8f;
+            color: #fff;
+        }
+        .badge-sell {
+            background: #f5a623;
+            color: #141a24;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8892a8;
+        }
+        .empty-state i {
+            font-size: 48px;
+            color: #2a3340;
+            margin-bottom: 16px;
+        }
+        .empty-state h4 {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 6px;
+        }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #1a1f2a;
+            border-radius: 14px;
+            padding: 18px 16px;
+            border: 1px solid #2a3340;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .stat-card:hover {
+            border-color: #f5a623;
+        }
+        .stat-card .num {
+            font-size: 30px;
+            font-weight: 800;
+            color: #f5a623;
+        }
+        .stat-card .label {
+            font-size: 13px;
+            color: #8892a8;
+            margin-top: 2px;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid #2a3340;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+        table th {
+            background: #1a1f2a;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: #b0b8c8;
+            border-bottom: 2px solid #2a3340;
+        }
+        table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1f2836;
+            color: #e0e0e0;
+        }
+        table tr:last-child td {
+            border-bottom: none;
+        }
+        table tr:hover td {
+            background: #1a1f2a;
+        }
+        .table-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .perf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 16px 0 24px;
+        }
+        .perf-card {
+            background: #1a1f2a;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #2a3340;
+        }
+        .perf-card .title {
+            font-size: 13px;
+            color: #8892a8;
+            font-weight: 600;
+        }
+        .perf-card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-top: 4px;
+        }
+        .perf-card .sub {
+            font-size: 12px;
+            color: #2a9d8f;
+            margin-top: 2px;
+        }
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1f2a;
+            border: 1px solid #2a3340;
+            padding: 14px 24px;
+            border-radius: 14px;
+            color: #e0e0e0;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 999;
+            max-width: 400px;
+            border-left: 4px solid #f5a623;
+            animation: slideUp 0.35s ease;
+        }
+        #toast.show {
+            display: flex;
+        }
+        #toast.success {
+            border-left-color: #2a9d8f;
+        }
+        #toast.error {
+            border-left-color: #d43f3f;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .file-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .file-input-wrapper input[type="file"] {
+            background: #1a1f2a;
+            border: 1px solid #2a3340;
+            border-radius: 12px;
+            padding: 10px;
+            color: #e0e0e0;
+            font-size: 13px;
+            width: 100%;
+        }
+        .file-input-wrapper .file-name {
+            color: #8892a8;
+            font-size: 13px;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: #8892a8;
+        }
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: #2a3340;
+            color: #b0b8c8;
+        }
+        .tag-admin {
+            background: #f5a62330;
+            color: #f5a623;
+        }
+        .tag-user {
+            background: #2a9d8f30;
+            color: #2a9d8f;
+        }
+        @media (max-width:768px) {
+            #app {
+                padding: 18px 14px;
+            }
+            .app-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .header-actions {
+                justify-content: space-between;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .dash-tabs button {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+            .listings-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .logo-area h1 {
+                font-size: 20px;
+            }
+            .perf-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width:480px) {
+            .header-actions {
+                flex-wrap: wrap;
+            }
+            .user-badge {
+                width: 100%;
+                justify-content: center;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+            .perf-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .auth-info {
+            background: rgba(245, 166, 35, 0.12);
+            color: #f5a623;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: none;
+            border-left: 3px solid #f5a623;
+        }
+        .auth-info.show {
+            display: block;
+        }
+        .highlight-link {
+            color: #f5a623;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        .highlight-link:hover {
+            color: #f7c948;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <header class="app-header">
+            <div class="logo-area">
+                <i class="fas fa-crosshairs"></i>
+                <h1>COD<span>Market</span></h1>
+                <span>v2.0</span>
+            </div>
+            <div class="header-actions" id="headerActions"></div>
+        </header>
+
+        <div id="authScreen">
+            <div class="auth-toggle">
+                <button class="active" data-tab="login">Login</button>
+                <button data-tab="register">Register</button>
+            </div>
+
+            <div class="auth-form active" id="loginForm">
+                <h2>Welcome Back</h2>
+                <p>Login to your COD Market account</p>
+                <div class="auth-error" id="loginError"></div>
+                <div class="auth-success" id="loginSuccess"></div>
+                <div class="auth-info" id="loginInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="loginInfoMsg"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" value="admin@guragurishacodm.com" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" value="admin123" />
+                </div>
+                <button class="btn btn-primary btn-block" id="loginBtn">Login</button>
+                <p class="text-center text-muted" style="font-size:13px;margin-top:6px;">
+                    Don't have an account? <strong class="highlight-link" id="switchToRegister">Register</strong>
+                </p>
+            </div>
+
+            <div class="auth-form" id="registerForm">
+                <h2>Create Account</h2>
+                <p>Join COD Market to buy or sell accounts</p>
+                <div class="auth-error" id="registerError"></div>
+                <div class="auth-success" id="registerSuccess"></div>
+                <div class="auth-info" id="registerInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="registerInfoMsg"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" placeholder="John Doe" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="regEmail" placeholder="you@example.com" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp Number</label>
+                    <input type="text" id="regWhatsapp" placeholder="+1234567890" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="••••••••" />
+                </div>
+                <button class="btn btn-primary btn-block" id="registerBtn">Create Account</button>
+                <p class="text-center text-muted" style="font-size:13px;margin-top:6px;">
+                    Already have an account? <strong class="highlight-link" id="switchToLogin">Login</strong>
+                </p>
+            </div>
+        </div>
+
+        <div id="dashboard">
+            <div class="dash-tabs" id="dashTabs">
+                <button class="active" data-tab="buy"><i class="fas fa-store"></i> Buy</button>
+                <button data-tab="sell"><i class="fas fa-tag"></i> Sell</button>
+                <button data-tab="myListings"><i class="fas fa-list"></i> My Listings</button>
+                <button data-tab="transactions"><i class="fas fa-exchange-alt"></i> Transactions</button>
+                <button data-tab="adminPanel" class="hidden" id="adminTabBtn"><i class="fas fa-crown"></i> Admin</button>
+            </div>
+
+            <div class="tab-content active" id="tabBuy">
+                <div class="section-header">
+                    <h3>Available Accounts <span class="sub" id="buyCount"></span></h3>
+                    <span class="sub"><i class="fas fa-info-circle"></i> Green = Buy Now</span>
+                </div>
+                <div id="buyListings" class="listings-grid"></div>
+            </div>
+
+            <div class="tab-content" id="tabSell">
+                <div class="section-header">
+                    <h3>Sell Your Account</h3>
+                    <span class="sub">Fill in the details below</span>
+                </div>
+                <div style="max-width:560px;">
+                    <div class="form-group">
+                        <label>Account Details (Rank, Level, Skins, etc.)</label>
+                        <textarea id="sellDetails" placeholder="e.g. Legendary rank, 100+ skins, max level…" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (USD)</label>
+                        <input type="number" id="sellPrice" placeholder="50" min="1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Account Image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="sellImage" accept="image/*" />
+                            <span class="file-name" id="imageFileName">No file chosen</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="sellBtn"><i class="fas fa-plus-circle"></i> List Account</button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tabMyListings">
+                <div class="section-header">
+                    <h3>My Listings</h3>
+                    <span class="sub"><i class="fas fa-tag" style="color:#f5a623;"></i> Your sell offers</span>
+                </div>
+                <div id="myListingsContainer" class="listings-grid"></div>
+            </div>
+
+            <div class="tab-content" id="tabTransactions">
+                <div class="section-header">
+                    <h3>My Transactions</h3>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Account</th><th>Price</th><th>Buyer</th><th>Seller</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="transactionsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tabAdmin">
+                <div class="section-header">
+                    <h3><i class="fas fa-crown" style="color:#f5a623;"></i> Admin Dashboard</h3>
+                    <span class="sub">Website performance &amp; user management</span>
+                </div>
+                <div class="perf-grid" id="perfMetrics">
+                    <div class="perf-card"><div class="title">👥 Total Users</div><div class="value" id="perfUsers">0</div>
+                        <div class="sub">Registered members</div>
+                    </div>
+                    <div class="perf-card"><div class="title">📦 Total Listings</div><div class="value" id="perfListings">0</div>
+                        <div class="sub">All time</div>
+                    </div>
+                    <div class="perf-card"><div class="title">🟡 Pending Sales</div><div class="value" id="perfPending">0</div>
+                        <div class="sub">Awaiting approval</div>
+                    </div>
+                    <div class="perf-card"><div class="title">✅ Completed Sales</div><div class="value" id="perfSold">0</div>
+                        <div class="sub">Successfully sold</div>
+                    </div>
+                    <div class="perf-card"><div class="title">💰 Total Volume</div><div class="value" id="perfVolume">$0</div>
+                        <div class="sub">Sum of completed sales</div>
+                    </div>
+                    <div class="perf-card"><div class="title">📈 Active Listings</div><div class="value" id="perfActive">0</div>
+                        <div class="sub">Currently for sale</div>
+                    </div>
+                </div>
+
+                <h4 style="margin:20px 0 10px;font-size:16px;">📋 All Users (with details)</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Role</th><th>Joined</th></tr>
+                        </thead>
+                        <tbody id="adminUsersTable"></tbody>
+                    </table>
+                </div>
+
+                <h4 style="margin:24px 0 10px;font-size:16px;">📋 All Listings</h4>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Account</th><th>Price</th><th>Seller</th><th>Status</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="adminListingsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast">
+            <i class="fas fa-check-circle" style="color:#f5a623;"></i>
+            <span id="toastMsg">Success!</span>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // FIREBASE INIT
+        // =====================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDDgxzTVGIWUI3BX1nVT1u65Ycl7DH5OXQ",
+            authDomain: "gura-gurisha-codm-account.firebaseapp.com",
+            projectId: "gura-gurisha-codm-account",
+            storageBucket: "gura-gurisha-codm-account.firebasestorage.app",
+            messagingSenderId: "802605949634",
+            appId: "1:802605949634:web:a063d76a8d8786a06dd15b",
+            measurementId: "G-8JKZ8MXHKD"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const IMGBB_KEY = '4fa8b99e2ba50cfe70cc9f69257055bb';
+        const ADMIN_EMAIL = 'admin@guragurishacodm.com';
+        const DEMO_PASSWORD = 'admin123';
+
+        // =====================================================================
+        // STATE
+        // =====================================================================
+        let currentUser = null;
+        let currentAuthUser = null;
+
+        // =====================================================================
+        // DOM REFS
+        // =====================================================================
+        const $ = id => document.getElementById(id);
+        const $$ = sel => document.querySelectorAll(sel);
+
+        const authScreen = $('authScreen');
+        const dashboard = $('dashboard');
+        const headerActions = $('headerActions');
+
+        const loginForm = $('loginForm');
+        const registerForm = $('registerForm');
+        const loginError = $('loginError');
+        const loginSuccess = $('loginSuccess');
+        const loginInfo = $('loginInfo');
+        const loginInfoMsg = $('loginInfoMsg');
+        const registerError = $('registerError');
+        const registerSuccess = $('registerSuccess');
+        const registerInfo = $('registerInfo');
+        const registerInfoMsg = $('registerInfoMsg');
+
+        const loginEmail = $('loginEmail');
+        const loginPassword = $('loginPassword');
+        const loginBtn = $('loginBtn');
+
+        const regName = $('regName');
+        const regEmail = $('regEmail');
+        const regWhatsapp = $('regWhatsapp');
+        const regPassword = $('regPassword');
+        const registerBtn = $('registerBtn');
+
+        const switchToRegister = $('switchToRegister');
+        const switchToLogin = $('switchToLogin');
+
+        const dashTabs = $('dashTabs');
+        const buyListings = $('buyListings');
+        const buyCount = $('buyCount');
+        const myListingsContainer = $('myListingsContainer');
+        const transactionsTable = $('transactionsTable');
+        const adminListingsTable = $('adminListingsTable');
+        const adminUsersTable = $('adminUsersTable');
+        const adminTabBtn = $('adminTabBtn');
+
+        const perfUsers = $('perfUsers');
+        const perfListings = $('perfListings');
+        const perfPending = $('perfPending');
+        const perfSold = $('perfSold');
+        const perfVolume = $('perfVolume');
+        const perfActive = $('perfActive');
+
+        const sellDetails = $('sellDetails');
+        const sellPrice = $('sellPrice');
+        const sellImage = $('sellImage');
+        const imageFileName = $('imageFileName');
+        const sellBtn = $('sellBtn');
+
+        const toast = $('toast');
+        const toastMsg = $('toastMsg');
+
+        // =====================================================================
+        // TOAST
+        // =====================================================================
+        let toastTimer = null;
+
+        function showToast(msg, type = 'info') {
+            toast.className = 'show ' + type;
+            toastMsg.textContent = msg;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // =====================================================================
+        // FILE INPUT
+        // =====================================================================
+        sellImage.addEventListener('change', function() {
+            const file = this.files[0];
+            imageFileName.textContent = file ? file.name : 'No file chosen';
+        });
+
+        // =====================================================================
+        // AUTH UI HELPERS
+        // =====================================================================
+        function switchAuthTab(tab) {
+            $$('.auth-toggle button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            loginForm.classList.toggle('active', tab === 'login');
+            registerForm.classList.toggle('active', tab === 'register');
+            // Clear all messages
+            [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
+            .forEach(el => el.classList.remove('show'));
+        }
+
+        function clearAllAuthMessages() {
+            [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
+            .forEach(el => el.classList.remove('show'));
+        }
+
+        function showLoginInfo(msg) {
+            loginInfoMsg.textContent = msg;
+            loginInfo.classList.add('show');
+        }
+
+        function showLoginError(msg) {
+            loginError.textContent = msg;
+            loginError.classList.add('show');
+        }
+
+        function showLoginSuccess(msg) {
+            loginSuccess.textContent = msg;
+            loginSuccess.classList.add('show');
+        }
+
+        function showRegisterInfo(msg) {
+            registerInfoMsg.textContent = msg;
+            registerInfo.classList.add('show');
+        }
+
+        function showRegisterError(msg) {
+            registerError.textContent = msg;
+            registerError.classList.add('show');
+        }
+
+        function showRegisterSuccess(msg) {
+            registerSuccess.textContent = msg;
+            registerSuccess.classList.add('show');
+        }
+
+        // =====================================================================
+        // LOGIN
+        // =====================================================================
+        async function handleLogin() {
+            const email = loginEmail.value.trim();
+            const password = loginPassword.value.trim();
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            clearAllAuthMessages();
+
+            try {
+                const cred = await auth.signInWithEmailAndPassword(email, password);
+                currentAuthUser = cred.user;
+                const doc = await db.collection('users').doc(cred.user.uid).get();
+                if (!doc.exists) {
+                    const userData = {
+                        fullName: email.split('@')[0] || 'User',
+                        email: email,
+                        whatsapp: '',
+                        isAdmin: email === ADMIN_EMAIL,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    await db.collection('users').doc(cred.user.uid).set(userData);
+                    currentUser = { id: cred.user.uid, ...userData };
+                } else {
+                    currentUser = { id: doc.id, ...doc.data() };
+                    if (email === ADMIN_EMAIL && !currentUser.isAdmin) {
+                        await db.collection('users').doc(cred.user.uid).update({ isAdmin: true });
+                        currentUser.isAdmin = true;
+                    }
+                }
+                renderApp();
+                showToast('Welcome back, ' + currentUser.fullName + '!', 'success');
+                showLoginSuccess('Login successful! Redirecting...');
+                setTimeout(() => showLoginSuccess(''), 2000);
+            } catch (err) {
+                let msg = err.message;
+                let friendlyMsg = '';
+                if (err.code === 'auth/user-not-found') {
+                    friendlyMsg =
+                        'No account found with this email. Please <strong class="highlight-link" id="autoSwitchToRegister">register</strong> first.';
+                    showLoginInfo(friendlyMsg);
+                    // Attach click handler to switch to register
+                    setTimeout(() => {
+                        const link = document.getElementById('autoSwitchToRegister');
+                        if (link) {
+                            link.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                // Pre-fill registration with this email
+                                regEmail.value = email;
+                                switchAuthTab('register');
+                                showRegisterInfo('We pre-filled your email. Just complete the form to create your account.');
+                            });
+                        }
+                    }, 100);
+                    msg = 'Account not found. Please register.';
+                } else if (err.code === 'auth/wrong-password') {
+                    friendlyMsg = 'Incorrect password. Please try again.';
+                    showLoginError(friendlyMsg);
+                    msg = 'Wrong password.';
+                } else if (err.code === 'auth/invalid-email') {
+                    friendlyMsg = 'Invalid email format. Please check and try again.';
+                    showLoginError(friendlyMsg);
+                    msg = 'Invalid email.';
+                } else if (err.code === 'auth/too-many-requests') {
+                    friendlyMsg = 'Too many failed attempts. Please wait a moment and try again.';
+                    showLoginError(friendlyMsg);
+                    msg = 'Too many requests.';
+                } else if (err.code === 'auth/network-request-failed') {
+                    friendlyMsg = 'Network error. Please check your internet connection.';
+                    showLoginError(friendlyMsg);
+                    msg = 'Network error.';
+                } else if (err.code === 'auth/operation-not-allowed') {
+                    friendlyMsg =
+                        'Email/Password sign-in is not enabled. Please enable it in the Firebase Console.';
+                    showLoginError(friendlyMsg);
+                    msg = 'Sign-in method disabled.';
+                } else {
+                    friendlyMsg = err.message;
+                    showLoginError(friendlyMsg);
+                }
+                showToast(msg, 'error');
+                console.error('Login error:', err.code, err.message);
+            }
+        }
+
+        // =====================================================================
+        // REGISTER
+        // =====================================================================
+        async function handleRegister() {
+            const name = regName.value.trim();
+            const email = regEmail.value.trim();
+            const whatsapp = regWhatsapp.value.trim();
+            const password = regPassword.value.trim();
+            if (!name || !email || !whatsapp || !password) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            clearAllAuthMessages();
+
+            const isAdmin = (email === ADMIN_EMAIL);
+
+            try {
+                // Check if user already exists in Auth
+                try {
+                    const methods = await auth.fetchSignInMethodsForEmail(email);
+                    if (methods.length > 0) {
+                        showRegisterError('This email is already registered. Please <strong class="highlight-link" id="autoSwitchToLogin">login</strong>.');
+                        setTimeout(() => {
+                            const link = document.getElementById('autoSwitchToLogin');
+                            if (link) {
+                                link.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    loginEmail.value = email;
+                                    switchAuthTab('login');
+                                    showLoginInfo('We pre-filled your email. Just enter your password to login.');
+                                });
+                            }
+                        }, 100);
+                        return;
+                    }
+                } catch (e) { /* ignore */ }
+
+                const cred = await auth.createUserWithEmailAndPassword(email, password);
+                const newUser = {
+                    fullName: name,
+                    email: email,
+                    whatsapp: whatsapp,
+                    isAdmin: isAdmin,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('users').doc(cred.user.uid).set(newUser);
+
+                currentAuthUser = cred.user;
+                currentUser = { id: cred.user.uid, ...newUser };
+                renderApp();
+                const msg = isAdmin ?
+                    '✅ Admin account created! You have full access.' :
+                    'Account created! Welcome to COD Market.';
+                showToast(msg, 'success');
+                showRegisterSuccess(msg);
+                setTimeout(() => showRegisterSuccess(''), 3000);
+            } catch (err) {
+                let msg = err.message;
+                let friendlyMsg = '';
+                if (err.code === 'auth/email-already-in-use') {
+                    friendlyMsg = 'This email is already registered. Please <strong class="highlight-link" id="autoSwitchToLogin2">login</strong>.';
+                    showRegisterError(friendlyMsg);
+                    setTimeout(() => {
+                        const link = document.getElementById('autoSwitchToLogin2');
+                        if (link) {
+                            link.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                loginEmail.value = email;
+                                switchAuthTab('login');
+                                showLoginInfo('We pre-filled your email. Just enter your password to login.');
+                            });
+                        }
+                    }, 100);
+                    msg = 'Email already in use.';
+                } else if (err.code === 'auth/weak-password') {
+                    friendlyMsg = 'Password should be at least 6 characters.';
+                    showRegisterError(friendlyMsg);
+                    msg = 'Weak password.';
+                } else if (err.code === 'auth/invalid-email') {
+                    friendlyMsg = 'Invalid email format.';
+                    showRegisterError(friendlyMsg);
+                    msg = 'Invalid email.';
+                } else if (err.code === 'auth/network-request-failed') {
+                    friendlyMsg = 'Network error. Please check your internet connection.';
+                    showRegisterError(friendlyMsg);
+                    msg = 'Network error.';
+                } else {
+                    friendlyMsg = err.message;
+                    showRegisterError(friendlyMsg);
+                }
+                showToast(msg, 'error');
+                console.error('Register error:', err.code, err.message);
+            }
+        }
+
+        // =====================================================================
+        // LOGOUT
+        // =====================================================================
+        function handleLogout() {
+            auth.signOut();
+            currentUser = null;
+            currentAuthUser = null;
+            renderApp();
+            showToast('Logged out', 'info');
+        }
+
+        // =====================================================================
+        // RENDER
+        // =====================================================================
+        function renderApp() {
+            if (currentUser) {
+                const initial = currentUser.fullName.charAt(0).toUpperCase();
+                const roleTag = currentUser.isAdmin ?
+                    '<span class="tag tag-admin">Admin</span>' :
+                    '<span class="tag tag-user">User</span>';
+                headerActions.innerHTML = `
+                    <div class="user-badge">
+                        <div class="avatar">${initial}</div>
+                        <span class="uname">${currentUser.fullName}</span>
+                        ${roleTag}
+                    </div>
+                    <button class="btn btn-secondary btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                `;
+                $('logoutBtn').addEventListener('click', handleLogout);
+                authScreen.style.display = 'none';
+                dashboard.classList.add('active');
+                if (currentUser.isAdmin) {
+                    adminTabBtn.classList.remove('hidden');
+                } else {
+                    adminTabBtn.classList.add('hidden');
+                }
+                loadBuyTab();
+                loadMyListings();
+                loadTransactions();
+                if (currentUser.isAdmin) loadAdminPanel();
+                const activeTab = document.querySelector('.dash-tabs .active');
+                if (activeTab) switchTab(activeTab.dataset.tab);
+            } else {
+                headerActions.innerHTML = `
+                    <span style="color:#8892a8;font-size:14px;">Not logged in</span>
+                `;
+                authScreen.style.display = 'block';
+                dashboard.classList.remove('active');
+                switchAuthTab('login');
+                [loginError, loginSuccess, loginInfo, registerError, registerSuccess, registerInfo]
+                .forEach(el => el.classList.remove('show'));
+            }
+        }
+
+        // =====================================================================
+        // TAB SWITCHING
+        // =====================================================================
+        function switchTab(tabId) {
+            $$('.dash-tabs button').forEach(b => {
+                b.classList.toggle('active', b.dataset.tab === tabId);
+            });
+            $$('.tab-content').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+            if (target) target.classList.add('active');
+            if (tabId === 'buy') loadBuyTab();
+            if (tabId === 'myListings') loadMyListings();
+            if (tabId === 'transactions') loadTransactions();
+            if (tabId === 'adminPanel' && currentUser?.isAdmin) loadAdminPanel();
+        }
+
+        // =====================================================================
+        // BUY TAB
+        // =====================================================================
+        async function loadBuyTab() {
+            if (!currentUser) return;
+            try {
+                const snapshot = await db.collection('listings')
+                    .where('status', '==', 'available')
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                const listings = [];
+                snapshot.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
+                buyCount.textContent = `(${listings.length} available)`;
+                if (listings.length === 0) {
+                    buyListings.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <h4>No accounts for sale</h4>
+                            <p>Check back later or list your own account!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                buyListings.innerHTML = listings.map(l => {
+                    const isOwn = l.sellerId === currentUser.id;
+                    const sellerName = l.sellerName || 'Unknown';
+                    const sellerWhatsapp = l.sellerWhatsapp || '—';
+                    return `
+                        <div class="listing-card">
+                            <span class="badge-indicator badge-buy">BUY</span>
+                            ${l.imageUrl ? `<img src="${l.imageUrl}" alt="Account" class="account-img" />` : ''}
+                            <div class="top">
+                                <span class="price">$${l.price}</span>
+                                <span class="status status-available">Available</span>
+                            </div>
+                            <div class="details">
+                                <strong>Account:</strong> ${l.details}
+                            </div>
+                            <div class="seller">
+                                <span><i class="fas fa-user"></i> ${sellerName}</span>
+                                <span><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</span>
+                            </div>
+                            <div class="actions">
+                                ${isOwn ? 
+                                    `<span style="color:#8892a8;font-size:13px;"><i class="fas fa-lock"></i> Your listing</span>` :
+                                    `<button class="btn btn-success btn-sm buy-btn" data-id="${l.id}">
+                                        <i class="fas fa-shopping-cart"></i> Buy Now
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                document.querySelectorAll('.buy-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const listingId = this.dataset.id;
+                        handleBuy(listingId);
+                    });
+                });
+            } catch (err) {
+                showToast('Error loading listings: ' + err.message, 'error');
+            }
+        }
+
+        async function handleBuy(listingId) {
+            if (!currentUser) { showToast('Please login first', 'error'); return; }
+            try {
+                const listingDoc = await db.collection('listings').doc(listingId).get();
+                if (!listingDoc.exists) { showToast('Listing not found', 'error'); return; }
+                const listing = { id: listingDoc.id, ...listingDoc.data() };
+                if (listing.status !== 'available') { showToast('This account is no longer available', 'error'); return; }
+                if (listing.sellerId === currentUser.id) { showToast('You cannot buy your own account', 'error'); return; }
+
+                const txData = {
+                    listingId: listing.id,
+                    buyerId: currentUser.id,
+                    buyerName: currentUser.fullName,
+                    sellerId: listing.sellerId,
+                    sellerName: listing.sellerName || 'Unknown',
+                    price: listing.price,
+                    details: listing.details,
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('transactions').add(txData);
+                await db.collection('listings').doc(listingId).update({ status: 'pending' });
+
+                showToast('Purchase request sent! Admin will review it.', 'success');
+                loadBuyTab();
+                loadMyListings();
+                loadTransactions();
+                if (currentUser?.isAdmin) loadAdminPanel();
+            } catch (err) {
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================================
+        // SELL
+        // =====================================================================
+        async function handleSell() {
+            if (!currentUser) { showToast('Please login first', 'error'); return; }
+            const details = sellDetails.value.trim();
+            const price = parseFloat(sellPrice.value);
+            const file = sellImage.files[0];
+            if (!details) { showToast('Please describe the account', 'error'); return; }
+            if (!price || price < 1) { showToast('Please enter a valid price (min $1)', 'error'); return; }
+
+            let imageUrl = null;
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('key', IMGBB_KEY);
+                    const res = await fetch('https://api.imgbb.com/1/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        imageUrl = data.data.url;
+                    } else {
+                        showToast('Image upload failed: ' + (data.error?.message || 'Unknown error'), 'error');
+                        return;
+                    }
+                } catch (err) {
+                    showToast('Image upload error: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            try {
+                const listingData = {
+                    sellerId: currentUser.id,
+                    sellerName: currentUser.fullName,
+                    sellerWhatsapp: currentUser.whatsapp,
+                    details: details,
+                    price: price,
+                    status: 'available',
+                    imageUrl: imageUrl,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('listings').add(listingData);
+                sellDetails.value = '';
+                sellPrice.value = '';
+                sellImage.value = '';
+                imageFileName.textContent = 'No file chosen';
+                showToast('Account listed for sale!', 'success');
+                loadBuyTab();
+                loadMyListings();
+                if (currentUser?.isAdmin) loadAdminPanel();
+                switchTab('buy');
+            } catch (err) {
+                showToast('Error listing account: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================================
+        // MY LISTINGS
+        // =====================================================================
+        async function loadMyListings() {
+            if (!currentUser) return;
+            try {
+                const snapshot = await db.collection('listings')
+                    .where('sellerId', '==', currentUser.id)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                const listings = [];
+                snapshot.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
+                if (listings.length === 0) {
+                    myListingsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-tag"></i>
+                            <h4>No listings yet</h4>
+                            <p>Go to the Sell tab to list your account.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                myListingsContainer.innerHTML = listings.map(l => {
+                    const statusClass = l.status === 'available' ? 'status-available' :
+                        l.status === 'pending' ? 'status-pending' : 'status-sold';
+                    return `
+                        <div class="listing-card">
+                            <span class="badge-indicator badge-sell">SELL</span>
+                            ${l.imageUrl ? `<img src="${l.imageUrl}" alt="Account" class="account-img" />` : ''}
+                            <div class="top">
+                                <span class="price">$${l.price}</span>
+                                <span class="status ${statusClass}">${l.status}</span>
+                            </div>
+                            <div class="details">
+                                <strong>Account:</strong> ${l.details}
+                            </div>
+                            <div class="seller">
+                                <span><i class="fas fa-calendar"></i> ${l.createdAt ? new Date(l.createdAt.toDate()).toLocaleDateString() : 'Just now'}</span>
+                            </div>
+                            ${l.status === 'available' ? `
+                                <div class="actions">
+                                    <button class="btn btn-danger btn-sm remove-listing-btn" data-id="${l.id}">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+
+                document.querySelectorAll('.remove-listing-btn').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const id = this.dataset.id;
+                        if (confirm('Remove this listing?')) {
+                            try {
+                                await db.collection('listings').doc(id).delete();
+                                showToast('Listing removed', 'info');
+                                loadMyListings();
+                                loadBuyTab();
+                                if (currentUser?.isAdmin) loadAdminPanel();
+                            } catch (err) {
+                                showToast('Error: ' + err.message, 'error');
+                            }
+                        }
+                    });
+                });
+            } catch (err) {
+                showToast('Error loading my listings: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================================
+        // TRANSACTIONS
+        // =====================================================================
+        async function loadTransactions() {
+            if (!currentUser) return;
+            try {
+                const buyerSnap = await db.collection('transactions')
+                    .where('buyerId', '==', currentUser.id)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                const txs = [];
+                buyerSnap.forEach(doc => txs.push({ id: doc.id, ...doc.data() }));
+
+                const sellerSnap = await db.collection('transactions')
+                    .where('sellerId', '==', currentUser.id)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                sellerSnap.forEach(doc => {
+                    const data = doc.data();
+                    if (!txs.find(t => t.id === doc.id)) {
+                        txs.push({ id: doc.id, ...data });
+                    }
+                });
+                txs.sort((a, b) => {
+                    const ta = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                    const tb = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                    return tb - ta;
+                });
+
+                if (txs.length === 0) {
+                    transactionsTable.innerHTML =
+                        `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No transactions yet</td></tr>`;
+                    return;
+                }
+                transactionsTable.innerHTML = txs.map(t => {
+                    const statusClass = t.status === 'pending' ? 'status-pending' :
+                        t.status === 'completed' ? 'status-available' : 'status-sold';
+                    return `
+                        <tr>
+                            <td>${t.details ? t.details.substring(0, 40) + (t.details.length > 40 ? '…' : '') : 'N/A'}</td>
+                            <td><strong>$${t.price}</strong></td>
+                            <td>${t.buyerName}</td>
+                            <td>${t.sellerName}</td>
+                            <td><span class="status ${statusClass}">${t.status}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                showToast('Error loading transactions: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================================
+        // ADMIN PANEL
+        // =====================================================================
+        async function loadAdminPanel() {
+            if (!currentUser || !currentUser.isAdmin) return;
+            try {
+                const usersSnap = await db.collection('users').get();
+                const users = [];
+                usersSnap.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
+                perfUsers.textContent = users.length;
+
+                const listingsSnap = await db.collection('listings').get();
+                const listings = [];
+                listingsSnap.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
+                perfListings.textContent = listings.length;
+                const activeListings = listings.filter(l => l.status === 'available').length;
+                perfActive.textContent = activeListings;
+
+                const txsSnap = await db.collection('transactions').get();
+                const txs = [];
+                txsSnap.forEach(doc => txs.push({ id: doc.id, ...doc.data() }));
+                const pending = txs.filter(t => t.status === 'pending').length;
+                const completed = txs.filter(t => t.status === 'completed').length;
+                perfPending.textContent = pending;
+                perfSold.textContent = completed;
+                const totalVolume = txs.filter(t => t.status === 'completed')
+                    .reduce((sum, t) => sum + (t.price || 0), 0);
+                perfVolume.textContent = '$' + totalVolume;
+
+                adminUsersTable.innerHTML = users.map(u => `
+                    <tr>
+                        <td><strong>${u.fullName}</strong></td>
+                        <td>${u.email}</td>
+                        <td>${u.whatsapp || '—'}</td>
+                        <td>${u.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>'}</td>
+                        <td>${u.createdAt ? new Date(u.createdAt.toDate()).toLocaleDateString() : '—'}</td>
+                    </tr>
+                `).join('');
+
+                adminListingsTable.innerHTML = listings.map(l => {
+                    const statusClass = l.status === 'available' ? 'status-available' :
+                        l.status === 'pending' ? 'status-pending' : 'status-sold';
+                    return `
+                        <tr>
+                            <td><code style="font-size:11px;color:#8892a8;">${l.id.slice(0,8)}</code></td>
+                            <td>${l.details ? l.details.substring(0, 40) + (l.details.length > 40 ? '…' : '') : 'N/A'}</td>
+                            <td><strong>$${l.price}</strong></td>
+                            <td>${l.sellerName || 'Unknown'}</td>
+                            <td><span class="status ${statusClass}">${l.status}</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    ${l.status === 'available' ? `
+                                        <button class="btn btn-danger btn-sm admin-remove-listing" data-id="${l.id}"><i class="fas fa-times"></i> Remove</button>
+                                    ` : ''}
+                                    ${l.status === 'pending' ? `
+                                        <button class="btn btn-success btn-sm admin-complete-tx" data-id="${l.id}"><i class="fas fa-check"></i> Complete</button>
+                                    ` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                document.querySelectorAll('.admin-remove-listing').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const id = this.dataset.id;
+                        if (confirm('Remove this listing?')) {
+                            try {
+                                await db.collection('listings').doc(id).delete();
+                                showToast('Listing removed', 'info');
+                                loadAdminPanel();
+                                loadBuyTab();
+                                loadMyListings();
+                            } catch (err) {
+                                showToast('Error: ' + err.message, 'error');
+                            }
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.admin-complete-tx').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const listingId = this.dataset.id;
+                        try {
+                            const txsSnap = await db.collection('transactions')
+                                .where('listingId', '==', listingId)
+                                .where('status', '==', 'pending')
+                                .get();
+                            if (txsSnap.empty) {
+                                showToast('No pending transaction found', 'error');
+                                return;
+                            }
+                            const txDoc = txsSnap.docs[0];
+                            const txData = txDoc.data();
+                            if (confirm(`Complete transaction for $${txData.price}?`)) {
+                                await db.collection('transactions').doc(txDoc.id).update({ status: 'completed' });
+                                await db.collection('listings').doc(listingId).update({ status: 'sold' });
+                                showToast('Transaction completed!', 'success');
+                                loadAdminPanel();
+                                loadBuyTab();
+                                loadMyListings();
+                                loadTransactions();
+                            }
+                        } catch (err) {
+                            showToast('Error: ' + err.message, 'error');
+                        }
+                    });
+                });
+            } catch (err) {
+                showToast('Error loading admin panel: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================================
+        // EVENT BINDING
+        // =====================================================================
+
+        // Auth tab switching
+        document.querySelectorAll('.auth-toggle button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                switchAuthTab(this.dataset.tab);
+            });
+        });
+
+        // Switch to register from login
+        switchToRegister.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = loginEmail.value.trim();
+            regEmail.value = email || '';
+            switchAuthTab('register');
+            if (email) {
+                showRegisterInfo('We pre-filled your email. Complete the form to create your account.');
+            }
+        });
+
+        // Switch to login from register
+        switchToLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = regEmail.value.trim();
+            loginEmail.value = email || '';
+            switchAuthTab('login');
+            if (email) {
+                showLoginInfo('We pre-filled your email. Enter your password to login.');
+            }
+        });
+
+        // Login
+        loginBtn.addEventListener('click', handleLogin);
+        loginPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+        loginEmail.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+
+        // Register
+        registerBtn.addEventListener('click', handleRegister);
+        regPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleRegister(); });
+
+        // Dashboard tabs
+        dashTabs.addEventListener('click', function(e) {
+            const btn = e.target.closest('button');
+            if (!btn || !btn.dataset.tab) return;
+            switchTab(btn.dataset.tab);
+        });
+
+        // Sell
+        sellBtn.addEventListener('click', handleSell);
+
+        // =====================================================================
+        // AUTH STATE LISTENER
+        // =====================================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentAuthUser = user;
+                try {
+                    const doc = await db.collection('users').doc(user.uid).get();
+                    if (doc.exists) {
+                        currentUser = { id: doc.id, ...doc.data() };
+                        if (user.email === ADMIN_EMAIL && !currentUser.isAdmin) {
+                            await db.collection('users').doc(user.uid).update({ isAdmin: true });
+                            currentUser.isAdmin = true;
+                        }
+                    } else {
+                        const userData = {
+                            fullName: user.email.split('@')[0] || 'User',
+                            email: user.email,
+                            whatsapp: '',
+                            isAdmin: user.email === ADMIN_EMAIL,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        await db.collection('users').doc(user.uid).set(userData);
+                        currentUser = { id: user.uid, ...userData };
+                    }
+                } catch (err) {
+                    showToast('Error loading user data: ' + err.message, 'error');
+                }
+                renderApp();
+            } else {
+                currentUser = null;
+                currentAuthUser = null;
+                renderApp();
+            }
+        });
+
+        // =====================================================================
+        // BOOT
+        // =====================================================================
+        renderApp();
+        console.log('🚀 COD Market with Firebase ready!');
+        console.log('🔑 Admin email:', ADMIN_EMAIL);
+        console.log('ℹ️  If login fails, click "Register" and create the admin account first.');
+        console.log('ℹ️  The registration form will auto-detect the admin email.');
+    </script>
+</body>
+</html>
