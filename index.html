@@ -1371,138 +1371,6 @@
             color: #f0f0f0;
         }
 
-        /* Admin */
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-        .stat-card {
-            background: rgba(26, 31, 42, 0.8);
-            border-radius: 14px;
-            padding: 18px 16px;
-            border: 1px solid rgba(42, 51, 64, 0.6);
-            text-align: center;
-            transition: 0.2s;
-        }
-        .stat-card:hover {
-            border-color: #f5a623;
-        }
-        .stat-card .num {
-            font-size: 30px;
-            font-weight: 800;
-            color: #f5a623;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .stat-card .label {
-            font-size: 13px;
-            color: #8892a8;
-            margin-top: 2px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .table-wrap {
-            overflow-x: auto;
-            margin-top: 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(42, 51, 64, 0.6);
-            background: rgba(26, 31, 42, 0.4);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            min-width: 600px;
-        }
-        table th {
-            background: rgba(10, 12, 16, 0.6);
-            padding: 14px 18px;
-            text-align: left;
-            font-weight: 700;
-            color: #b0b8c8;
-            border-bottom: 2px solid rgba(42, 51, 64, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 12px;
-        }
-        table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid rgba(42, 51, 64, 0.4);
-            color: #e0e0e0;
-        }
-        table tr:last-child td {
-            border-bottom: none;
-        }
-        table tr:hover td {
-            background: rgba(245, 166, 35, 0.05);
-        }
-        .whatsapp-hidden {
-            color: #5a6478;
-            font-style: italic;
-            font-size: 13px;
-        }
-
-        .badge-buyer {
-            background: rgba(42, 157, 143, 0.2);
-            color: #2a9d8f;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        .badge-seller {
-            background: rgba(245, 166, 35, 0.2);
-            color: #f5a623;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        .badge-both {
-            background: rgba(245, 166, 35, 0.15);
-            color: #f7c948;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 700;
-            border: 1px solid rgba(245, 166, 35, 0.2);
-        }
-
-        .perf-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 16px 0 24px;
-        }
-        .perf-card {
-            background: rgba(26, 31, 42, 0.8);
-            border-radius: 12px;
-            padding: 16px 18px;
-            border: 1px solid rgba(42, 51, 64, 0.6);
-        }
-        .perf-card .title {
-            font-size: 12px;
-            color: #8892a8;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .perf-card .value {
-            font-size: 24px;
-            font-weight: 800;
-            color: #f0f0f0;
-            margin-top: 4px;
-            font-family: 'Orbitron', sans-serif;
-        }
-        .perf-card .sub {
-            font-size: 12px;
-            color: #2a9d8f;
-            margin-top: 2px;
-        }
-
         .tag {
             display: inline-block;
             font-size: 10px;
@@ -1523,20 +1391,6 @@
             background: rgba(42, 157, 143, 0.2);
             color: #2a9d8f;
             border: 1px solid rgba(42, 157, 143, 0.2);
-        }
-
-        .admin-support-form {
-            background: rgba(26, 31, 42, 0.6);
-            border-radius: 14px;
-            padding: 20px 24px;
-            border: 1px solid rgba(245, 166, 35, 0.15);
-            margin: 20px 0;
-            max-width: 560px;
-        }
-        .admin-support-form .form-row-support {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
         }
 
         /* Category Sell Form */
@@ -1777,9 +1631,6 @@
                 padding: 4px 12px;
             }
             .account-rank-block .rank-grid {
-                grid-template-columns: 1fr;
-            }
-            .admin-support-form .form-row-support {
                 grid-template-columns: 1fr;
             }
         }
@@ -2033,7 +1884,7 @@
                 <button data-tab="transactions"><i class="fas fa-exchange-alt"></i> <span>Transactions</span></button>
                 <button data-tab="support"><i class="fas fa-headset"></i> <span>Support</span></button>
                 <button data-tab="help"><i class="fas fa-question-circle"></i> <span>Help</span></button>
-                <button data-tab="adminPanel" id="adminTabBtn"><i class="fas fa-crown"></i> <span>Admin</span></button>
+                <!-- Admin tab removed -->
             </div>
 
             <!-- Buy Tab -->
@@ -2279,73 +2130,7 @@
                 </div>
             </div>
 
-            <!-- Admin Panel -->
-            <div class="tab-content" id="tabAdmin">
-                <div class="section-header" style="margin-bottom:18px;">
-                    <h3 style="font-family:'Orbitron',sans-serif; font-size:20px;"><i class="fas fa-crown" style="color:#f5a623;"></i> Admin Dashboard</h3>
-                    <span class="sub" style="color:#8892a8; font-size:14px;">Manage users, listings, support &amp; help</span>
-                </div>
-                <div class="perf-grid" id="perfMetrics">
-                    <div class="perf-card"><div class="title">👥 Total Users</div><div class="value" id="perfUsers">—</div><div class="sub">Registered members</div></div>
-                    <div class="perf-card"><div class="title">📦 Total Listings</div><div class="value" id="perfListings">—</div><div class="sub">All time</div></div>
-                    <div class="perf-card"><div class="title">🟡 Pending Sales</div><div class="value" id="perfPending">—</div><div class="sub">Awaiting approval</div></div>
-                    <div class="perf-card"><div class="title">✅ Completed Sales</div><div class="value" id="perfSold">—</div><div class="sub">Successfully sold</div></div>
-                    <div class="perf-card"><div class="title">💰 Total Volume</div><div class="value" id="perfVolume">$—</div><div class="sub">Sum of completed sales</div></div>
-                    <div class="perf-card"><div class="title">📈 Active Listings</div><div class="value" id="perfActive">—</div><div class="sub">Currently for sale</div></div>
-                </div>
-
-                <h4 style="margin:20px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📞 Support Contacts</h4>
-                <div class="admin-support-form">
-                    <div class="form-row-support">
-                        <div class="form-group">
-                            <label>Support Email</label>
-                            <input type="email" id="adminSupportEmail" value="ruzagirizakadochristiano@gmail.com" />
-                        </div>
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-                            <input type="text" id="adminSupportWhatsapp" value="+250794715548" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Instagram</label>
-                        <input type="text" id="adminSupportInstagram" value="https://www.instagram.com/ruzagiriza_/" />
-                    </div>
-                    <button class="btn btn-primary" id="saveSupportBtn"><i class="fas fa-save"></i> Save Support Contacts</button>
-                </div>
-
-                <h4 style="margin:30px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📝 Help Content</h4>
-                <div style="max-width:560px; background:rgba(26,31,42,0.6); border-radius:14px; padding:20px 24px; border:1px solid rgba(245,166,35,0.15); margin-bottom:20px;">
-                    <div class="form-group">
-                        <label>Edit Help Page Content</label>
-                        <textarea id="adminHelpContent" rows="8" placeholder="Write instructions, FAQs, or any information for users..." style="min-height:150px;"></textarea>
-                        <div style="font-size:12px; color:#5a6478; margin-top:6px;">
-                            <i class="fas fa-info-circle"></i> Use HTML for formatting (e.g., &lt;h2&gt;, &lt;ul&gt;, &lt;strong&gt;).
-                            Save to update the public Help page.
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" id="saveHelpBtn"><i class="fas fa-save"></i> Save Help Content</button>
-                </div>
-
-                <h4 style="margin:24px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📋 All Users</h4>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Name</th><th>WhatsApp</th><th>Role</th><th>Activity</th><th>Joined</th></tr></thead>
-                        <tbody id="adminUsersTable">
-                            <tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Loading users...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h4 style="margin:24px 0 10px;font-size:16px;font-family:'Orbitron',sans-serif;">📋 All Listings</h4>
-                <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>ID</th><th>Item</th><th>Price</th><th>Category</th><th>MP Rank</th><th>BR Rank</th><th>Level</th><th>Seller</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody id="adminListingsTable">
-                            <tr><td colspan="10" class="text-center text-muted" style="padding:20px;">Loading listings...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <!-- Admin tab removed entirely -->
         </div>
 
         <!-- Toast -->
@@ -2372,7 +2157,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         const IMGBB_KEY = '4fa8b99e2ba50cfe70cc9f69257055bb';
-        const ADMIN_EMAIL = 'admin@guragurishacodm.com';
 
         // ============================================================
         // STATE
@@ -2437,25 +2221,8 @@
         const buyCount = $('buyCount');
         const myListingsContainer = $('myListingsContainer');
         const transactionsTable = $('transactionsTable');
-        const adminListingsTable = $('adminListingsTable');
-        const adminUsersTable = $('adminUsersTable');
-        const adminTabBtn = $('adminTabBtn');
         const supportContent = $('supportContent');
         const helpContent = $('helpContent');
-
-        const perfUsers = $('perfUsers');
-        const perfListings = $('perfListings');
-        const perfPending = $('perfPending');
-        const perfSold = $('perfSold');
-        const perfVolume = $('perfVolume');
-        const perfActive = $('perfActive');
-
-        const adminSupportEmail = $('adminSupportEmail');
-        const adminSupportWhatsapp = $('adminSupportWhatsapp');
-        const adminSupportInstagram = $('adminSupportInstagram');
-        const saveSupportBtn = $('saveSupportBtn');
-        const adminHelpContent = $('adminHelpContent');
-        const saveHelpBtn = $('saveHelpBtn');
 
         const codAccountName = $('codAccountName');
         const mpRank = $('mpRank');
@@ -2486,7 +2253,6 @@
         const buyerModalCancel = $('buyerModalCancel');
         const buyerModalConfirm = $('buyerModalConfirm');
 
-        // edit modal fields
         const editPrice = $('editPrice');
         const editCodName = $('editCodName');
         const editMpRank = $('editMpRank');
@@ -2568,7 +2334,7 @@
         });
 
         // ============================================================
-        // PRODUCT DETAIL
+        // PRODUCT DETAIL (UPDATED with disabled buy buttons)
         // ============================================================
         function showProductDetail(listingId) {
             const listing = allListings.find(l => l.id === listingId);
@@ -2579,7 +2345,6 @@
             const category = listing.category || 'Other';
             const codName = listing.codAccountName || 'Not provided';
             const quantity = listing.totalQuantity || 0;
-            const isAvailable = listing.status === 'available';
 
             const mp = listing.mpRank || '—';
             const br = listing.brRank || '—';
@@ -2599,79 +2364,89 @@
             if (listing.subItems && listing.subItems.length > 0) {
                 subItemsHtml = listing.subItems.map(item =>
                     `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(42,51,64,0.2);">
-                            <span><i class="fas fa-tag"></i> ${item.category}</span>
-                            <span style="color:#f5a623; font-weight:700;">×${item.quantity}</span>
-                        </div>`
+                        <span><i class="fas fa-tag"></i> ${item.category}</span>
+                        <span style="color:#f5a623; font-weight:700;">×${item.quantity}</span>
+                    </div>`
                 ).join('');
             }
 
+            // ----- UPDATED BUY SECTION -----
             let buySection = '';
             if (isOwn) {
                 buySection = `
-                        <span style="color:#8892a8;font-size:14px;"><i class="fas fa-lock"></i> You cannot buy your own listing</span>
-                        <button class="btn btn-success" id="detailBuyBtn" disabled style="opacity:0.6; cursor:not-allowed;">
-                            <i class="fas fa-shopping-cart"></i> Buy Now
-                        </button>
-                    `;
-            } else if (!isAvailable) {
+                    <span style="color:#8892a8;font-size:14px;"><i class="fas fa-lock"></i> You cannot buy your own listing</span>
+                    <button class="btn btn-success" disabled style="opacity:0.6;cursor:not-allowed;">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
+                `;
+            } else if (listing.status === 'pending') {
                 buySection = `
-                        <span style="color:#8892a8;font-size:14px;">This item is ${listing.status}</span>
-                        <button class="btn btn-success" id="detailBuyBtn" disabled style="opacity:0.6; cursor:not-allowed;">
-                            <i class="fas fa-shopping-cart"></i> Not Available
-                        </button>
-                    `;
+                    <span style="color:#f5a623;font-size:14px;"><i class="fas fa-clock"></i> This item is pending sale</span>
+                    <button class="btn btn-success" disabled style="opacity:0.6;cursor:not-allowed;">
+                        <i class="fas fa-shopping-cart"></i> Unavailable
+                    </button>
+                `;
+            } else if (listing.status === 'sold') {
+                buySection = `
+                    <span style="color:#d43f3f;font-size:14px;"><i class="fas fa-check-circle"></i> This item is sold</span>
+                    <button class="btn btn-success" disabled style="opacity:0.6;cursor:not-allowed;">
+                        <i class="fas fa-shopping-cart"></i> Sold
+                    </button>
+                `;
             } else {
                 buySection = `
-                        <button class="btn btn-success" id="detailBuyBtn"><i class="fas fa-shopping-cart"></i> Buy Now</button>
-                    `;
+                    <button class="btn btn-success" id="detailBuyBtn">
+                        <i class="fas fa-shopping-cart"></i> Buy Now
+                    </button>
+                `;
             }
 
             const sellerWhatsapp = listing.sellerWhatsapp || '';
             const whatsappLink = sellerWhatsapp ? `https://wa.me/${sellerWhatsapp.replace(/[^0-9]/g, '')}` : '#';
 
             detailContent.innerHTML = `
-                    <div>
-                        <span class="detail-category"><i class="fas ${categoryIcon}"></i> ${category}</span>
-                        <span class="detail-cod-name"><i class="fas fa-user-cog"></i> ${codName}</span>
-                    </div>
-                    <h2>${category} Bundle</h2>
-                    <div class="detail-price">$${listing.price}</div>
+                <div>
+                    <span class="detail-category"><i class="fas ${categoryIcon}"></i> ${category}</span>
+                    <span class="detail-cod-name"><i class="fas fa-user-cog"></i> ${codName}</span>
+                </div>
+                <h2>${category} Bundle</h2>
+                <div class="detail-price">$${listing.price}</div>
 
-                    <div class="detail-rank-row">
-                        <div class="rank-item"><i class="fas fa-crosshairs"></i> MP Rank: <span class="val">${mp}</span></div>
-                        <div class="rank-item"><i class="fas fa-map-marked-alt"></i> BR Rank: <span class="val">${br}</span></div>
-                        <div class="rank-item"><i class="fas fa-level-up-alt"></i> Level: <span class="val level">${level}</span></div>
-                    </div>
+                <div class="detail-rank-row">
+                    <div class="rank-item"><i class="fas fa-crosshairs"></i> MP Rank: <span class="val">${mp}</span></div>
+                    <div class="rank-item"><i class="fas fa-map-marked-alt"></i> BR Rank: <span class="val">${br}</span></div>
+                    <div class="rank-item"><i class="fas fa-level-up-alt"></i> Level: <span class="val level">${level}</span></div>
+                </div>
 
-                    <div style="background:rgba(42,157,143,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(42,157,143,0.2); margin:8px 0;">
-                        <strong style="color:#2a9d8f;">Total Items: ${quantity}</strong>
+                <div style="background:rgba(42,157,143,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(42,157,143,0.2); margin:8px 0;">
+                    <strong style="color:#2a9d8f;">Total Items: ${quantity}</strong>
+                </div>
+                ${images.length > 0 ? `
+                    <div class="detail-images">
+                        ${images.map(img => `<img src="${img}" alt="item image" onclick="window.open('${img}','_blank')" />`).join('')}
                     </div>
-                    ${images.length > 0 ? `
-                            <div class="detail-images">
-                                ${images.map(img => `<img src="${img}" alt="item image" onclick="window.open('${img}','_blank')" />`).join('')}
-                            </div>
-                        ` : ''}
-                    ${subItemsHtml ? `
-                            <div class="detail-description" style="margin-top:12px;">
-                                <strong>Items Included:</strong>
-                                <div style="margin-top:8px;">${subItemsHtml}</div>
-                            </div>
-                        ` : ''}
-                    <div class="detail-seller">
-                        <div class="seller-info">
-                            <div class="avatar">${(listing.sellerName || 'U').charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="name">${listing.sellerName || 'Unknown Seller'}</div>
-                                ${sellerWhatsapp ? `<a href="${whatsappLink}" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</a>` : '<span class="whatsapp-link">—</span>'}
-                            </div>
+                ` : ''}
+                ${subItemsHtml ? `
+                    <div class="detail-description" style="margin-top:12px;">
+                        <strong>Items Included:</strong>
+                        <div style="margin-top:8px;">${subItemsHtml}</div>
+                    </div>
+                ` : ''}
+                <div class="detail-seller">
+                    <div class="seller-info">
+                        <div class="avatar">${(listing.sellerName || 'U').charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div class="name">${listing.sellerName || 'Unknown Seller'}</div>
+                            ${sellerWhatsapp ? `<a href="${whatsappLink}" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> ${sellerWhatsapp}</a>` : '<span class="whatsapp-link">—</span>'}
                         </div>
-                        <span class="status ${listing.status === 'available' ? 'status-available' : listing.status === 'pending' ? 'status-pending' : 'status-sold'}">${listing.status || 'available'}</span>
                     </div>
-                    <div class="detail-actions">
-                        ${buySection}
-                        <button class="btn btn-secondary" id="detailBackBtn2"><i class="fas fa-arrow-left"></i> Back</button>
-                    </div>
-                `;
+                    <span class="status ${listing.status === 'available' ? 'status-available' : listing.status === 'pending' ? 'status-pending' : 'status-sold'}">${listing.status || 'available'}</span>
+                </div>
+                <div class="detail-actions">
+                    ${buySection}
+                    <button class="btn btn-secondary" id="detailBackBtn2"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+            `;
 
             productDetail.classList.add('show');
             document.body.style.overflow = 'hidden';
@@ -2741,17 +2516,13 @@
                         fullName: email.split('@')[0] || 'User',
                         email: email,
                         whatsapp: '',
-                        isAdmin: (email === ADMIN_EMAIL),
+                        isAdmin: false,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     };
                     await db.collection('users').doc(cred.user.uid).set(userData);
                     currentUser = { id: cred.user.uid, ...userData };
                 } else {
                     currentUser = { id: doc.id, ...doc.data() };
-                    if (email === ADMIN_EMAIL && !currentUser.isAdmin) {
-                        await db.collection('users').doc(cred.user.uid).update({ isAdmin: true });
-                        currentUser.isAdmin = true;
-                    }
                 }
                 renderApp();
                 showToast(`Welcome back, ${currentUser.fullName}!`, 'success');
@@ -2802,7 +2573,7 @@
                     return;
                 }
                 const cred = await auth.createUserWithEmailAndPassword(email, password);
-                const isAdmin = (email === ADMIN_EMAIL);
+                const isAdmin = false; // admin is set manually in Firestore later
                 const newUser = {
                     fullName: name,
                     email: email,
@@ -2814,9 +2585,8 @@
                 currentAuthUser = cred.user;
                 currentUser = { id: cred.user.uid, ...newUser };
                 renderApp();
-                const msg = isAdmin ? '✅ Admin account created!' : 'Account created! Welcome to COD Market.';
-                showToast(msg, 'success');
-                showRegisterSuccess(msg);
+                showToast('Account created! Welcome to COD Market.', 'success');
+                showRegisterSuccess('Account created! You can now log in.');
             } catch (err) {
                 let friendlyMsg = '';
                 if (err.code === 'auth/email-already-in-use') {
@@ -2861,16 +2631,10 @@
                     const email = data.email || DEFAULT_SUPPORT.email;
                     const whatsapp = data.whatsapp || DEFAULT_SUPPORT.whatsapp;
                     const instagram = data.instagram || DEFAULT_SUPPORT.instagram;
-                    if (adminSupportEmail) adminSupportEmail.value = email;
-                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = whatsapp;
-                    if (adminSupportInstagram) adminSupportInstagram.value = instagram;
                     renderSupport({ email, whatsapp, instagram });
                     return { email, whatsapp, instagram };
                 } else {
                     await db.collection('settings').doc('support').set(DEFAULT_SUPPORT);
-                    if (adminSupportEmail) adminSupportEmail.value = DEFAULT_SUPPORT.email;
-                    if (adminSupportWhatsapp) adminSupportWhatsapp.value = DEFAULT_SUPPORT.whatsapp;
-                    if (adminSupportInstagram) adminSupportInstagram.value = DEFAULT_SUPPORT.instagram;
                     renderSupport(DEFAULT_SUPPORT);
                     return DEFAULT_SUPPORT;
                 }
@@ -2900,40 +2664,16 @@
             }
         }
 
-        async function saveSupportContacts() {
-            const email = adminSupportEmail.value.trim();
-            const whatsapp = adminSupportWhatsapp.value.trim();
-            const instagram = adminSupportInstagram.value.trim();
-            if (!email && !whatsapp && !instagram) {
-                showToast('Please fill in at least one contact field.', 'error');
-                return;
-            }
-            try {
-                await db.collection('settings').doc('support').set({
-                    email: email,
-                    whatsapp: whatsapp,
-                    instagram: instagram,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                showToast('Support contacts saved!', 'success');
-                loadSupportContacts();
-            } catch (err) {
-                showToast('Error saving: ' + err.message, 'error');
-            }
-        }
-
-        // Help content
+        // Help content (no admin edit, just display)
         async function loadHelpContent() {
             try {
                 const doc = await db.collection('settings').doc('help').get();
                 if (doc.exists) {
                     const data = doc.data();
                     const content = data.content || '';
-                    if (adminHelpContent) adminHelpContent.value = content;
                     renderHelp(content);
                     return content;
                 } else {
-                    if (adminHelpContent) adminHelpContent.value = '';
                     renderHelp('');
                 }
             } catch (err) { console.error('Error loading help:', err);
@@ -2956,24 +2696,6 @@
             }
         }
 
-        async function saveHelpContent() {
-            const content = adminHelpContent.value.trim();
-            if (!content) {
-                showToast('Please enter some help content.', 'error');
-                return;
-            }
-            try {
-                await db.collection('settings').doc('help').set({
-                    content: content,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                showToast('Help content saved!', 'success');
-                loadHelpContent();
-            } catch (err) {
-                showToast('Error saving help: ' + err.message, 'error');
-            }
-        }
-
         // ============================================================
         // RENDER
         // ============================================================
@@ -2993,13 +2715,11 @@
                 document.getElementById('logoutBtn').addEventListener('click', handleLogout);
                 authScreen.style.display = 'none';
                 dashboard.classList.add('active');
-                adminTabBtn.classList.remove('hidden');
                 loadBuyTab();
                 loadMyListings();
                 loadTransactions();
                 loadSupportContacts();
                 loadHelpContent();
-                loadAdminPanel();
                 const activeTab = document.querySelector('.dash-tabs .active');
                 if (activeTab) switchTab(activeTab.dataset.tab);
             } else {
@@ -3013,19 +2733,25 @@
         }
 
         // ============================================================
-        // TAB SWITCHING
+        // TAB SWITCHING (UPDATED: clears search when switching to Buy)
         // ============================================================
         function switchTab(tabId) {
             $$('.dash-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
             $$('.tab-content').forEach(el => el.classList.remove('active'));
             const target = document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
             if (target) target.classList.add('active');
+
+            // Clear search input when switching to Buy tab
+            if (tabId === 'buy') {
+                searchInput.value = '';
+                applyFilters();
+            }
+
             if (tabId === 'buy') loadBuyTab();
             if (tabId === 'myListings') loadMyListings();
             if (tabId === 'transactions') loadTransactions();
             if (tabId === 'support') loadSupportContacts();
             if (tabId === 'help') loadHelpContent();
-            if (tabId === 'adminPanel') loadAdminPanel();
         }
 
         // ============================================================
@@ -3171,7 +2897,6 @@
                             </div>
                             <div class="seller">
                                 <span><i class="fas fa-user"></i> ${sellerName}</span>
-                                ${currentUser.isAdmin ? `<span>${whatsappDisplay}</span>` : ''}
                             </div>
                             <div class="click-hint"><i class="fas fa-eye"></i> Click to view details</div>
                         </div>
@@ -3188,39 +2913,64 @@
         }
 
         // ============================================================
-        // BUY COMPLETE
+        // BUY COMPLETE (FIXED with transaction)
         // ============================================================
         async function completeBuy(listingId, buyerNameVal, buyerWhatsappVal, buyerNoteVal) {
-            if (!currentUser) { showToast('Please login first', 'error'); return; }
-            try {
-                const listingDoc = await db.collection('listings').doc(listingId).get();
-                if (!listingDoc.exists) { showToast('Listing not found', 'error'); return; }
-                const listing = { id: listingDoc.id, ...listingDoc.data() };
-                if (listing.status !== 'available') { showToast('This item is no longer available', 'error'); return; }
-                if (listing.sellerId === currentUser.id) { showToast('You cannot buy your own item', 'error'); return; }
+            if (!currentUser) {
+                showToast('Please login first', 'error');
+                return;
+            }
 
-                const txData = {
-                    listingId: listing.id,
-                    buyerId: currentUser.id,
-                    buyerName: currentUser.fullName,
-                    buyerContact: buyerWhatsappVal,
-                    buyerNote: buyerNoteVal || '',
-                    sellerId: listing.sellerId,
-                    sellerName: listing.sellerName || 'Unknown',
-                    price: listing.price,
-                    details: listing.details || listing.category,
-                    category: listing.category || 'Other',
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                await db.collection('transactions').add(txData);
-                await db.collection('listings').doc(listingId).update({ status: 'pending' });
+            try {
+                // Run everything inside a transaction
+                await db.runTransaction(async (transaction) => {
+                    const listingRef = db.collection('listings').doc(listingId);
+                    const listingDoc = await transaction.get(listingRef);
+
+                    if (!listingDoc.exists) {
+                        throw new Error('Listing not found');
+                    }
+
+                    const listing = listingDoc.data();
+
+                    // Check if available (inside the transaction)
+                    if (listing.status !== 'available') {
+                        throw new Error('This item is no longer available');
+                    }
+
+                    // Prevent buying your own item
+                    if (listing.sellerId === currentUser.id) {
+                        throw new Error('You cannot buy your own item');
+                    }
+
+                    // 1. Update the listing to 'pending'
+                    transaction.update(listingRef, { status: 'pending' });
+
+                    // 2. Create the transaction document
+                    const txRef = db.collection('transactions').doc();
+                    transaction.set(txRef, {
+                        listingId: listing.id,
+                        buyerId: currentUser.id,
+                        buyerName: currentUser.fullName,
+                        buyerContact: buyerWhatsappVal,
+                        buyerNote: buyerNoteVal || '',
+                        sellerId: listing.sellerId,
+                        sellerName: listing.sellerName || 'Unknown',
+                        price: listing.price,
+                        details: listing.details || listing.category,
+                        category: listing.category || 'Other',
+                        status: 'pending',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                });
+
+                // If we get here, everything succeeded
                 showToast('Purchase request sent! Admin will review it.', 'success');
                 closeProductDetail();
                 loadBuyTab();
                 loadMyListings();
                 loadTransactions();
-                if (currentUser?.isAdmin) loadAdminPanel();
+
             } catch (err) {
                 showToast('Error: ' + err.message, 'error');
             }
@@ -3236,14 +2986,13 @@
                 showToast('Transaction cancelled successfully.', 'success');
                 loadTransactions();
                 loadBuyTab();
-                if (currentUser?.isAdmin) loadAdminPanel();
             } catch (err) {
                 showToast('Error cancelling: ' + err.message, 'error');
             }
         }
 
         // ============================================================
-        // SELL HANDLER
+        // SELL HANDLER (ImgBB kept)
         // ============================================================
         async function handleSell() {
             if (!currentUser) { showToast('Please login first', 'error'); return; }
@@ -3385,7 +3134,6 @@
                 showToast('Items listed successfully!', 'success');
                 loadBuyTab();
                 loadMyListings();
-                if (currentUser?.isAdmin) loadAdminPanel();
                 switchTab('buy');
             } catch (err) {
                 showToast('Error listing items: ' + err.message, 'error');
@@ -3518,7 +3266,6 @@
                             showToast('Listing removed', 'info');
                             loadMyListings();
                             loadBuyTab();
-                            if (currentUser?.isAdmin) loadAdminPanel();
                         } catch (err) {
                             showToast('Error: ' + err.message, 'error');
                         }
@@ -3548,7 +3295,6 @@
                 const doc = await db.collection('listings').doc(listingId).get();
                 if (!doc.exists) { showToast('Listing not found', 'error'); return; }
                 const data = doc.data();
-                // Pre-fill
                 editPrice.value = data.price || '';
                 editCodName.value = data.codAccountName || '';
                 editMpRank.value = data.mpRank || '';
@@ -3595,14 +3341,12 @@
                     mpRank: mp,
                     brRank: br,
                     gameLevel: level,
-                    // Keep existing details etc. unchanged
                 };
                 await db.collection('listings').doc(editingListingId).update(updateData);
                 showToast('Listing updated successfully!', 'success');
                 closeEditModal();
                 loadMyListings();
                 loadBuyTab();
-                if (currentUser?.isAdmin) loadAdminPanel();
             } catch (err) {
                 showToast('Error updating listing: ' + err.message, 'error');
             }
@@ -3670,202 +3414,6 @@
         }
 
         // ============================================================
-        // ADMIN PANEL
-        // ============================================================
-        async function loadAdminPanel() {
-            if (!currentUser) {
-                adminUsersTable.innerHTML =
-                    `<tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Please log in.</td></tr>`;
-                adminListingsTable.innerHTML =
-                    `<tr><td colspan="10" class="text-center text-muted" style="padding:20px;">Please log in.</td></tr>`;
-                return;
-            }
-
-            if (!currentUser.isAdmin) {
-                adminUsersTable.innerHTML =
-                    `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">🔒 Admin access required. Contact administrator.</td></tr>`;
-                adminListingsTable.innerHTML =
-                    `<tr><td colspan="10" class="text-center text-muted" style="padding:30px;">🔒 Admin access required. Contact administrator.</td></tr>`;
-                perfUsers.textContent = '—';
-                perfListings.textContent = '—';
-                perfPending.textContent = '—';
-                perfSold.textContent = '—';
-                perfVolume.textContent = '—';
-                perfActive.textContent = '—';
-                return;
-            }
-
-            adminUsersTable.innerHTML =
-                `<tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Loading users...</td></tr>`;
-            adminListingsTable.innerHTML =
-                `<tr><td colspan="10" class="text-center text-muted" style="padding:20px;">Loading listings...</td></tr>`;
-
-            try {
-                const [usersSnap, listingsSnap, txsSnap] = await Promise.all([
-                    db.collection('users').get(),
-                    db.collection('listings').get(),
-                    db.collection('transactions').get()
-                ]);
-
-                const users = [];
-                usersSnap.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
-
-                const listings = [];
-                listingsSnap.forEach(doc => listings.push({ id: doc.id, ...doc.data() }));
-
-                const txs = [];
-                txsSnap.forEach(doc => txs.push({ id: doc.id, ...doc.data() }));
-
-                perfUsers.textContent = users.length;
-                perfListings.textContent = listings.length;
-                const activeListings = listings.filter(l => l.status === 'available').length;
-                perfActive.textContent = activeListings;
-                const pending = txs.filter(t => t.status === 'pending').length;
-                const completed = txs.filter(t => t.status === 'completed').length;
-                perfPending.textContent = pending;
-                perfSold.textContent = completed;
-                const totalVolume = txs.filter(t => t.status === 'completed').reduce((sum, t) => sum + (t.price || 0), 0);
-                perfVolume.textContent = '$' + totalVolume;
-
-                const userActivity = {};
-                txs.forEach(t => {
-                    if (t.buyerId) { if (!userActivity[t.buyerId]) userActivity[t.buyerId] = { buys: 0,
-                            sells: 0 };
-                        userActivity[t.buyerId].buys++; }
-                    if (t.sellerId) { if (!userActivity[t.sellerId]) userActivity[t.sellerId] = { buys: 0,
-                            sells: 0 };
-                        userActivity[t.sellerId].sells++; }
-                });
-                listings.forEach(l => {
-                    if (l.sellerId) {
-                        if (!userActivity[l.sellerId]) userActivity[l.sellerId] = { buys: 0, sells: 0 };
-                        if (l.status === 'available' || l.status === 'pending') {
-                            userActivity[l.sellerId].sells = Math.max(userActivity[l.sellerId].sells, 1);
-                        }
-                    }
-                });
-
-                if (users.length === 0) {
-                    adminUsersTable.innerHTML =
-                        `<tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No users registered yet.</td></tr>`;
-                } else {
-                    adminUsersTable.innerHTML = users.map(u => {
-                        const activity = userActivity[u.id] || { buys: 0, sells: 0 };
-                        let activityBadge = '';
-                        if (activity.buys > 0 && activity.sells > 0) {
-                            activityBadge =
-                                '<span class="badge-both"><i class="fas fa-exchange-alt"></i> Buyer &amp; Seller</span>';
-                        } else if (activity.buys > 0) {
-                            activityBadge =
-                                '<span class="badge-buyer"><i class="fas fa-shopping-cart"></i> Buyer</span>';
-                        } else if (activity.sells > 0) {
-                            activityBadge =
-                                '<span class="badge-seller"><i class="fas fa-tag"></i> Seller</span>';
-                        } else {
-                            activityBadge = '<span style="color:#5a6478;font-size:12px;">No activity</span>';
-                        }
-                        return `
-                                <tr>
-                                    <td><strong>${u.fullName || 'N/A'}</strong></td>
-                                    <td><i class="fab fa-whatsapp"></i> ${u.whatsapp || '—'}</td>
-                                    <td>${u.isAdmin ? '<span class="tag tag-admin">Admin</span>' : '<span class="tag tag-user">User</span>'}</td>
-                                    <td>${activityBadge}</td>
-                                    <td>${u.createdAt ? new Date(u.createdAt.toDate()).toLocaleDateString() : '—'}</td>
-                                </tr>
-                            `;
-                    }).join('');
-                }
-
-                if (listings.length === 0) {
-                    adminListingsTable.innerHTML =
-                        `<tr><td colspan="10" class="text-center text-muted" style="padding:30px;">No listings found.</td></tr>`;
-                } else {
-                    adminListingsTable.innerHTML = listings.map(l => {
-                        const statusClass = l.status === 'available' ? 'status-available' :
-                            l.status === 'pending' ? 'status-pending' : 'status-sold';
-                        const mp = l.mpRank || '—';
-                        const br = l.brRank || '—';
-                        const level = l.gameLevel || '—';
-                        return `
-                                <tr>
-                                    <td><code style="font-size:11px;color:#8892a8;">${l.id.slice(0,8)}</code></td>
-                                    <td>${l.details ? l.details.substring(0, 30) + (l.details.length > 30 ? '…' : '') : 'N/A'}</td>
-                                    <td><strong>$${l.price}</strong></td>
-                                    <td>${l.category || 'Other'}</td>
-                                    <td><span class="admin-rank-badge"><i class="fas fa-crosshairs"></i> ${mp}</span></td>
-                                    <td><span class="admin-rank-badge"><i class="fas fa-map-marked-alt"></i> ${br}</span></td>
-                                    <td><span class="admin-level-badge"><i class="fas fa-level-up-alt"></i> ${level}</span></td>
-                                    <td>${l.sellerName || 'Unknown'}</td>
-                                    <td><span class="status ${statusClass}">${l.status}</span></td>
-                                    <td>
-                                        <div class="table-actions">
-                                            ${l.status === 'available' ? `
-                                                <button class="btn btn-danger btn-sm admin-remove-listing" data-id="${l.id}"><i class="fas fa-times"></i> Remove</button>
-                                            ` : ''}
-                                            ${l.status === 'pending' ? `
-                                                <button class="btn btn-success btn-sm admin-complete-tx" data-id="${l.id}"><i class="fas fa-check"></i> Complete</button>
-                                            ` : ''}
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
-                    }).join('');
-                }
-
-                document.querySelectorAll('.admin-remove-listing').forEach(btn => {
-                    btn.addEventListener('click', async function() {
-                        const id = this.dataset.id;
-                        const confirmed = await showModal('Remove Listing',
-                            'Permanently remove this listing?', 'Remove', 'Cancel');
-                        if (!confirmed) return;
-                        try {
-                            await db.collection('listings').doc(id).delete();
-                            showToast('Listing removed', 'info');
-                            loadAdminPanel();
-                            loadBuyTab();
-                            loadMyListings();
-                        } catch (err) { showToast('Error: ' + err.message, 'error'); }
-                    });
-                });
-
-                document.querySelectorAll('.admin-complete-tx').forEach(btn => {
-                    btn.addEventListener('click', async function() {
-                        const listingId = this.dataset.id;
-                        try {
-                            const txsSnap = await db.collection('transactions')
-                                .where('listingId', '==', listingId)
-                                .where('status', '==', 'pending')
-                                .get();
-                            if (txsSnap.empty) { showToast('No pending transaction found',
-                                'error'); return; }
-                            const txDoc = txsSnap.docs[0];
-                            const txData = txDoc.data();
-                            const confirmed = await showModal('Complete Transaction',
-                                `Complete purchase for <strong>$${txData.price}</strong>?`,
-                                'Complete', 'Cancel');
-                            if (!confirmed) return;
-                            await db.collection('transactions').doc(txDoc.id).update({ status: 'completed' });
-                            await db.collection('listings').doc(listingId).update({ status: 'sold' });
-                            showToast('Transaction completed!', 'success');
-                            loadAdminPanel();
-                            loadBuyTab();
-                            loadMyListings();
-                            loadTransactions();
-                        } catch (err) { showToast('Error: ' + err.message, 'error'); }
-                    });
-                });
-
-            } catch (err) {
-                console.error('Admin panel error:', err);
-                showToast('Error loading admin panel. Reload or contact support.', 'error');
-                adminUsersTable.innerHTML =
-                    `<tr><td colspan="5" class="text-center text-muted" style="padding:20px;">Error loading users. Reload the page.</td></tr>`;
-                adminListingsTable.innerHTML =
-                    `<tr><td colspan="10" class="text-center text-muted" style="padding:20px;">Error loading listings. Reload the page.</td></tr>`;
-            }
-        }
-
-        // ============================================================
         // EVENT BINDING
         // ============================================================
 
@@ -3899,8 +3447,6 @@
         });
 
         sellBtn.addEventListener('click', handleSell);
-        saveSupportBtn.addEventListener('click', saveSupportContacts);
-        saveHelpBtn.addEventListener('click', saveHelpContent);
 
         searchInput.addEventListener('input', applyFilters);
 
@@ -3924,17 +3470,12 @@
                     const doc = await db.collection('users').doc(user.uid).get();
                     if (doc.exists) {
                         currentUser = { id: doc.id, ...doc.data() };
-                        if (user.email === ADMIN_EMAIL && !currentUser.isAdmin) {
-                            await db.collection('users').doc(user.uid).update({ isAdmin: true });
-                            currentUser.isAdmin = true;
-                        }
                     } else {
-                        const isAdmin = (user.email === ADMIN_EMAIL);
                         const userData = {
                             fullName: user.email.split('@')[0] || 'User',
                             email: user.email,
                             whatsapp: '',
-                            isAdmin: isAdmin,
+                            isAdmin: false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         };
                         await db.collection('users').doc(user.uid).set(userData);
